@@ -1,10 +1,10 @@
-package com.sim981.a2022appointmentmanager
+package com.sim981.a2022appointmentmanager.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.databinding.ActivityLoginBinding
 import com.sim981.a2022appointmentmanager.models.BasicResponse
 import com.sim981.a2022appointmentmanager.utils.ContextUtil

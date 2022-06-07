@@ -1,4 +1,4 @@
-package com.sim981.a2022appointmentmanager
+package com.sim981.a2022appointmentmanager.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
+import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.databinding.ActivitySignupBinding
 import com.sim981.a2022appointmentmanager.models.BasicResponse
 import org.json.JSONObject

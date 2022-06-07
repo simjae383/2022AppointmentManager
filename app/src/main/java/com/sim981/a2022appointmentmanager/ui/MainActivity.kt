@@ -1,8 +1,9 @@
-package com.sim981.a2022appointmentmanager
+package com.sim981.a2022appointmentmanager.ui
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
+import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.adapters.MainViewPagerAdapter
 import com.sim981.a2022appointmentmanager.databinding.ActivityMainBinding
 
@@ -30,6 +31,12 @@ class MainActivity : BaseActivity() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     binding.mainBottomNav.menu.getItem(position).isChecked = true
+                    titleTxt.text = when (position) {
+                        0 -> "약속 확인하기"
+                        1 -> "친구 관리"
+                        2 -> "장소 관리"
+                        else -> "설정"
+                    }
                 }
             }
         )

@@ -14,8 +14,8 @@ import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
-import com.sim981.a2022appointmentmanager.LoginActivity
-import com.sim981.a2022appointmentmanager.PasswordActivity
+import com.sim981.a2022appointmentmanager.ui.LoginActivity
+import com.sim981.a2022appointmentmanager.ui.PasswordActivity
 import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.databinding.FragmentSettingsBinding
 import com.sim981.a2022appointmentmanager.dialogs.CustomAlertDialog

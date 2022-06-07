@@ -1,11 +1,11 @@
-package com.sim981.a2022appointmentmanager
+package com.sim981.a2022appointmentmanager.ui
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.databinding.DataBindingUtil
+import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.databinding.ActivitySplashBinding
 import com.sim981.a2022appointmentmanager.models.BasicResponse
 import com.sim981.a2022appointmentmanager.utils.ContextUtil
