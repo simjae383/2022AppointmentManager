@@ -12,7 +12,6 @@ import java.util.*
 class ServerAPI {
 
     companion object {
-
         //        서버주소
         private val baseUrl = "https://keepthetime.xyz"
 
@@ -21,7 +20,6 @@ class ServerAPI {
         fun getRetrofit(context : Context) : Retrofit {
 
             if (retrofit == null) {
-
 
                 val interceptor = Interceptor {
                     with(it) {
