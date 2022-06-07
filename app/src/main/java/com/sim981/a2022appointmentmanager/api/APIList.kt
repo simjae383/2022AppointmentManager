@@ -1,6 +1,7 @@
 package com.sim981.a2022appointmentmanager.api
 
 import com.sim981.a2022appointmentmanager.models.BasicResponse
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -49,4 +50,8 @@ interface APIList {
     fun deleteRequestUserSecession (
         @Query("text") text : String,
     ) : Call<BasicResponse>
+
+    @Multipart
+    @PUT("/user/image")
+    fun putRequestUserImage(@Part profileImg : MultipartBody.Part) : Call<BasicResponse>
 }

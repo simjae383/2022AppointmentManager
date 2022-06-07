@@ -1,5 +1,6 @@
 package com.sim981.a2022appointmentmanager.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -7,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
+import com.gun0912.tedpermission.PermissionListener
 import com.sim981.a2022appointmentmanager.LoginActivity
 import com.sim981.a2022appointmentmanager.PasswordActivity
 import com.sim981.a2022appointmentmanager.R
@@ -42,7 +45,19 @@ class SettingsFragment : BaseFragment() {
     override fun setupEvents() {
 //        프로필 이미지 변경 이벤트
         binding.settingMyProfileImg.setOnClickListener {
+            val pl = object : PermissionListener {
+                override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
 
+                }
+
+                override fun onPermissionGranted() {
+                    val myIntent = Intent()
+                    myIntent.action = Intent.ACTION_PICK
+                    myIntent.type = android.provider.MediaStore.Images.Media.CONTENT_TYPE
+                    //갤러리로 사진을 가지러 이동
+                    startForResult.launch(myIntent)
+                }
+            }
         }
 //        닉네임/외출 시간 변경 이벤트
         val ocl = object : View.OnClickListener {
@@ -188,11 +203,19 @@ class SettingsFragment : BaseFragment() {
     override fun setValues() {
         setUserData()
     }
-
+//수정된 회원정보 갱신
     fun setUserData(){
         Glide.with(mContext).load(GlobalData.loginUser!!.profileImg).into(binding.settingMyProfileImg)
         binding.settingNickNameTxt.text = GlobalData.loginUser!!.nickName
 
         binding.readyTimeTxt.text = "${GlobalData.loginUser!!.readyMinute}분"
+    }
+//    갤러리에서 사진 가져오기
+    val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if(it.resultCode == Activity.RESULT_OK) {
+            val dataUri = it.data?.data
+
+            Glide.with(mContext).load(dataUri).into(binding.settingMyProfileImg)
+        }
     }
 }
