@@ -22,6 +22,7 @@
 
             <LinearLayout
                 android:id="@+id/changeMyNickLayout"
+                android:tag="nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -35,8 +36,7 @@
                     android:src="@mipmap/ic_launcher"/>
 
                 <TextView
-                    android:id="@+id/changeNickNameTxt"
-                    android:tag="nickname"
+                    android:id="@+id/settingNickNameTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"

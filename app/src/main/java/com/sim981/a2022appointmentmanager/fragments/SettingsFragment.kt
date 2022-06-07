@@ -2,11 +2,13 @@ package com.sim981.a2022appointmentmanager.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.sim981.a2022appointmentmanager.LoginActivity
 import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.databinding.FragmentSettingsBinding
@@ -41,18 +43,75 @@ class SettingsFragment : BaseFragment() {
         binding.settingMyProfileImg.setOnClickListener {
 
         }
-//        닉네임 변경 이벤트
-        binding.changeMyNickLayout.setOnClickListener {
+//        닉네임/외출 시간 변경 이벤트
+        val ocl = object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                val type = p0!!.tag.toString()
 
+                val alert = CustomAlertDialog(mContext, requireActivity())
+                alert.myDialog()
+
+                when (type) {
+                    "nickname" -> {
+                        alert.binding.dialogTitleTxt.text = "닉네임 변경"
+                        alert.binding.dialogContentEdt.hint = "변경할 닉네임 입력"
+                        alert.binding.dialogContentEdt.inputType = InputType.TYPE_CLASS_TEXT
+                    }
+                    "ready_minute" -> {
+                        alert.binding.dialogTitleTxt.text = "준비 시간 설정"
+                        alert.binding.dialogContentEdt.hint = "외출 준비에 몇 분 걸리는지"
+                        alert.binding.dialogContentEdt.inputType = InputType.TYPE_CLASS_NUMBER
+                    }
+                }
+                alert.binding.dialogBodyTxt.visibility = View.GONE
+
+                alert.binding.dialogPositiveBtn.setOnClickListener {
+                    if (alert.binding.dialogContentEdt.text.toString().isBlank()) {
+                        Toast.makeText(mContext, "아무것도 기입되지 않았습니다.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        apiList.patchRequestUserEdit(
+                            type,
+                            alert.binding.dialogContentEdt.text.toString()
+                        )
+                            .enqueue(object : Callback<BasicResponse> {
+                                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                                }
+
+                                override fun onResponse(
+                                    call: Call<BasicResponse>,
+                                    response: Response<BasicResponse>
+                                ) {
+                                    if (response.isSuccessful) {
+                                        val br = response.body()!!
+
+                                        GlobalData.loginUser = br.data.user
+                                        setUserData()
+                                        alert.dialog.dismiss()
+                                    } else {
+                                        val errorBodyStr = response.errorBody()!!.string()
+                                        val jsonObj = JSONObject(errorBodyStr)
+                                        val message = jsonObj.getString("message")
+
+                                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            })
+                    }
+                }
+                alert.binding.dialogNegativeBtn.setOnClickListener {
+                    alert.dialog.dismiss()
+                }
+            }
         }
+        binding.changeMyNickLayout.setOnClickListener(ocl)
+        binding.readyTimeLayout.setOnClickListener(ocl)
+
 //        비밀번호 변경 이벤트
         binding.changePwLayout.setOnClickListener {
 
         }
-//        외출 준비 시간 변경 이벤트
-        binding.readyTimeLayout.setOnClickListener {
 
-        }
 //        로그아웃 이벤트
         binding.logoutLayout.setOnClickListener {
             val alert = CustomAlertDialog(mContext, requireActivity())
@@ -81,7 +140,8 @@ class SettingsFragment : BaseFragment() {
             alert.myDialog()
 
             alert.binding.dialogTitleTxt.text = "회원 탈퇴"
-            alert.binding.dialogBodyTxt.text = "정말 탈퇴하시겠습니까? \n ${"동의"}라고 입력하십시오"
+            alert.binding.dialogBodyTxt.text = "정말 탈퇴하시겠습니까?"
+            alert.binding.dialogContentEdt.hint = "동의 라고 입력하십시오"
             alert.binding.dialogContentEdt.visibility = View.VISIBLE
             alert.binding.dialogPositiveBtn.setOnClickListener {
                 apiList.deleteRequestUserSecession(alert.binding.dialogContentEdt.text.toString())
@@ -124,6 +184,13 @@ class SettingsFragment : BaseFragment() {
     }
 
     override fun setValues() {
+        setUserData()
+    }
 
+    fun setUserData(){
+        Glide.with(mContext).load(GlobalData.loginUser!!.profileImg).into(binding.settingMyProfileImg)
+        binding.settingNickNameTxt.text = GlobalData.loginUser!!.nickName
+
+        binding.readyTimeTxt.text = "${GlobalData.loginUser!!.readyMinute}분"
     }
 }

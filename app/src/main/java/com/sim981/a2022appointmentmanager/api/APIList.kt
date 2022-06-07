@@ -25,6 +25,13 @@ interface APIList {
         @Field("nick_name") nickName : String,
     ) : Call<BasicResponse>
 
+    @FormUrlEncoded
+    @PATCH("/user")
+    fun patchRequestUserEdit (
+        @Field("field") field : String,
+        @Field("value") value: String,
+    ) : Call<BasicResponse>
+
     @GET("/user/check")
     fun getRequestUserCheck (
         @Query("type") type : String,
