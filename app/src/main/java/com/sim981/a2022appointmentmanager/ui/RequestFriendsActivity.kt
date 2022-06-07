@@ -25,6 +25,7 @@ class RequestFriendsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_request_friends)
+        titleTxt.text = "친구 요청 수락/거절하기"
         setupEvents()
         setValues()
     }
