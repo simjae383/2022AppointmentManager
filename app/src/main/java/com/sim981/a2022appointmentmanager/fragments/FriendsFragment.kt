@@ -1,5 +1,6 @@
 package com.sim981.a2022appointmentmanager.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.databinding.FragmentFriendsBinding
+import com.sim981.a2022appointmentmanager.ui.AddFriendsActivity
 import com.sim981.a2022appointmentmanager.ui.MainActivity
 
 class FriendsFragment : BaseFragment() {
@@ -45,7 +47,8 @@ class FriendsFragment : BaseFragment() {
 
     override fun setupEvents() {
         addBtn.setOnClickListener {
-
+            val myIntent = Intent(mContext, AddFriendsActivity::class.java)
+            startActivity(myIntent)
         }
         requestBtn.setOnClickListener {
 
