@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.sim981.a2022appointmentmanager.databinding.ActivityLoginBinding
 import com.sim981.a2022appointmentmanager.models.BasicResponse
+import com.sim981.a2022appointmentmanager.utils.ContextUtil
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,6 +39,9 @@ class LoginActivity : BaseActivity() {
                 ) {
                     if (response.isSuccessful){
                         val br = response.body()!!
+
+                        ContextUtil.setLoginToken(mContext, br.data.token)
+                        ContextUtil.setAutoLogin(mContext, binding.autoLoginCb.isChecked)
 
                         Toast.makeText(mContext, "${br.data.user.nick_name}님 환영합니다.", Toast.LENGTH_SHORT).show()
 
