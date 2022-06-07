@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/Appointments"
+        android:icon="@drawable/baseline_event_black_24dp"
+        android:title="약속 관리"/>
+    <item android:id="@+id/Friends"
+        android:icon="@drawable/baseline_account_circle_black_24dp"
+        android:title="친구 관리"/>
+    <item android:id="@+id/Places"
+        android:icon="@drawable/baseline_map_black_24dp"
+        android:title="장소 관리"/>
+    <item android:id="@+id/Settings"
+        android:icon="@drawable/baseline_settings_black_24dp"
+        android:title="설정"/>
+</menu>
