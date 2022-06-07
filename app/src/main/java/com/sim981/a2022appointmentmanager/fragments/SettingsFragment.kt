@@ -5,13 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.sim981.a2022appointmentmanager.LoginActivity
 import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.databinding.FragmentSettingsBinding
 import com.sim981.a2022appointmentmanager.dialogs.CustomAlertDialog
+import com.sim981.a2022appointmentmanager.models.BasicResponse
 import com.sim981.a2022appointmentmanager.utils.ContextUtil
 import com.sim981.a2022appointmentmanager.utils.GlobalData
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SettingsFragment : BaseFragment() {
     lateinit var binding : FragmentSettingsBinding
@@ -71,7 +77,48 @@ class SettingsFragment : BaseFragment() {
         }
 //        회원 탈퇴 이벤트
         binding.secessionLayout.setOnClickListener {
+            val alert = CustomAlertDialog(mContext, requireActivity())
+            alert.myDialog()
 
+            alert.binding.dialogTitleTxt.text = "회원 탈퇴"
+            alert.binding.dialogBodyTxt.text = "정말 탈퇴하시겠습니까? \n ${"동의"}라고 입력하십시오"
+            alert.binding.dialogContentEdt.visibility = View.VISIBLE
+            alert.binding.dialogPositiveBtn.setOnClickListener {
+                apiList.deleteRequestUserSecession(alert.binding.dialogContentEdt.text.toString())
+                    .enqueue(object : Callback<BasicResponse>{
+                        override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                        }
+
+                        override fun onResponse(
+                            call: Call<BasicResponse>,
+                            response: Response<BasicResponse>
+                        ) {
+                            if(response.isSuccessful){
+                                val br = response.body()!!
+
+                                Toast.makeText(mContext, br.message, Toast.LENGTH_SHORT).show()
+                                ContextUtil.clear(mContext)
+                                GlobalData.loginUser = null
+
+                                val myIntent = Intent(mContext, LoginActivity::class.java)
+                                myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(myIntent)
+
+                                alert.dialog.dismiss()
+                            } else {
+                                val errorBodyStr = response.errorBody()!!.string()
+                                val jsonObj = JSONObject(errorBodyStr)
+                                val message = jsonObj.getString("message")
+
+                                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    })
+            }
+            alert.binding.dialogNegativeBtn.setOnClickListener {
+                alert.dialog.dismiss()
+            }
         }
 
     }

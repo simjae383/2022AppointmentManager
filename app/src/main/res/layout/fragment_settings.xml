@@ -36,6 +36,7 @@
 
                 <TextView
                     android:id="@+id/changeNickNameTxt"
+                    android:tag="nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -58,6 +59,7 @@
 
         <LinearLayout
             android:id="@+id/readyTimeLayout"
+            android:tag="ready_minute"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -122,6 +124,7 @@
 
         <LinearLayout
             android:id="@+id/logoutLayout"
+            android:tag="logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -150,6 +153,7 @@
 
         <LinearLayout
             android:id="@+id/secessionLayout"
+            android:tag="secession"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"

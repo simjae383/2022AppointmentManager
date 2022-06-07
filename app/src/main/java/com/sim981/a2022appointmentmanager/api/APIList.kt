@@ -30,4 +30,9 @@ interface APIList {
         @Query("type") type : String,
         @Query("value") value : String,
     ) : Call<BasicResponse>
+
+    @DELETE("/user")
+    fun deleteRequestUserSecession (
+        @Query("text") text : String,
+    ) : Call<BasicResponse>
 }
