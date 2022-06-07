@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.sim981.a2022appointmentmanager.LoginActivity
+import com.sim981.a2022appointmentmanager.PasswordActivity
 import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.databinding.FragmentSettingsBinding
 import com.sim981.a2022appointmentmanager.dialogs.CustomAlertDialog
@@ -109,7 +110,8 @@ class SettingsFragment : BaseFragment() {
 
 //        비밀번호 변경 이벤트
         binding.changePwLayout.setOnClickListener {
-
+            val myIntent = Intent(mContext, PasswordActivity::class.java)
+            startActivity(myIntent)
         }
 
 //        로그아웃 이벤트

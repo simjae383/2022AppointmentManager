@@ -4,8 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
-import com.sim981.a2022appointmentmanager.databinding.ActivityLoginBinding
+import com.sim981.a2022appointmentmanager.databinding.ActivityPasswordBinding
 import com.sim981.a2022appointmentmanager.models.BasicResponse
 import com.sim981.a2022appointmentmanager.utils.ContextUtil
 import com.sim981.a2022appointmentmanager.utils.GlobalData
@@ -14,22 +15,35 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginActivity : BaseActivity() {
-    lateinit var binding : ActivityLoginBinding
+class PasswordActivity : BaseActivity() {
+    lateinit var binding : ActivityPasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
-        setupEvents()
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_password)
         setValues()
+        setupEvents()
     }
 
     override fun setupEvents() {
-        binding.loginBtn.setOnClickListener {
-            val inputEmail = binding.emailEdt.text.toString()
-            val inputPw = binding.passwordEdt.text.toString()
-
-            apiList.postRequestLogin(inputEmail,inputPw).enqueue(object : Callback<BasicResponse>{
+        binding.newPwEdt.addTextChangedListener{
+            val newPw = binding.newPwEdt.text.toString()
+            if(newPw.length >= 8){
+                binding.newPwCheckTxt.text = "정상적인 비밀번호 입니다."
+                binding.changePwBtn.isEnabled = true
+            } else {
+                binding.newPwCheckTxt.text = "8자리 이상 입력해주세요."
+                binding.changePwBtn.isEnabled = false
+            }
+        }
+        binding.changePwBtn.setOnClickListener {
+            val currentPw = binding.currentPwEdt.text.toString()
+            val newPw = binding.newPwEdt.text.toString()
+            if(newPw.isBlank()){
+                Toast.makeText(mContext, "새 비밀번호를 입력하시오", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            apiList.patchRequestPwEdit(currentPw, newPw).enqueue(object : Callback<BasicResponse>{
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                 }
@@ -38,32 +52,23 @@ class LoginActivity : BaseActivity() {
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
                 ) {
-                    if (response.isSuccessful){
+                    if(response.isSuccessful){
                         val br = response.body()!!
 
+
                         ContextUtil.setLoginToken(mContext, br.data.token)
-                        ContextUtil.setAutoLogin(mContext, binding.autoLoginCb.isChecked)
                         GlobalData.loginUser = br.data.user
-
-                        Toast.makeText(mContext, "${br.data.user.nickName}님 환영합니다.", Toast.LENGTH_SHORT).show()
-
-                        val myIntent = Intent(mContext, MainActivity::class.java)
-                        startActivity(myIntent)
+                        Toast.makeText(mContext, br.message, Toast.LENGTH_SHORT).show()
                         finish()
                     } else {
                         val errorBodyStr = response.errorBody()!!.string()
                         val jsonObj = JSONObject(errorBodyStr)
                         val message = jsonObj.getString("message")
 
-
                         Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                     }
                 }
             })
-        }
-        binding.signUpBtn.setOnClickListener {
-            val myIntent = Intent(mContext, SignUpActivity::class.java)
-            startActivity(myIntent)
         }
     }
 

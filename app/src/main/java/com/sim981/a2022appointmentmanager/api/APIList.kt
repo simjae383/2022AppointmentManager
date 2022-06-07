@@ -32,6 +32,13 @@ interface APIList {
         @Field("value") value: String,
     ) : Call<BasicResponse>
 
+    @FormUrlEncoded
+    @PATCH("/user/password")
+    fun patchRequestPwEdit(
+        @Field("current_password") currentPw : String,
+        @Field("new_password") newPw : String,
+    ) : Call<BasicResponse>
+
     @GET("/user/check")
     fun getRequestUserCheck (
         @Query("type") type : String,
