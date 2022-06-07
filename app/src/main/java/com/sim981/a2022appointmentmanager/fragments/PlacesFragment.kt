@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.sim981.a2022appointmentmanager.R
-import com.sim981.a2022appointmentmanager.databinding.FragmentAppointmentsBinding
+import com.sim981.a2022appointmentmanager.databinding.FragmentPlacesBinding
 
 class PlacesFragment : BaseFragment() {
-    lateinit var binding : FragmentAppointmentsBinding
-
+    lateinit var binding : FragmentPlacesBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
