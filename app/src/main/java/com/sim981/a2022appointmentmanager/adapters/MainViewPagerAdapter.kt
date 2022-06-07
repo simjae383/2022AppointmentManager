@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.sim981.a2022appointmentmanager.fragments.AppointmentsFragment
-import com.sim981.a2022appointmentmanager.fragments.FriendsFragment
+import com.sim981.a2022appointmentmanager.fragments.MyFriendsFragment
 import com.sim981.a2022appointmentmanager.fragments.PlacesFragment
 import com.sim981.a2022appointmentmanager.fragments.SettingsFragment
 
@@ -16,7 +16,7 @@ class MainViewPagerAdapter(fa : FragmentActivity) : FragmentStateAdapter(fa) {
     override fun createFragment(position: Int): Fragment {
         return when (position){
             0 -> AppointmentsFragment()
-            1 -> FriendsFragment()
+            1 -> MyFriendsFragment()
             2 -> PlacesFragment()
             else -> SettingsFragment()
         }

@@ -17,8 +17,14 @@
         <entry key="..\:/Users/NePPPlus_002/AndroidStudioProjects/2022AppointmentManager/app/src/main/res/layout/list_user_item.xml" value="0.22" />
         <entry key="..\:/Users/NePPPlus_002/AndroidStudioProjects/2022AppointmentManager/app/src/main/res/layout/my_custom_action_bar.xml" value="0.33" />
         <entry key="..\:/Users/NePPPlus_002/AndroidStudioProjects/2022AppointmentManager/app/src/main/res/menu/main_bottom_nav_menu.xml" value="0.1" />
+        <entry key="..\:/android-sdk/2022AppointmentManager/app/src/main/res/layout/activity_add_friends.xml" value="0.1" />
         <entry key="..\:/android-sdk/2022AppointmentManager/app/src/main/res/layout/activity_login.xml" value="0.25364583333333335" />
         <entry key="..\:/android-sdk/2022AppointmentManager/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/android-sdk/2022AppointmentManager/app/src/main/res/layout/activity_my_friends.xml" value="0.1" />
+        <entry key="..\:/android-sdk/2022AppointmentManager/app/src/main/res/layout/activity_request_friends.xml" value="0.12310030395136778" />
+        <entry key="..\:/android-sdk/2022AppointmentManager/app/src/main/res/layout/fragment_friends.xml" value="0.12310030395136778" />
+        <entry key="..\:/android-sdk/2022AppointmentManager/app/src/main/res/layout/fragment_my_friends.xml" value="0.1" />
+        <entry key="..\:/android-sdk/2022AppointmentManager/app/src/main/res/layout/list_user_item.xml" value="0.12310030395136778" />
       </map>
     </option>
   </component>

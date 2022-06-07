@@ -2,7 +2,7 @@ package com.sim981.a2022appointmentmanager.models
 
 import com.google.gson.annotations.SerializedName
 
-class UserData(
+data class UserData(
     val id : Int,
     val email : String,
     @SerializedName("nick_name")

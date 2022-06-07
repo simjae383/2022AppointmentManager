@@ -6,10 +6,13 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface APIList {
+    //    search
+    @GET("/search/user")
+    fun getRequestSearchUser(@Query("nickname") nickname: String) : Call<BasicResponse>
+
     //    user
     @GET("/user")
     fun getRequestMyInfo(@Header("X-Http-Token") token : String) : Call<BasicResponse>
-
 
     @FormUrlEncoded
     @POST("/user")
@@ -54,4 +57,21 @@ interface APIList {
     @Multipart
     @PUT("/user/image")
     fun putRequestUserImage(@Part profileImg : MultipartBody.Part) : Call<BasicResponse>
+
+    //    friend
+    @GET("/user/friend")
+    fun getRequestMyFriendsList(@Query("type") type: String): Call<BasicResponse>
+
+    @FormUrlEncoded
+    @POST("/user/friend")
+    fun postRequestAddFriend(@Field("user_id")userId : Int) : Call<BasicResponse>
+
+    @FormUrlEncoded
+    @PUT("/user/friend")
+    fun putRequestAnswerRequest(@Field("user_id")userId : Int,
+                                @Field("type")type: String) : Call<BasicResponse>
+
+    @DELETE("/user/friend")
+    fun deleteRequestDeleteFriend(@Field("user_id")userId : String) : Call<BasicResponse>
+
 }

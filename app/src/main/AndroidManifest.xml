@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.2022AppointmentManager">
         <activity
+            android:name=".ui.RequestFriendsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.AddFriendsActivity"
             android:exported="false" />
         <activity
