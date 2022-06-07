@@ -1,5 +1,6 @@
 package com.sim981.a2022appointmentmanager.fragments
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import com.sim981.a2022appointmentmanager.LoginActivity
 import com.sim981.a2022appointmentmanager.PasswordActivity
 import com.sim981.a2022appointmentmanager.R
@@ -20,10 +22,15 @@ import com.sim981.a2022appointmentmanager.dialogs.CustomAlertDialog
 import com.sim981.a2022appointmentmanager.models.BasicResponse
 import com.sim981.a2022appointmentmanager.utils.ContextUtil
 import com.sim981.a2022appointmentmanager.utils.GlobalData
+import com.sim981.a2022appointmentmanager.utils.URIPathHelper
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 class SettingsFragment : BaseFragment() {
     lateinit var binding : FragmentSettingsBinding
@@ -58,6 +65,10 @@ class SettingsFragment : BaseFragment() {
                     startForResult.launch(myIntent)
                 }
             }
+            TedPermission.create().setPermissionListener(pl)
+                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .setDeniedMessage("[설정] > [권한]에서 갤러리 권한을 열어주세요.")
+                .check()
         }
 //        닉네임/외출 시간 변경 이벤트
         val ocl = object : View.OnClickListener {
@@ -215,7 +226,27 @@ class SettingsFragment : BaseFragment() {
         if(it.resultCode == Activity.RESULT_OK) {
             val dataUri = it.data?.data
 
-            Glide.with(mContext).load(dataUri).into(binding.settingMyProfileImg)
+            val file = File(URIPathHelper().getPath(mContext, dataUri!!))
+
+            val fileReqBody = RequestBody.create(MediaType.get("image/*"), file)
+            val body = MultipartBody.Part.createFormData("profile_image", "myFile.jpg", fileReqBody)
+
+            apiList.putRequestUserImage(body).enqueue(object : Callback<BasicResponse>{
+                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                }
+
+                override fun onResponse(
+                    call: Call<BasicResponse>,
+                    response: Response<BasicResponse>
+                ) {
+                    if(response.isSuccessful){
+                        GlobalData.loginUser = response.body()!!.data.user
+                        Glide.with(mContext).load(GlobalData.loginUser!!.profileImg).into(binding.settingMyProfileImg)
+                        Toast.makeText(mContext, "프로필 사진이 변경되었습니다", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
         }
     }
 }
