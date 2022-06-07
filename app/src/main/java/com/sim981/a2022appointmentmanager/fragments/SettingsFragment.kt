@@ -20,6 +20,7 @@ import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.databinding.FragmentSettingsBinding
 import com.sim981.a2022appointmentmanager.dialogs.CustomAlertDialog
 import com.sim981.a2022appointmentmanager.models.BasicResponse
+import com.sim981.a2022appointmentmanager.ui.MainActivity
 import com.sim981.a2022appointmentmanager.utils.ContextUtil
 import com.sim981.a2022appointmentmanager.utils.GlobalData
 import com.sim981.a2022appointmentmanager.utils.URIPathHelper
@@ -48,6 +49,12 @@ class SettingsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupEvents()
         setValues()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (mContext as MainActivity).secondBtn.visibility = View.GONE
+        (mContext as MainActivity).firstBtn.visibility = View.GONE
     }
     override fun setupEvents() {
 //        프로필 이미지 변경 이벤트

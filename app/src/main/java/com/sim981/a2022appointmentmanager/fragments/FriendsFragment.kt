@@ -28,20 +28,31 @@ class FriendsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addBtn = (mContext as MainActivity).firstBtn
-        requestBtn = (mContext as MainActivity).secondBtn
+        addBtn = (mContext as MainActivity).secondBtn
+        requestBtn = (mContext as MainActivity).firstBtn
         setupEvents()
         setValues()
     }
-    override fun setupEvents() {
 
-    }
-
-    override fun setValues() {
+    override fun onResume() {
+        super.onResume()
         addBtn.visibility = View.VISIBLE
         requestBtn.visibility = View.VISIBLE
 
         addBtn.setImageResource(R.drawable.baseline_add_black_24dp)
         requestBtn.setImageResource(R.drawable.baseline_person_add_black_24dp)
+    }
+
+    override fun setupEvents() {
+        addBtn.setOnClickListener {
+
+        }
+        requestBtn.setOnClickListener {
+
+        }
+    }
+
+    override fun setValues() {
+
     }
 }
