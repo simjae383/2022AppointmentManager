@@ -1,6 +1,7 @@
 package com.sim981.a2022appointmentmanager.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 class PlaceData(
     val id : Int,
@@ -9,5 +10,5 @@ class PlaceData(
     val longitude : Double,
     @SerializedName("is_primary")
     val isPrimary : Boolean,
-) {
+) : Serializable {
 }
