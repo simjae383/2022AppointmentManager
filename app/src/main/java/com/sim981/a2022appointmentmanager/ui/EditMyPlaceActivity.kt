@@ -42,7 +42,7 @@ class EditMyPlaceActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
-            apiList.postRequestAddMyPlace(inputName, mSelectedLatitude, mSelectedLatitude, false)
+            apiList.postRequestAddMyPlace(inputName, mSelectedLatitude, mSelectedLongitude, false)
                 .enqueue(object : Callback<BasicResponse>{
                     override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 

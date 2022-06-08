@@ -5,6 +5,7 @@ data class DataResponse(
     val token : String,
     val users : List<UserData>,
     val friends : List<UserData>,
+    val place : PlaceData,
     val places : List<PlaceData>,
 ) {
 }

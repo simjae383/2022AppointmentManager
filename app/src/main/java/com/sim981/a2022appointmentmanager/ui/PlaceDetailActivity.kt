@@ -2,9 +2,14 @@ package com.sim981.a2022appointmentmanager.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.MapFragment
+import com.naver.maps.map.overlay.Marker
 import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.databinding.ActivityPlaceDetailBinding
 import com.sim981.a2022appointmentmanager.dialogs.CustomAlertDialog
@@ -36,7 +41,21 @@ class PlaceDetailActivity : BaseActivity() {
     }
 
     override fun setValues() {
+        val fm = supportFragmentManager
+        val mapFragment = fm.findFragmentById(R.id.detailMap) as MapFragment?
+            ?: MapFragment.newInstance().also {
+                fm.beginTransaction().add(R.id.detailMap, it).commit()
+            }
+        mapFragment.getMapAsync {
+            val naverMap = it
+            val coord = LatLng(placeDetail.latitude, placeDetail.longitude)
+            val cameraUpdate = CameraUpdate.scrollTo(coord)
+            naverMap.moveCamera(cameraUpdate)
 
+            val marker = Marker()
+            marker.position = coord
+            marker.map = naverMap
+        }
     }
 
     fun deleteThisPlace(){
