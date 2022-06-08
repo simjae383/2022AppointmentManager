@@ -86,6 +86,10 @@ interface APIList {
     @GET("/user/place")
     fun getRequestMyPlace () : Call<BasicResponse>
 
+    @FormUrlEncoded
+    @PATCH("/user/place")
+    fun patchRequdstDefaultPlace(@Field("place_id")placeId : Int) : Call<BasicResponse>
+
     @DELETE("/user/place")
     fun deleteRequestDeletePlace(@Query("place_id")placeId : Int) : Call<BasicResponse>
 }

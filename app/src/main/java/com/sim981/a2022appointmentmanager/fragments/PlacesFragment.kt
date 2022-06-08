@@ -94,6 +94,7 @@ class PlacesFragment : BaseFragment() {
                     mPlaceList.addAll(br.data.places)
 
                     mPlaceRecyclerAdapter.notifyDataSetChanged()
+                    Log.d("장소", mPlaceList.toString())
                 }
             }
         })

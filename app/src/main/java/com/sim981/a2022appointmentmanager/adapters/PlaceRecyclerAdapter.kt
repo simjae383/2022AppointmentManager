@@ -42,6 +42,34 @@ class PlaceRecyclerAdapter(
 
             }
 
+            itemView.setOnClickListener { 
+                apiList.patchRequdstDefaultPlace(item.id).enqueue(object : Callback<BasicResponse>{
+                    override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+                        
+                    }
+
+                    override fun onResponse(
+                        call: Call<BasicResponse>,
+                        response: Response<BasicResponse>
+                    ) {
+                        if(response.isSuccessful){
+                            val br = response.body()!!
+                            Toast.makeText(mContext, br.message, Toast.LENGTH_SHORT).show()
+                            ((mContext as MainActivity)
+                                .supportFragmentManager
+                                .findFragmentByTag("f2") as PlacesFragment)
+                                .getMyPlaceListFromServer()
+                        } else {
+                            val errorBodyStr = response.errorBody()!!.string()
+                            val jsonObj = JSONObject(errorBodyStr)
+                            val message = jsonObj.getString("message")
+
+                            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                })
+            }            
+            
             itemView.setOnLongClickListener {
                 val alert = CustomAlertDialog(mContext)
                 alert.myDialog()
