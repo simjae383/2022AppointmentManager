@@ -53,8 +53,10 @@ class SettingsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        (mContext as MainActivity).secondBtn.visibility = View.GONE
-        (mContext as MainActivity).firstBtn.visibility = View.GONE
+        (mContext as MainActivity).addPlaceBtn.visibility = View.GONE
+        (mContext as MainActivity).addFriendBtn.visibility = View.GONE
+        (mContext as MainActivity).requestFriendBtn.visibility = View.GONE
+        (mContext as MainActivity).myLocationBtn.visibility = View.GONE
     }
     override fun setupEvents() {
 //        프로필 이미지 변경 이벤트

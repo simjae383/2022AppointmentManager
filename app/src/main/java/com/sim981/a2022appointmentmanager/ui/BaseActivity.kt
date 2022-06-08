@@ -19,8 +19,10 @@ abstract class BaseActivity : AppCompatActivity() {
     lateinit var apiList : APIList
 
     lateinit var titleTxt : TextView
-    lateinit var firstBtn : ImageView
-    lateinit var secondBtn : ImageView
+    lateinit var addFriendBtn : ImageView
+    lateinit var addPlaceBtn : ImageView
+    lateinit var requestFriendBtn : ImageView
+    lateinit var myLocationBtn : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +50,9 @@ abstract class BaseActivity : AppCompatActivity() {
         toolbar.setContentInsetsAbsolute(0,0)
 
         titleTxt = defActionBar.customView.findViewById(R.id.actionTitleTxt)
-        firstBtn = defActionBar.customView.findViewById(R.id.actionfirstBtn)
-        secondBtn = defActionBar.customView.findViewById(R.id.actionSecondBtn)
+        addFriendBtn = defActionBar.customView.findViewById(R.id.addFriendBtn)
+        addPlaceBtn = defActionBar.customView.findViewById(R.id.addPlaceBtn)
+        requestFriendBtn = defActionBar.customView.findViewById(R.id.requestFriendBtn)
+        myLocationBtn = defActionBar.customView.findViewById(R.id.myLocationBtn)
     }
 }

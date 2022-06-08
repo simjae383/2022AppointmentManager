@@ -14,6 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.2022AppointmentManager">
         <activity
+            android:name=".ui.EditMyPlaceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MyLocationActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.RequestFriendsActivity"
             android:exported="false" />
         <activity
@@ -45,14 +51,17 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
-                <data android:host="oauth"
+                <data
+                    android:host="oauth"
                     android:scheme="kakao88c66ead7d59229e0a3ae3741624b441" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="aq1kgvo17i" />

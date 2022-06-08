@@ -41,8 +41,8 @@ class MyFriendsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addBtn = (mContext as MainActivity).secondBtn
-        requestBtn = (mContext as MainActivity).firstBtn
+        addBtn = (mContext as MainActivity).addFriendBtn
+        requestBtn = (mContext as MainActivity).requestFriendBtn
         setupEvents()
         setValues()
     }
@@ -55,6 +55,12 @@ class MyFriendsFragment : BaseFragment() {
         addBtn.setImageResource(R.drawable.baseline_add_black_24dp)
         requestBtn.setImageResource(R.drawable.baseline_person_add_black_24dp)
         getMyFriendsListFromServer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        addBtn.visibility = View.GONE
+        requestBtn.visibility = View.GONE
     }
 
     override fun setupEvents() {

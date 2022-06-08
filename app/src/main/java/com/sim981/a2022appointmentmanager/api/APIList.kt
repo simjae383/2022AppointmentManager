@@ -82,4 +82,7 @@ interface APIList {
     @DELETE("/user/friend")
     fun deleteRequestDeleteFriend(@Query("user_id")userId : Int) : Call<BasicResponse>
 
+    //    user/place
+    @GET("/user/place")
+    fun getRequestMyPlace () : Call<BasicResponse>
 }

@@ -15,7 +15,7 @@
             android:layout_gravity="center"/>
 
         <ImageView
-            android:id="@+id/actionfirstBtn"
+            android:id="@+id/requestFriendBtn"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@mipmap/ic_launcher"
@@ -24,7 +24,16 @@
             android:layout_marginStart="10dp"/>
 
         <ImageView
-            android:id="@+id/actionSecondBtn"
+            android:id="@+id/myLocationBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_gravity="center|start"
+            android:visibility="gone"
+            android:layout_marginStart="10dp"/>
+
+        <ImageView
+            android:id="@+id/addFriendBtn"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@mipmap/ic_launcher"
@@ -32,6 +41,14 @@
             android:visibility="gone"
             android:layout_marginEnd="10dp"/>
 
+        <ImageView
+            android:id="@+id/addPlaceBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_gravity="center|end"
+            android:visibility="gone"
+            android:layout_marginEnd="10dp"/>
     </FrameLayout>
 
 </layout>
