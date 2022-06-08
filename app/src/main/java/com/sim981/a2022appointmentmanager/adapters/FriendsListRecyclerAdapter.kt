@@ -37,14 +37,14 @@ class FriendsListRecyclerAdapter(
         val acceptBtn = view.findViewById<Button>(R.id.acceptBtn)
         val denyBtn = view.findViewById<Button>(R.id.denyBtn)
         val requestBtnLayout = view.findViewById<LinearLayout>(R.id.requestBtnLayout)
+        val socialLoginImg = view.findViewById<ImageView>(R.id.userSocialLoginImg)
 
         fun bind(item: UserData) {
             val apiList = ServerAPI.getRetrofit(mContext).create(APIList::class.java)
-            Log.d("친구목록어댑터",item.toString())
 
             Glide.with(mContext).load(item.profileImg).into(profileImg)
             nicknameTxt.text = item.nickName
-
+//          어댑터 기능을 요구한 뷰에 따라 아이템 형식 변환
             when (type) {
                 "add" -> {
                     addFriendBtn.visibility = View.VISIBLE
@@ -59,7 +59,17 @@ class FriendsListRecyclerAdapter(
                     requestBtnLayout.visibility = View.GONE
                 }
             }
-
+//            로그인 제공자에 따른 이미지 추가
+            when (item.provider) {
+                "kakao" -> {
+                    socialLoginImg.setImageResource(R.drawable.kakao_login_icon)
+                }
+                "facebook" -> {
+//                    socialLoginImg.setImageResource(R.drawable.facebook_login_icon)
+                }
+                else -> {socialLoginImg.visibility = View.GONE}
+            }
+//          친구 요청 수락/거절 이벤트
             val ocl = object : View.OnClickListener {
                 override fun onClick(p0: View?) {
                     val okOrNo = p0!!.tag.toString()
@@ -75,8 +85,6 @@ class FriendsListRecyclerAdapter(
                                 response: Response<BasicResponse>
                             ) {
                                 if (response.isSuccessful) {
-                                    val br = response.body()!!
-                                    Log.d("친구 목록 어댑터", br.toString())
                                     (mContext as RequestFriendsActivity).getRequestedFriendsListFromServer()
                                 } else {
                                     val errorBodyStr = response.errorBody()!!.string()
@@ -90,10 +98,9 @@ class FriendsListRecyclerAdapter(
                         })
                 }
             }
-
             acceptBtn.setOnClickListener(ocl)
             denyBtn.setOnClickListener(ocl)
-
+//          친구 요청 버튼 이벤트
             addFriendBtn.setOnClickListener {
                 apiList.postRequestAddFriend(item.id).enqueue(object : Callback<BasicResponse> {
                     override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
@@ -113,7 +120,7 @@ class FriendsListRecyclerAdapter(
                     }
                 })
             }
-
+//          친구 목록 삭제 이벤트
             itemView.setOnLongClickListener {
                 if (type != "my") {
                     return@setOnLongClickListener true

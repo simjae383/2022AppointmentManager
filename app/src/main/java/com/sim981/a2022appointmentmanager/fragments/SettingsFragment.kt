@@ -220,6 +220,16 @@ class SettingsFragment : BaseFragment() {
 
     override fun setValues() {
         setUserData()
+
+        when (GlobalData.loginUser!!.provider) {
+            "kakao" -> {
+                binding.settingSocialLoginImg.setImageResource(R.drawable.kakao_login_icon)
+            }
+            "facebook" -> {
+//                binding.settingSocialLoginImg.setImageResource(R.drawable.facebook_login_icon)
+            }
+            else -> binding.settingSocialLoginImg.visibility = View.GONE
+        }
     }
 //수정된 회원정보 갱신
     fun setUserData(){

@@ -61,4 +61,6 @@ dependencies {
 
 //    TedPermission
     implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
+    //    카카오 로그인
+    implementation "com.kakao.sdk:v2-user:2.10.0"
 }

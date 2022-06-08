@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.databinding.DataBindingUtil
+import com.kakao.sdk.common.util.Utility
 import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.databinding.ActivitySplashBinding
 import com.sim981.a2022appointmentmanager.models.BasicResponse
@@ -22,6 +24,7 @@ class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+        getKeyHash()
         setValues()
         setupEvents()
     }
@@ -57,5 +60,11 @@ class SplashActivity : BaseActivity() {
             startActivity(myIntent)
             finish()
         }, 2500)
+    }
+
+    fun getKeyHash() {
+        var keyHash = Utility.getKeyHash(mContext)
+
+        Log.d("kakao_keyHash", keyHash)
     }
 }
