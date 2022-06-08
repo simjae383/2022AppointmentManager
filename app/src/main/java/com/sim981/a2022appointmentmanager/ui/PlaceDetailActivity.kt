@@ -30,7 +30,9 @@ class PlaceDetailActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
-
+        binding.deletePlaceBtn.setOnClickListener {
+            deleteThisPlace()
+        }
     }
 
     override fun setValues() {
@@ -57,10 +59,7 @@ class PlaceDetailActivity : BaseActivity() {
                     if(response.isSuccessful){
                         val br = response.body()!!
                         Toast.makeText(mContext, br.message, Toast.LENGTH_SHORT).show()
-                        ((mContext as MainActivity)
-                            .supportFragmentManager
-                            .findFragmentByTag("f2") as PlacesFragment)
-                            .getMyPlaceListFromServer()
+                        finish()
                     } else {
                         val errorBodyStr = response.errorBody()!!.string()
                         val jsonObj = JSONObject(errorBodyStr)
