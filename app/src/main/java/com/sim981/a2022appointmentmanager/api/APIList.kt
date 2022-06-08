@@ -92,4 +92,13 @@ interface APIList {
 
     @DELETE("/user/place")
     fun deleteRequestDeletePlace(@Query("place_id")placeId : Int) : Call<BasicResponse>
+
+    @FormUrlEncoded
+    @POST("/user/place")
+    fun postRequestAddMyPlace (
+        @Field("name") name : String,
+        @Field("latitude") latitude : Double,
+        @Field("longitude") longitude : Double,
+        @Field("is_primary") isPrimary : Boolean,
+    ) : Call<BasicResponse>
 }
