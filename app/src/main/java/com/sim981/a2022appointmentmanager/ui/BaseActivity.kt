@@ -21,6 +21,7 @@ abstract class BaseActivity : AppCompatActivity() {
     lateinit var titleTxt : TextView
     lateinit var addFriendBtn : ImageView
     lateinit var addPlaceBtn : ImageView
+    lateinit var addAppointmentBtn : ImageView
     lateinit var requestFriendBtn : ImageView
     lateinit var myLocationBtn : ImageView
 
@@ -52,6 +53,7 @@ abstract class BaseActivity : AppCompatActivity() {
         titleTxt = defActionBar.customView.findViewById(R.id.actionTitleTxt)
         addFriendBtn = defActionBar.customView.findViewById(R.id.addFriendBtn)
         addPlaceBtn = defActionBar.customView.findViewById(R.id.addPlaceBtn)
+        addAppointmentBtn = defActionBar.customView.findViewById(R.id.addAppointmentBtn)
         requestFriendBtn = defActionBar.customView.findViewById(R.id.requestFriendBtn)
         myLocationBtn = defActionBar.customView.findViewById(R.id.myLocationBtn)
     }
