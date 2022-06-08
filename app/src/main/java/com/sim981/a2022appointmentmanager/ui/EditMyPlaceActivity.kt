@@ -4,7 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.sim981.a2022appointmentmanager.R
+import com.sim981.a2022appointmentmanager.adapters.PlaceRecyclerAdapter
 import com.sim981.a2022appointmentmanager.databinding.ActivityEditMyPlaceBinding
+import com.sim981.a2022appointmentmanager.models.BasicResponse
+import com.sim981.a2022appointmentmanager.models.PlaceData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class EditMyPlaceActivity : BaseActivity() {
     lateinit var binding : ActivityEditMyPlaceBinding
@@ -17,6 +23,9 @@ class EditMyPlaceActivity : BaseActivity() {
         setValues()
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
     override fun setupEvents() {
 
     }
@@ -24,4 +33,6 @@ class EditMyPlaceActivity : BaseActivity() {
     override fun setValues() {
 
     }
+
+
 }

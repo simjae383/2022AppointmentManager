@@ -6,13 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.api.APIList
 import com.sim981.a2022appointmentmanager.api.ServerAPI
-import com.sim981.a2022appointmentmanager.databinding.ListUserItemBinding
 import com.sim981.a2022appointmentmanager.dialogs.CustomAlertDialog
 import com.sim981.a2022appointmentmanager.fragments.MyFriendsFragment
 import com.sim981.a2022appointmentmanager.models.BasicResponse

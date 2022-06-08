@@ -8,11 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sim981.a2022appointmentmanager.R
+import com.sim981.a2022appointmentmanager.adapters.PlaceRecyclerAdapter
 import com.sim981.a2022appointmentmanager.databinding.FragmentPlacesBinding
+import com.sim981.a2022appointmentmanager.models.BasicResponse
+import com.sim981.a2022appointmentmanager.models.PlaceData
 import com.sim981.a2022appointmentmanager.ui.EditMyPlaceActivity
 import com.sim981.a2022appointmentmanager.ui.MainActivity
 import com.sim981.a2022appointmentmanager.ui.MyLocationActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class PlacesFragment : BaseFragment() {
     lateinit var binding : FragmentPlacesBinding
@@ -20,6 +27,8 @@ class PlacesFragment : BaseFragment() {
     lateinit var addBtn : ImageView
     lateinit var myLocationBtn : ImageView
 
+    lateinit var mPlaceRecyclerAdapter : PlaceRecyclerAdapter
+    var mPlaceList = ArrayList<PlaceData>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,6 +53,7 @@ class PlacesFragment : BaseFragment() {
 
         addBtn.setImageResource(R.drawable.baseline_add_black_24dp)
         myLocationBtn.setImageResource(R.drawable.baseline_my_location_black_24dp)
+        getMyPlaceListFromServer()
     }
 
     override fun onPause() {
@@ -65,6 +75,27 @@ class PlacesFragment : BaseFragment() {
     }
 
     override fun setValues() {
+        mPlaceRecyclerAdapter = PlaceRecyclerAdapter(mContext, mPlaceList)
+        binding.myPlacesRecyclerView.adapter = mPlaceRecyclerAdapter
+        binding.myPlacesRecyclerView.layoutManager = LinearLayoutManager(mContext)
+    }
 
+    fun getMyPlaceListFromServer(){
+        apiList.getRequestMyPlace().enqueue(object : Callback<BasicResponse> {
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+                if(response.isSuccessful){
+                    val br = response.body()!!
+
+                    mPlaceList.clear()
+                    mPlaceList.addAll(br.data.places)
+
+                    mPlaceRecyclerAdapter.notifyDataSetChanged()
+                }
+            }
+        })
     }
 }
