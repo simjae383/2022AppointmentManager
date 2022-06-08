@@ -33,7 +33,7 @@ class AddFriendsActivity : BaseActivity() {
             val inputNick = binding.searchEdt.text.toString()
 
             if (inputNick.length < 2) {
-                Toast.makeText(mContext, "검새어는 2자 이상 작성해주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mContext, "검색어는 2자 이상 작성해주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 

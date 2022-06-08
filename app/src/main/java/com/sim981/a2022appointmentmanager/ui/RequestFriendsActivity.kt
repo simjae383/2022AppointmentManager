@@ -30,6 +30,10 @@ class RequestFriendsActivity : BaseActivity() {
         setValues()
     }
 
+    override fun onResume() {
+        super.onResume()
+        getRequestedFriendsListFromServer()
+    }
 
     override fun setupEvents() {
 
@@ -39,8 +43,6 @@ class RequestFriendsActivity : BaseActivity() {
         mFriendsAdapter = FriendsListRecyclerAdapter(mContext, mFriendsList, "requested")
         binding.requestFriendsRecyclerView.adapter = mFriendsAdapter
         binding.requestFriendsRecyclerView.layoutManager = LinearLayoutManager(mContext)
-
-        getRequestedFriendsListFromServer()
     }
 
     fun getRequestedFriendsListFromServer(){
@@ -56,6 +58,7 @@ class RequestFriendsActivity : BaseActivity() {
                     mFriendsList.clear()
                     mFriendsList.addAll(br.data.friends)
                     mFriendsAdapter.notifyDataSetChanged()
+                    Log.d("친구 목록", br.data.friends.toString())
                 }
             }
         })

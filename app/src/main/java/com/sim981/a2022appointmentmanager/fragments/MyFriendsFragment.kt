@@ -2,6 +2,7 @@ package com.sim981.a2022appointmentmanager.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,6 +83,7 @@ class MyFriendsFragment : BaseFragment() {
                     mFriendsList.clear()
                     mFriendsList.addAll(br.data.friends)
                     mFriendsAdapter.notifyDataSetChanged()
+                    Log.d("친구 목록", br.data.friends.toString())
                 }
             }
 

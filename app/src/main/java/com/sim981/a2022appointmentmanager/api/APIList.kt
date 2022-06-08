@@ -72,6 +72,6 @@ interface APIList {
                                 @Field("type")type: String) : Call<BasicResponse>
 
     @DELETE("/user/friend")
-    fun deleteRequestDeleteFriend(@Field("user_id")userId : String) : Call<BasicResponse>
+    fun deleteRequestDeleteFriend(@Query("user_id")userId : Int) : Call<BasicResponse>
 
 }

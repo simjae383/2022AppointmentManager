@@ -82,7 +82,7 @@ class SettingsFragment : BaseFragment() {
             override fun onClick(p0: View?) {
                 val type = p0!!.tag.toString()
 
-                val alert = CustomAlertDialog(mContext, requireActivity())
+                val alert = CustomAlertDialog(mContext)
                 alert.myDialog()
 
                 when (type) {
@@ -149,7 +149,7 @@ class SettingsFragment : BaseFragment() {
 
 //        로그아웃 이벤트
         binding.logoutLayout.setOnClickListener {
-            val alert = CustomAlertDialog(mContext, requireActivity())
+            val alert = CustomAlertDialog(mContext)
             alert.myDialog()
 
             alert.binding.dialogTitleTxt.text = "로그아웃"
@@ -171,7 +171,7 @@ class SettingsFragment : BaseFragment() {
         }
 //        회원 탈퇴 이벤트
         binding.secessionLayout.setOnClickListener {
-            val alert = CustomAlertDialog(mContext, requireActivity())
+            val alert = CustomAlertDialog(mContext)
             alert.myDialog()
 
             alert.binding.dialogTitleTxt.text = "회원 탈퇴"
