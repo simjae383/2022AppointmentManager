@@ -5,7 +5,26 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
         tools:context=".ui.MyLocationActivity">
+
+
+        <fragment
+            android:id="@+id/currentLocationMap"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:name="com.naver.maps.map.MapFragment"/>
+
+        <TextView
+            android:id="@+id/currentLatLngTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="위도, 경도"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 </layout>
