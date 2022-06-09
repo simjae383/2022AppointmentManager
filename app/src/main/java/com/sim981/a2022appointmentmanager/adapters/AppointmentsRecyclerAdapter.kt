@@ -5,12 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sim981.a2022appointmentmanager.R
+import com.sim981.a2022appointmentmanager.api.APIList
+import com.sim981.a2022appointmentmanager.api.ServerAPI
+import com.sim981.a2022appointmentmanager.dialogs.CustomAlertDialog
+import com.sim981.a2022appointmentmanager.fragments.AppointmentsFragment
 import com.sim981.a2022appointmentmanager.models.AppointmentData
+import com.sim981.a2022appointmentmanager.models.BasicResponse
+import com.sim981.a2022appointmentmanager.ui.MainActivity
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 
 class AppointmentsRecyclerAdapter(
@@ -27,6 +37,8 @@ class AppointmentsRecyclerAdapter(
         val invitedFriendTxt = view.findViewById<TextView>(R.id.invitedFriendTxt)
 
         fun bind(item : AppointmentData){
+            val apiList = ServerAPI.getRetrofit(mContext).create(APIList::class.java)
+
             titleTxt.text = item.title
             invitedFriendTxt.text = item.user.nickName
             Glide.with(mContext).load(item.user.profileImg).into(invitedFriendImg)
@@ -35,6 +47,58 @@ class AppointmentsRecyclerAdapter(
             timeTxt.text = "${sdf.format(item.datetime)}"
             placeNameTxt.text = "약속 장소 : ${item.place}"
             memberCountTxt.text = "참여 인원 : ${item.invitedFriends.size}명"
+
+            itemView.setOnLongClickListener {
+                var resultMessage = ""
+                val alert = CustomAlertDialog(mContext)
+                alert.myDialog()
+
+                alert.binding.dialogTitleTxt.text = "약속 삭제"
+                alert.binding.dialogBodyTxt.text = "정말 삭제하시겠습니까?"
+                alert.binding.dialogContentEdt.visibility = View.GONE
+                alert.binding.dialogPositiveBtn.setOnClickListener{
+                    apiList.deleteRequestDeleteAppointment(item.id).enqueue(object : Callback<BasicResponse>{
+                        override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                        }
+
+                        override fun onResponse(
+                            call: Call<BasicResponse>,
+                            response: Response<BasicResponse>
+                        ) {
+                            if(response.isSuccessful){
+                                val br = response.body()!!
+                                resultMessage = "약속을 삭제하였습니다."
+                                ((mContext as MainActivity)
+                                    .supportFragmentManager
+                                    .findFragmentByTag("f0") as AppointmentsFragment)
+                                    .getAppointmentListFromServer()
+                            } else {
+                                val errorBodyStr = response.errorBody()!!.string()
+                                val jsonObj = JSONObject(errorBodyStr)
+                                resultMessage = jsonObj.getString("message")
+
+                            }
+                            val alert2 = CustomAlertDialog(mContext)
+
+                            alert2.myDialog()
+                            alert2.binding.dialogTitleTxt.visibility = View.GONE
+                            alert2.binding.dialogBodyTxt.text = resultMessage
+                            alert2.binding.dialogContentEdt.visibility = View.GONE
+                            alert2.binding.dialogPositiveBtn.setOnClickListener {
+                                alert2.dialog.dismiss()
+                            }
+                            alert2.binding.dialogNegativeBtn.visibility = View.GONE
+                        }
+                    })
+                    alert.dialog.dismiss()
+                }
+                alert.binding.dialogNegativeBtn.setOnClickListener {
+                    alert.dialog.dismiss()
+                }
+
+                return@setOnLongClickListener true
+            }
         }
     }
 

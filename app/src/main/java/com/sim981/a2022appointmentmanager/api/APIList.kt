@@ -7,6 +7,9 @@ import retrofit2.http.*
 
 interface APIList {
     //    appointment
+    @DELETE("/appointment")
+    fun deleteRequestDeleteAppointment(@Query("appointment_id")appointmentId : Int) : Call<BasicResponse>
+
     @GET("/appointment")
     fun getRequestMyAppointment() : Call<BasicResponse>
 
