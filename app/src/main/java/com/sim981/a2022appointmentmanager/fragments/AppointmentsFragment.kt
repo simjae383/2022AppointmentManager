@@ -15,7 +15,7 @@ import com.sim981.a2022appointmentmanager.ui.MainActivity
 class AppointmentsFragment : BaseFragment() {
     lateinit var binding : FragmentAppointmentsBinding
 
-    lateinit var addBtn : ImageView
+lateinit var addBtn : ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,15 +35,10 @@ class AppointmentsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        addBtn.visibility = View.VISIBLE
 
         addBtn.setImageResource(R.drawable.baseline_add_black_24dp)
     }
 
-    override fun onPause() {
-        super.onPause()
-        addBtn.visibility = View.GONE
-    }
     override fun setupEvents() {
 
         addBtn.setOnClickListener {

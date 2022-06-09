@@ -49,19 +49,12 @@ class MyFriendsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        addBtn.visibility = View.VISIBLE
-        requestBtn.visibility = View.VISIBLE
 
         addBtn.setImageResource(R.drawable.baseline_add_black_24dp)
         requestBtn.setImageResource(R.drawable.baseline_person_add_black_24dp)
         getMyFriendsListFromServer()
     }
 
-    override fun onPause() {
-        super.onPause()
-        addBtn.visibility = View.GONE
-        requestBtn.visibility = View.GONE
-    }
 
     override fun setupEvents() {
         addBtn.setOnClickListener {

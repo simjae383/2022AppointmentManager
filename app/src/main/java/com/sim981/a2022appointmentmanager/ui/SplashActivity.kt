@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.kakao.sdk.common.util.Utility
 import com.sim981.a2022appointmentmanager.R
@@ -25,6 +26,7 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         getKeyHash()
+        addAppointmentBtn.visibility = View.GONE
         setValues()
         setupEvents()
     }

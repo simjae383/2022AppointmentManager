@@ -2,6 +2,7 @@ package com.sim981.a2022appointmentmanager.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
@@ -56,5 +57,9 @@ abstract class BaseActivity : AppCompatActivity() {
         addAppointmentBtn = defActionBar.customView.findViewById(R.id.addAppointmentBtn)
         requestFriendBtn = defActionBar.customView.findViewById(R.id.requestFriendBtn)
         myLocationBtn = defActionBar.customView.findViewById(R.id.myLocationBtn)
+        addFriendBtn.visibility = View.GONE
+        addPlaceBtn.visibility = View.GONE
+        requestFriendBtn.visibility = View.GONE
+        myLocationBtn.visibility = View.GONE
     }
 }

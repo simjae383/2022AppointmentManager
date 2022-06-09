@@ -3,6 +3,7 @@ package com.sim981.a2022appointmentmanager.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sim981.a2022appointmentmanager.R
@@ -26,6 +27,7 @@ class RequestFriendsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_request_friends)
         titleTxt.text = "친구 요청 수락/거절하기"
+        addAppointmentBtn.visibility = View.GONE
         setupEvents()
         setValues()
     }

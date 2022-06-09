@@ -2,6 +2,7 @@ package com.sim981.a2022appointmentmanager.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,11 +24,16 @@ class AddFriendsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_friends)
-        titleTxt.text = "친구 추가 요청하기"
+        titleTxt.text = "친구 추가 요청"
+        addAppointmentBtn.visibility = View.GONE
         setupEvents()
         setValues()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
     override fun setupEvents() {
         binding.searchBtn.setOnClickListener {
             val inputNick = binding.searchEdt.text.toString()

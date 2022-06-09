@@ -2,6 +2,7 @@ package com.sim981.a2022appointmentmanager.ui
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.naver.maps.geometry.LatLng
@@ -26,6 +27,7 @@ class EditMyPlaceActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_my_place)
         titleTxt.text = "장소 추가하기"
+        addAppointmentBtn.visibility = View.GONE
         setupEvents()
         setValues()
     }
@@ -38,7 +40,7 @@ class EditMyPlaceActivity : BaseActivity() {
         binding.placeSaveBtn.setOnClickListener {
             val inputName = binding.placeTitleEdt.text.toString()
             if (inputName.isBlank()) {
-                Toast.makeText(mContext, "약속명을 기입해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mContext, "장소명을 기입해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 

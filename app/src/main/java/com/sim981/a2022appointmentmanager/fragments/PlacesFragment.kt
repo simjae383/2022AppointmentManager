@@ -48,19 +48,12 @@ class PlacesFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        addBtn.visibility = View.VISIBLE
-        myLocationBtn.visibility = View.VISIBLE
 
         addBtn.setImageResource(R.drawable.baseline_add_black_24dp)
         myLocationBtn.setImageResource(R.drawable.baseline_my_location_black_24dp)
         getMyPlaceListFromServer()
     }
 
-    override fun onPause() {
-        super.onPause()
-        addBtn.visibility = View.GONE
-        myLocationBtn.visibility = View.GONE
-    }
     override fun setupEvents() {
         addBtn.setOnClickListener {
             Log.d("버튼", "editmyplace")
