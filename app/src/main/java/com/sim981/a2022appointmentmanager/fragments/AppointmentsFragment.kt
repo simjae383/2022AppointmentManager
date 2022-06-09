@@ -2,18 +2,31 @@ package com.sim981.a2022appointmentmanager.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sim981.a2022appointmentmanager.R
+import com.sim981.a2022appointmentmanager.adapters.AppointmentsRecyclerAdapter
 import com.sim981.a2022appointmentmanager.databinding.FragmentAppointmentsBinding
+import com.sim981.a2022appointmentmanager.models.AppointmentData
+import com.sim981.a2022appointmentmanager.models.BasicResponse
 import com.sim981.a2022appointmentmanager.ui.EditAppointmentActivity
 import com.sim981.a2022appointmentmanager.ui.MainActivity
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class AppointmentsFragment : BaseFragment() {
     lateinit var binding : FragmentAppointmentsBinding
+
+    lateinit var mAppointmentAdapter : AppointmentsRecyclerAdapter
+    var mAppointmentsList = ArrayList<AppointmentData>()
 
 lateinit var addBtn : ImageView
 
@@ -35,12 +48,11 @@ lateinit var addBtn : ImageView
 
     override fun onResume() {
         super.onResume()
-
         addBtn.setImageResource(R.drawable.baseline_add_black_24dp)
+        getAppointmentListFromServer()
     }
 
     override fun setupEvents() {
-
         addBtn.setOnClickListener {
             val myIntent = Intent(mContext, EditAppointmentActivity::class.java)
             startActivity(myIntent)
@@ -48,6 +60,36 @@ lateinit var addBtn : ImageView
     }
 
     override fun setValues() {
+        mAppointmentAdapter = AppointmentsRecyclerAdapter(mContext, mAppointmentsList)
+        binding.AppointmentRecyclerView.adapter = mAppointmentAdapter
+        binding.AppointmentRecyclerView.layoutManager = LinearLayoutManager(mContext)
+    }
 
+    fun getAppointmentListFromServer(){
+        apiList.getRequestMyAppointment().enqueue(object : Callback<BasicResponse>{
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                Log.d("확인", t.toString())
+            }
+
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+                if(response.isSuccessful){
+                    val br = response.body()!!
+
+                    mAppointmentsList.clear()
+                    mAppointmentsList.addAll(br.data.appointments)
+                    mAppointmentsList.addAll(br.data.invitedAppointments)
+
+                    Log.d("확인", mAppointmentsList.toString())
+                    mAppointmentAdapter.notifyDataSetChanged()
+                } else {
+                    val errorBodyStr = response.errorBody()!!.string()
+                    val jsonObj = JSONObject(errorBodyStr)
+                    val message = jsonObj.getString("message")
+
+                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 }

@@ -6,6 +6,10 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface APIList {
+    //    appointment
+    @GET("/appointment")
+    fun getRequestMyAppointment() : Call<BasicResponse>
+
     //    search
     @GET("/search/user")
     fun getRequestSearchUser(@Query("nickname") nickname: String) : Call<BasicResponse>

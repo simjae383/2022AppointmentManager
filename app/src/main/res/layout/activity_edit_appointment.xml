@@ -9,81 +9,157 @@
         android:padding="20dp"
         tools:context=".ui.EditAppointmentActivity">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="약속 제목"/>
-
-        <EditText
-            android:id="@+id/titleEdt"
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="제목 입력"
-            android:inputType="text"
-            android:imeOptions="actionNext"
-            android:maxLines="1"/>
+            android:layout_height="match_parent"
+            android:scrollbarSize="0dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="약속 일시"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="약속 제목"/>
 
-            <TextView
-                android:id="@+id/dateTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="15dp"
-                android:textSize="16sp"
-                android:background="@drawable/lightgray_rectangle_r6"
-                android:text="일자 선택"/>
+                <EditText
+                    android:id="@+id/titleEdt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="제목 입력"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"/>
 
-            <TextView
-                android:id="@+id/timeTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="15dp"
-                android:textSize="16sp"
-                android:background="@drawable/lightgray_rectangle_r6"
-                android:text="시간 선택"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="약속 일시"/>
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="약속 장소"/>
+                    <TextView
+                        android:id="@+id/dateTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/lightgray_rectacgle_r6"
+                        android:gravity="center"
+                        android:padding="15dp"
+                        android:textSize="16sp"
+                        android:text="일자 선택"/>
 
-        <EditText
-            android:id="@+id/placeNameTxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="약속 장소를 입력하세요."
-            android:inputType="text"
-            android:imeOptions="actionDone"
-            android:maxLines="1"/>
+                    <TextView
+                        android:id="@+id/timeTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/lightgray_rectacgle_r6"
+                        android:gravity="center"
+                        android:padding="15dp"
+                        android:textSize="16sp"
+                        android:text="시간 선택"/>
 
-        <com.naver.maps.map.MapView
-            android:id="@+id/mapView"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginTop="5dp"/>
+                </LinearLayout>
 
-        <Button
-            android:id="@+id/addBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="약속 등록하기"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="일자, 시간 선택을 눌러서 약속 일시를 선택하세요."/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="출발지 설정"/>
+
+                <Spinner
+                    android:id="@+id/startPlaceSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="참석할 친구들"
+                    android:layout_marginTop="15dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/invitedFriendSpinner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/invitedFriendBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="참여 추가"/>
+
+                </LinearLayout>
+
+                <com.nex3z.flowlayout.FlowLayout
+                    android:id="@+id/friendListLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="약속 장소"/>
+
+                <EditText
+                    android:id="@+id/placeNameEdt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="약속 장소를 입력하세요."
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp">
+
+                    <com.naver.maps.map.MapView
+                        android:id="@+id/mapView"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:id="@+id/scrollHelpTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                </FrameLayout>
+
+
+                <Button
+                    android:id="@+id/addBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="약속 등록하기"/>
+
+            </LinearLayout>
+
+        </ScrollView>
     </LinearLayout>
 </layout>
