@@ -22,10 +22,13 @@ class AppointmentDetailActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_appointment_detail)
         appointmentDetail = intent.getSerializableExtra("AppointmentData") as AppointmentData
-        titleTxt.text = appointmentDetail.title
         addAppointmentBtn.visibility = View.GONE
         setupEvents()
         setValues()
+    }
+    override fun onResume() {
+        super.onResume()
+        setDetailValues()
     }
 
     override fun setupEvents() {
@@ -35,9 +38,19 @@ class AppointmentDetailActivity : BaseActivity() {
                 .putExtra("myPlaceLongitude", appointmentDetail.longitude).putExtra("myPlaceIsDeletableOk", false)
             startActivity(myIntent)
         }
+        binding.detailEditBtn.setOnClickListener {
+            val myIntent = Intent(mContext, EditAppointmentActivity::class.java)
+            myIntent.putExtra("currentAppointmentData", appointmentDetail).putExtra("isEditData", true)
+            startActivity(myIntent)
+        }
     }
 
     override fun setValues() {
+
+    }
+
+    fun setDetailValues(){
+        titleTxt.text = appointmentDetail.title
         val sdf = SimpleDateFormat("M/d a h:mm")
         binding.detailDateTimeTxt.text = "${sdf.format(appointmentDetail.datetime)}"
         binding.detailTargetPlaceTxt.text = appointmentDetail.place

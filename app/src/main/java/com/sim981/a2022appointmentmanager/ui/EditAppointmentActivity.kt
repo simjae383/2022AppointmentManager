@@ -18,6 +18,7 @@ import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.adapters.MyFriendsSpinnerAdapter
 import com.sim981.a2022appointmentmanager.adapters.StartPlaceSpinnerAdapter
 import com.sim981.a2022appointmentmanager.databinding.ActivityEditAppointmentBinding
+import com.sim981.a2022appointmentmanager.models.AppointmentData
 import com.sim981.a2022appointmentmanager.models.BasicResponse
 import com.sim981.a2022appointmentmanager.models.PlaceData
 import com.sim981.a2022appointmentmanager.models.UserData
@@ -51,10 +52,16 @@ class EditAppointmentActivity : BaseActivity() {
     var mSelectedPlaceMarker = Marker()
     var mSelectedLatLng : LatLng? = null
 
+//    데이터 추가/수정 여부 확인
+    var isEditOk = false
+    lateinit var mEditData : AppointmentData
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_appointment)
         titleTxt.text = "약속 등록하기"
+        mEditData = intent.getSerializableExtra("currentAppointmentData") as AppointmentData
+        isEditOk = intent.getBooleanExtra("isEditData", false)
         addAppointmentBtn.visibility = View.GONE
         setupEvents()
         setValues()
@@ -203,25 +210,30 @@ class EditAppointmentActivity : BaseActivity() {
 //            서버에 내 시간정보(Date)를 올릴때도, UTC로 변환하여 통신
             sdf.timeZone = TimeZone.getTimeZone("UTC")
 
-            apiList.postRequestAddAppointment(inputTitle, sdf.format(mSelectedDateTime.time),
-            mSelectedStartPlace.name, mSelectedStartPlace.latitude, mSelectedStartPlace.longitude,
-            inputPlaceName, mSelectedLatLng!!.latitude, mSelectedLatLng!!.longitude, friendListStr)
-                .enqueue(object :Callback<BasicResponse>{
-                    override fun onResponse(
-                        call: Call<BasicResponse>,
-                        response: Response<BasicResponse>
-                    ) {
-                        if(response.isSuccessful) {
-                            Toast.makeText(mContext, "약속이 등록되었습니다.", Toast.LENGTH_SHORT).show()
-                            finish()
+            if(!isEditOk){
+                apiList.postRequestAddAppointment(inputTitle, sdf.format(mSelectedDateTime.time),
+                    mSelectedStartPlace.name, mSelectedStartPlace.latitude, mSelectedStartPlace.longitude,
+                    inputPlaceName, mSelectedLatLng!!.latitude, mSelectedLatLng!!.longitude, friendListStr)
+                    .enqueue(object :Callback<BasicResponse>{
+                        override fun onResponse(
+                            call: Call<BasicResponse>,
+                            response: Response<BasicResponse>
+                        ) {
+                            if(response.isSuccessful) {
+                                Toast.makeText(mContext, "약속이 등록되었습니다.", Toast.LENGTH_SHORT).show()
+                                finish()
+                            }
                         }
-                    }
 
-                    override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+                        override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
-                    }
+                        }
 
-                })
+                    })
+            } else {
+
+            }
+
         }
 
 //        지도 영역에 손을 대면 스크롤뷰 정지 - 텍스트뷰를 겹쳐두고 텍스트뷰 터치시 정지
@@ -237,6 +249,16 @@ class EditAppointmentActivity : BaseActivity() {
 
         mFriendsSpinnerAdapter = MyFriendsSpinnerAdapter(mContext, R.layout.list_user_item, mFriendsList)
         binding.invitedFriendSpinner.adapter = mFriendsSpinnerAdapter
+
+
+//        수정인 경우 기존 파라미터 적용
+        if(isEditOk){
+            binding.titleEdt.setText(mEditData.title)
+            val sdf = SimpleDateFormat("yyyy. M. d")
+            binding.dateTxt.text = sdf.format(mEditData.datetime.time)
+            val sdf2 = SimpleDateFormat("a h:mm")
+            binding.timeTxt.text = sdf2.format(mEditData.datetime.time)
+        }
 
         getMyPlaceListFromServer()
         getMyFriendsListFromServer()
