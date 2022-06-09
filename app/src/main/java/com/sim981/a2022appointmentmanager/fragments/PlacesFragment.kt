@@ -10,7 +10,7 @@ import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sim981.a2022appointmentmanager.R
-import com.sim981.a2022appointmentmanager.adapters.PlaceRecyclerAdapter
+import com.sim981.a2022appointmentmanager.adapters.PlacesRecyclerAdapter
 import com.sim981.a2022appointmentmanager.databinding.FragmentPlacesBinding
 import com.sim981.a2022appointmentmanager.models.BasicResponse
 import com.sim981.a2022appointmentmanager.models.PlaceData
@@ -27,7 +27,7 @@ class PlacesFragment : BaseFragment() {
     lateinit var addBtn : ImageView
     lateinit var myLocationBtn : ImageView
 
-    lateinit var mPlaceRecyclerAdapter : PlaceRecyclerAdapter
+    lateinit var mPlacesRecyclerAdapter : PlacesRecyclerAdapter
     var mPlaceList = ArrayList<PlaceData>()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,8 +68,8 @@ class PlacesFragment : BaseFragment() {
     }
 
     override fun setValues() {
-        mPlaceRecyclerAdapter = PlaceRecyclerAdapter(mContext, mPlaceList)
-        binding.myPlacesRecyclerView.adapter = mPlaceRecyclerAdapter
+        mPlacesRecyclerAdapter = PlacesRecyclerAdapter(mContext, mPlaceList)
+        binding.myPlacesRecyclerView.adapter = mPlacesRecyclerAdapter
         binding.myPlacesRecyclerView.layoutManager = LinearLayoutManager(mContext)
     }
 
@@ -86,7 +86,7 @@ class PlacesFragment : BaseFragment() {
                     mPlaceList.clear()
                     mPlaceList.addAll(br.data.places)
 
-                    mPlaceRecyclerAdapter.notifyDataSetChanged()
+                    mPlacesRecyclerAdapter.notifyDataSetChanged()
                     Log.d("장소", mPlaceList.toString())
                 }
             }

@@ -8,13 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
 import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.api.APIList
 import com.sim981.a2022appointmentmanager.api.ServerAPI
-import com.sim981.a2022appointmentmanager.dialogs.CustomAlertDialog
-import com.sim981.a2022appointmentmanager.fragments.MyFriendsFragment
 import com.sim981.a2022appointmentmanager.fragments.PlacesFragment
 import com.sim981.a2022appointmentmanager.models.BasicResponse
 import com.sim981.a2022appointmentmanager.models.PlaceData
@@ -25,10 +22,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PlaceRecyclerAdapter(
+class PlacesRecyclerAdapter(
     val mContext : Context,
     val mList : List<PlaceData>
-) : RecyclerView.Adapter<PlaceRecyclerAdapter.ItemViewHolder>(){
+) : RecyclerView.Adapter<PlacesRecyclerAdapter.ItemViewHolder>(){
     inner class ItemViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val placeNameTxt = itemView.findViewById<TextView>(R.id.placeNameTxt)
         val isPrimaryTxt = itemView.findViewById<TextView>(R.id.placeIsPrimaryTxt)
@@ -52,7 +49,7 @@ class PlaceRecyclerAdapter(
             }            
             
             itemView.setOnLongClickListener {
-                apiList.patchRequdstDefaultPlace(item.id).enqueue(object : Callback<BasicResponse>{
+                apiList.patchRequestDefaultPlace(item.id).enqueue(object : Callback<BasicResponse>{
                     override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                     }

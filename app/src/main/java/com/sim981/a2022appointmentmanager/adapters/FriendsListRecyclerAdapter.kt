@@ -114,6 +114,12 @@ class FriendsListRecyclerAdapter(
                                 "${item.nickName}님에게 친구요청을 보냈습니다.",
                                 Toast.LENGTH_SHORT
                             ).show()
+                        } else {
+                            val errorBodyStr = response.errorBody()!!.string()
+                            val jsonObj = JSONObject(errorBodyStr)
+                            val message = jsonObj.getString("message")
+
+                            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                         }
                     }
                 })
@@ -123,6 +129,7 @@ class FriendsListRecyclerAdapter(
                 if (type != "my") {
                     return@setOnLongClickListener true
                 }
+                var resultMessage = ""
                 val alert = CustomAlertDialog(mContext)
                 alert.myDialog()
 
@@ -133,7 +140,6 @@ class FriendsListRecyclerAdapter(
                     apiList.deleteRequestDeleteFriend(item.id)
                         .enqueue(object : Callback<BasicResponse> {
                             override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
-
                             }
 
                             override fun onResponse(
@@ -142,7 +148,7 @@ class FriendsListRecyclerAdapter(
                             ) {
                                 if (response.isSuccessful) {
                                     val br = response.body()!!
-                                    Toast.makeText(mContext, br.message, Toast.LENGTH_SHORT).show()
+                                    resultMessage = br.message
                                     ((mContext as MainActivity)
                                         .supportFragmentManager
                                         .findFragmentByTag("f1") as MyFriendsFragment)
@@ -150,10 +156,18 @@ class FriendsListRecyclerAdapter(
                                 } else {
                                     val errorBodyStr = response.errorBody()!!.string()
                                     val jsonObj = JSONObject(errorBodyStr)
-                                    val message = jsonObj.getString("message")
-
-                                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                                    resultMessage = jsonObj.getString("message")
                                 }
+                                val alert2 = CustomAlertDialog(mContext)
+
+                                alert2.myDialog()
+                                alert2.binding.dialogTitleTxt.visibility = View.GONE
+                                alert2.binding.dialogBodyTxt.text = resultMessage
+                                alert2.binding.dialogContentEdt.visibility = View.GONE
+                                alert2.binding.dialogPositiveBtn.setOnClickListener {
+                                    alert2.dialog.dismiss()
+                                }
+                                alert2.binding.dialogNegativeBtn.visibility = View.GONE
                             }
                         })
                     alert.dialog.dismiss()
