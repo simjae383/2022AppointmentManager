@@ -1,9 +1,10 @@
 package com.sim981.a2022appointmentmanager.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 import java.util.*
 
-class AppointmentData(
+data class AppointmentData(
     val id : Int,
     val title : String,
     val datetime : Date,
@@ -19,5 +20,5 @@ class AppointmentData(
     val user : UserData,
     @SerializedName("invited_friends")
     val invitedFriends : List<UserData>
-) {
+) : Serializable {
 }

@@ -1,12 +1,12 @@
 package com.sim981.a2022appointmentmanager.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sim981.a2022appointmentmanager.R
@@ -16,6 +16,7 @@ import com.sim981.a2022appointmentmanager.dialogs.CustomAlertDialog
 import com.sim981.a2022appointmentmanager.fragments.AppointmentsFragment
 import com.sim981.a2022appointmentmanager.models.AppointmentData
 import com.sim981.a2022appointmentmanager.models.BasicResponse
+import com.sim981.a2022appointmentmanager.ui.AppointmentDetailActivity
 import com.sim981.a2022appointmentmanager.ui.MainActivity
 import org.json.JSONObject
 import retrofit2.Call
@@ -27,14 +28,14 @@ class AppointmentsRecyclerAdapter(
     val mContext : Context,
     val mList : List<AppointmentData>
 ) : RecyclerView.Adapter<AppointmentsRecyclerAdapter.ItemViewHolder>(){
-    inner class ItemViewHolder(view : View) : RecyclerView.ViewHolder(view){
+    inner class ItemViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 
-        val titleTxt = view.findViewById<TextView>(R.id.appoinmentTitleTxt)
-        val placeNameTxt = view.findViewById<TextView>(R.id.placeNameTxt)
-        val memberCountTxt = view.findViewById<TextView>(R.id.memberCountTxt)
-        val timeTxt = view.findViewById<TextView>(R.id.timeTxt)
-        val invitedFriendImg = view.findViewById<ImageView>(R.id.invitedFriendImg)
-        val invitedFriendTxt = view.findViewById<TextView>(R.id.invitedFriendTxt)
+        val titleTxt = itemView.findViewById<TextView>(R.id.appoinmentTitleTxt)
+        val placeNameTxt = itemView.findViewById<TextView>(R.id.placeNameTxt)
+        val memberCountTxt = itemView.findViewById<TextView>(R.id.memberCountTxt)
+        val timeTxt = itemView.findViewById<TextView>(R.id.timeTxt)
+        val invitedFriendImg = itemView.findViewById<ImageView>(R.id.invitedFriendImg)
+        val invitedFriendTxt = itemView.findViewById<TextView>(R.id.invitedFriendTxt)
 
         fun bind(item : AppointmentData){
             val apiList = ServerAPI.getRetrofit(mContext).create(APIList::class.java)
@@ -48,6 +49,11 @@ class AppointmentsRecyclerAdapter(
             placeNameTxt.text = "약속 장소 : ${item.place}"
             memberCountTxt.text = "참여 인원 : ${item.invitedFriends.size}명"
 
+            itemView.setOnClickListener {
+                val myIntent = Intent(mContext, AppointmentDetailActivity::class.java)
+                myIntent.putExtra("AppointmentData", item)
+                mContext.startActivity(myIntent)
+            }
             itemView.setOnLongClickListener {
                 var resultMessage = ""
                 val alert = CustomAlertDialog(mContext)

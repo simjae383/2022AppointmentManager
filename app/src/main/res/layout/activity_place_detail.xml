@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/red"
             android:layout_gravity="bottom"
+            android:visibility="gone"
             android:text="장소 삭제하기"/>
     </LinearLayout>
 </layout>

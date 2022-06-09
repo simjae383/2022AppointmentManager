@@ -1,6 +1,7 @@
 package com.sim981.a2022appointmentmanager.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class UserData(
     val id : Int,
@@ -12,5 +13,5 @@ data class UserData(
     val profileImg : String,
     @SerializedName("ready_minute")
     val readyMinute : String,
-) {
+) : Serializable {
 }

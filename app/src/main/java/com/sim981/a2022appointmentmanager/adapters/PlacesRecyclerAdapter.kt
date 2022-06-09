@@ -44,7 +44,9 @@ class PlacesRecyclerAdapter(
 
             itemView.setOnClickListener { 
                 val myIntent = Intent(mContext, PlaceDetailActivity::class.java)
-                myIntent.putExtra("myPlaceData", item)
+                myIntent.putExtra("myPlaceId", item.id).putExtra("myPlaceName", item.name)
+                    .putExtra("myPlaceLatitude", item.latitude).putExtra("myPlaceLongitude", item.longitude)
+                    .putExtra("myPlaceIsDeletableOk", true)
                 mContext.startActivity(myIntent)
             }            
             

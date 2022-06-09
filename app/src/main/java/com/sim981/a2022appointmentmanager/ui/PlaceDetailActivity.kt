@@ -1,6 +1,5 @@
 package com.sim981.a2022appointmentmanager.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,7 +12,6 @@ import com.naver.maps.map.overlay.Marker
 import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.databinding.ActivityPlaceDetailBinding
 import com.sim981.a2022appointmentmanager.dialogs.CustomAlertDialog
-import com.sim981.a2022appointmentmanager.fragments.PlacesFragment
 import com.sim981.a2022appointmentmanager.models.BasicResponse
 import com.sim981.a2022appointmentmanager.models.PlaceData
 import org.json.JSONObject
@@ -24,19 +22,33 @@ import retrofit2.Response
 class PlaceDetailActivity : BaseActivity() {
     lateinit var binding : ActivityPlaceDetailBinding
 
-    lateinit var placeDetail : PlaceData
+    var detailId = 0
+    var detailName = ""
+    var detailLatitude = 0.0
+    var detailLongitude = 0.0
+    var isDeletableOk = false
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_place_detail)
-        placeDetail = intent.getSerializableExtra("myPlaceData") as PlaceData
-        titleTxt.text = placeDetail.name
+        detailId = intent.getIntExtra("myPlaceId", 0)
+        detailName = intent.getStringExtra("myPlaceName").toString()
+        detailLatitude = intent.getDoubleExtra("myPlaceLatitude", 0.0)
+        detailLongitude = intent.getDoubleExtra("myPlaceLongitude", 0.0)
+        isDeletableOk = intent.getBooleanExtra("myPlaceIsDeletableOk", false)
+        titleTxt.text = detailName
+        addAppointmentBtn.visibility = View.GONE
         setupEvents()
         setValues()
     }
 
     override fun setupEvents() {
-        binding.deletePlaceBtn.setOnClickListener {
-            deleteThisPlace()
+        if(isDeletableOk){
+            binding.deletePlaceBtn.visibility = View.VISIBLE
+            binding.deletePlaceBtn.setOnClickListener {
+                deleteThisPlace()
+            }
         }
     }
 
@@ -48,7 +60,7 @@ class PlaceDetailActivity : BaseActivity() {
             }
         mapFragment.getMapAsync {
             val naverMap = it
-            val coord = LatLng(placeDetail.latitude, placeDetail.longitude)
+            val coord = LatLng(detailLatitude, detailLongitude)
             val cameraUpdate = CameraUpdate.scrollTo(coord)
             naverMap.moveCamera(cameraUpdate)
 
@@ -66,7 +78,7 @@ class PlaceDetailActivity : BaseActivity() {
         alert.binding.dialogBodyTxt.text = "정말 장소 목록에서 삭제하시겠습니까?"
         alert.binding.dialogContentEdt.visibility = View.GONE
         alert.binding.dialogPositiveBtn.setOnClickListener {
-            apiList.deleteRequestDeletePlace(placeDetail.id).enqueue(object : Callback<BasicResponse> {
+            apiList.deleteRequestDeletePlace(detailId).enqueue(object : Callback<BasicResponse> {
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                 }
