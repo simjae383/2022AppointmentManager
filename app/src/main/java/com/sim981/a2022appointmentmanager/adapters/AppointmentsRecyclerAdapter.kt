@@ -51,7 +51,7 @@ class AppointmentsRecyclerAdapter(
 
             itemView.setOnClickListener {
                 val myIntent = Intent(mContext, AppointmentDetailActivity::class.java)
-                myIntent.putExtra("AppointmentData", item)
+                myIntent.putExtra("appointmentPackage", item)
                 mContext.startActivity(myIntent)
             }
             itemView.setOnLongClickListener {

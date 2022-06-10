@@ -80,7 +80,6 @@ lateinit var addBtn : ImageView
                     mAppointmentsList.addAll(br.data.appointments)
                     mAppointmentsList.addAll(br.data.invitedAppointments)
 
-                    Log.d("확인", mAppointmentsList.toString())
                     mAppointmentAdapter.notifyDataSetChanged()
                 } else {
                     val errorBodyStr = response.errorBody()!!.string()

@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
+import com.naver.maps.map.NaverMap
 import com.naver.maps.map.overlay.Marker
 import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.databinding.ActivityPlaceDetailBinding
@@ -28,6 +29,7 @@ class PlaceDetailActivity : BaseActivity() {
     var detailLongitude = 0.0
     var isDeletableOk = false
 
+    var mNaverMap: NaverMap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,14 +61,14 @@ class PlaceDetailActivity : BaseActivity() {
                 fm.beginTransaction().add(R.id.detailMap, it).commit()
             }
         mapFragment.getMapAsync {
-            val naverMap = it
+            mNaverMap = it
             val coord = LatLng(detailLatitude, detailLongitude)
             val cameraUpdate = CameraUpdate.scrollTo(coord)
-            naverMap.moveCamera(cameraUpdate)
+            mNaverMap!!.moveCamera(cameraUpdate)
 
             val marker = Marker()
             marker.position = coord
-            marker.map = naverMap
+            marker.map = mNaverMap
         }
     }
 
