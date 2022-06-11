@@ -9,88 +9,75 @@
         android:padding="20dp"
         tools:context=".ui.AppointmentDetailActivity">
 
-        <ScrollView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="지도"
+            android:textSize="16sp" />
+
+        <fragment
+            android:id="@+id/detailAppointmentMap"
+            android:name="com.naver.maps.map.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="약속 시간"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/detailDateTimeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="시간 표시"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="도착 장소"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/detailTargetPlaceTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/lightgray_rectangle_r6"
+            android:padding="8dp"
+            android:text="도착 장소 표시"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="참여 친구 목록"
+            android:textSize="16sp" />
+
+        <com.nex3z.flowlayout.FlowLayout
+            android:id="@+id/detailfriendsListLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="지도"
-                    android:textSize="16sp" />
-
-                <fragment
-                    android:id="@+id/detailAppointmentMap"
-                    android:name="com.naver.maps.map.MapFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:layout_marginTop="10dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="약속 시간"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/detailDateTimeTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="시간 표시"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="도착 장소"
-                    android:textSize="16sp" />
-
-
-                <TextView
-                    android:id="@+id/detailTargetPlaceTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/lightgray_rectangle_r6"
-                    android:padding="8dp"
-                    android:text="도착 장소 표시"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="참여 친구 목록"
-                    android:textSize="16sp" />
-
-
-                <com.nex3z.flowlayout.FlowLayout
-                    android:id="@+id/detailfriendsListLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone" />
-
-
-            </LinearLayout>
-
-        </ScrollView>
-
+            android:layout_marginTop="10dp"
+            android:visibility="gone" />
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
         <Button
             android:id="@+id/detailEditBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:enabled="false"
             android:text="약속 수정하기"/>
 

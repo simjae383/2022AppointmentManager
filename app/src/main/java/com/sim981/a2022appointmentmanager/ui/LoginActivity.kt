@@ -3,6 +3,7 @@ package com.sim981.a2022appointmentmanager.ui
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.kakao.sdk.auth.model.OAuthToken
@@ -27,6 +28,7 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+        addAppointmentBtn.visibility = View.GONE
         setupEvents()
         setValues()
     }
