@@ -16,7 +16,7 @@
             android:name="com.naver.maps.map.MapFragment"/>
 
         <TextView
-            android:id="@+id/placeAddress"
+            android:id="@+id/placeAddressTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="장소의 주소"

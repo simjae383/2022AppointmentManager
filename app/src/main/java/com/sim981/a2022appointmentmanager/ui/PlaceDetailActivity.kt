@@ -11,14 +11,16 @@ import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.overlay.Marker
 import com.sim981.a2022appointmentmanager.R
+import com.sim981.a2022appointmentmanager.api.APIList
+import com.sim981.a2022appointmentmanager.api.NaverAPIList
+import com.sim981.a2022appointmentmanager.api.NaverGeocodingAPI
 import com.sim981.a2022appointmentmanager.databinding.ActivityPlaceDetailBinding
 import com.sim981.a2022appointmentmanager.dialogs.CustomAlertDialog
 import com.sim981.a2022appointmentmanager.models.BasicResponse
 import com.sim981.a2022appointmentmanager.models.PlaceData
+import com.sim981.a2022appointmentmanager.navermodels.NaverBasicResponse
 import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import retrofit2.*
 
 class PlaceDetailActivity : BaseActivity() {
     lateinit var binding : ActivityPlaceDetailBinding
@@ -31,6 +33,10 @@ class PlaceDetailActivity : BaseActivity() {
 
     var mNaverMap: NaverMap? = null
 
+    lateinit var naverRetrofit: Retrofit
+    lateinit var naverApiList : NaverAPIList
+
+    var thisCoord : LatLng? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_place_detail)
@@ -41,6 +47,11 @@ class PlaceDetailActivity : BaseActivity() {
         isDeletableOk = intent.getBooleanExtra("myPlaceIsDeletableOk", false)
         titleTxt.text = detailName
         addAppointmentBtn.visibility = View.GONE
+        naverRetrofit = NaverGeocodingAPI.getRetrofit(mContext)
+        naverApiList = retrofit.create(NaverAPIList::class.java)
+        thisCoord = LatLng(detailLongitude, detailLatitude)
+
+
         setupEvents()
         setValues()
     }
@@ -52,6 +63,7 @@ class PlaceDetailActivity : BaseActivity() {
                 deleteThisPlace()
             }
         }
+
     }
 
     override fun setValues() {
@@ -70,6 +82,7 @@ class PlaceDetailActivity : BaseActivity() {
             marker.position = coord
             marker.map = mNaverMap
         }
+        getCoordToAddress()
     }
 
     fun deleteThisPlace(){
@@ -107,5 +120,29 @@ class PlaceDetailActivity : BaseActivity() {
         alert.binding.dialogNegativeBtn.setOnClickListener {
             alert.dialog.dismiss()
         }
+    }
+
+    fun getCoordToAddress(){
+        naverApiList.getRequestNaverAddress(thisCoord!!, "json").enqueue(object : Callback<NaverBasicResponse>{
+            override fun onFailure(call: Call<NaverBasicResponse>, t: Throwable) {
+                Log.d("주소", "실패1")
+            }
+
+            override fun onResponse(
+                call: Call<NaverBasicResponse>,
+                response: Response<NaverBasicResponse>
+            ) {
+                if(response.isSuccessful){
+                    val br = response.body()!!
+
+                    Log.d("주소", br.toString())
+                } else {
+                    val errorBodyStr = response.errorBody()!!.string()
+                    val jsonObj = JSONObject(errorBodyStr)
+                    val message = jsonObj.getString("message")
+                    Log.d("주소1", message)
+                }
+            }
+        })
     }
 }
