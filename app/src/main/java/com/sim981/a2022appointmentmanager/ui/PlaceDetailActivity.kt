@@ -11,14 +11,13 @@ import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.overlay.Marker
 import com.sim981.a2022appointmentmanager.R
-import com.sim981.a2022appointmentmanager.api.APIList
 import com.sim981.a2022appointmentmanager.api.NaverAPIList
-import com.sim981.a2022appointmentmanager.api.NaverGeocodingAPI
+import com.sim981.a2022appointmentmanager.api.NaverMapServerAPI
 import com.sim981.a2022appointmentmanager.databinding.ActivityPlaceDetailBinding
 import com.sim981.a2022appointmentmanager.dialogs.CustomAlertDialog
 import com.sim981.a2022appointmentmanager.models.BasicResponse
-import com.sim981.a2022appointmentmanager.models.PlaceData
-import com.sim981.a2022appointmentmanager.navermodels.NaverBasicResponse
+import com.sim981.a2022appointmentmanager.navermodels.GeoResponse
+import com.sim981.a2022appointmentmanager.navermodels.ResultData
 import org.json.JSONObject
 import retrofit2.*
 
@@ -36,7 +35,6 @@ class PlaceDetailActivity : BaseActivity() {
     lateinit var naverRetrofit: Retrofit
     lateinit var naverApiList : NaverAPIList
 
-    var thisCoord : LatLng? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_place_detail)
@@ -47,9 +45,8 @@ class PlaceDetailActivity : BaseActivity() {
         isDeletableOk = intent.getBooleanExtra("myPlaceIsDeletableOk", false)
         titleTxt.text = detailName
         addAppointmentBtn.visibility = View.GONE
-        naverRetrofit = NaverGeocodingAPI.getRetrofit(mContext)
+        naverRetrofit = NaverMapServerAPI.getRetrofit()
         naverApiList = retrofit.create(NaverAPIList::class.java)
-        thisCoord = LatLng(detailLongitude, detailLatitude)
 
 
         setupEvents()
@@ -123,26 +120,40 @@ class PlaceDetailActivity : BaseActivity() {
     }
 
     fun getCoordToAddress(){
-        naverApiList.getRequestNaverAddress(thisCoord!!, "json").enqueue(object : Callback<NaverBasicResponse>{
-            override fun onFailure(call: Call<NaverBasicResponse>, t: Throwable) {
-                Log.d("주소", "실패1")
+        naverApiList.getRequestMapAddress("${detailLongitude}, ${detailLatitude}",
+            "json", "legalcode,admcode,addr,roadaddr").enqueue(object : Callback<GeoResponse>{
+            override fun onFailure(call: Call<GeoResponse>, t: Throwable) {
+
             }
 
-            override fun onResponse(
-                call: Call<NaverBasicResponse>,
-                response: Response<NaverBasicResponse>
-            ) {
-                if(response.isSuccessful){
-                    val br = response.body()!!
+            override fun onResponse(call: Call<GeoResponse>, response: Response<GeoResponse>) {
+                if (response.isSuccessful) {
+                    Log.d("주소목록", response.body()!!.results.toString())
 
-                    Log.d("주소", br.toString())
+                    var roadaddr : ResultData? = null
+
+                    val results = response.body()!!.results
+
+                    for (result in results) {
+                        if (result.name == "roadaddr") {
+                            roadaddr = result
+                        }
+                    }
+                    val address = if (roadaddr!!.land.number2 == "") {
+                        "${roadaddr!!.region.area1.name} ${roadaddr!!.region.area2.name} ${roadaddr!!.land.name} ${roadaddr.land.number1}"
+                    } else {
+                        "${roadaddr!!.region.area1.name} ${roadaddr!!.region.area2.name} ${roadaddr!!.land.name} ${roadaddr.land.number1}-${roadaddr.land.number2}"
+                    }
+
+                    binding.placeAddressTxt.text = address
                 } else {
                     val errorBodyStr = response.errorBody()!!.string()
                     val jsonObj = JSONObject(errorBodyStr)
                     val message = jsonObj.getString("message")
-                    Log.d("주소1", message)
+
+                    Log.d("오류", message)
                 }
             }
-        })
+            })
     }
 }

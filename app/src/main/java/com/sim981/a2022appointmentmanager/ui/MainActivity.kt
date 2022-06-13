@@ -83,5 +83,9 @@ class MainActivity : BaseActivity() {
             }
             return@setOnItemSelectedListener true
         }
+
+        var badge = binding.mainBottomNav.getOrCreateBadge(0)
+        badge.isVisible = true
+        badge.number = 99
     }
 }

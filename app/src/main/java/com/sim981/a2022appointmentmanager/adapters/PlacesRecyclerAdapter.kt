@@ -37,6 +37,8 @@ class PlacesRecyclerAdapter(
             placeNameTxt.text = item.name
             if(!item.isPrimary) {
                 isPrimaryTxt.visibility = View.GONE
+            } else {
+                isPrimaryTxt.visibility = View.VISIBLE
             }
             viewPlaceMapImg.setOnClickListener {
 
