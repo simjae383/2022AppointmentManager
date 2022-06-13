@@ -33,6 +33,15 @@
             android:layout_marginStart="10dp"/>
 
         <ImageView
+            android:id="@+id/editAppointmentBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/baseline_edit_black_24dp"
+            android:layout_gravity="center|start"
+            android:visibility="visible"
+            android:layout_marginStart="10dp"/>
+
+        <ImageView
             android:id="@+id/addFriendBtn"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -64,6 +73,15 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/baseline_zoom_out_map_black_24dp"
+            android:layout_gravity="center|end"
+            android:visibility="visible"
+            android:layout_marginEnd="10dp"/>
+
+        <ImageView
+            android:id="@+id/deletePlaceBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/baseline_close_black_24dp"
             android:layout_gravity="center|end"
             android:visibility="visible"
             android:layout_marginEnd="10dp"/>

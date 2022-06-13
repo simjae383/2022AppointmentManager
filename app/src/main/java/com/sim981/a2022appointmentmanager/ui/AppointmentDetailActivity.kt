@@ -63,9 +63,7 @@ class AppointmentDetailActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         zoomOutMapBtn.visibility = View.VISIBLE
-        Log.d("확인용",isDetailOk.toString())
         if(!isDetailOk){
-            Log.d("확인용","OK")
             getRequestAppointmentDetail()
         }
     }
@@ -84,16 +82,11 @@ class AppointmentDetailActivity : BaseActivity() {
             startActivity(myIntent)
         }
 //        약속 수정 버튼
-        binding.detailEditBtn.setOnClickListener {
+        editAppointmentBtn.setOnClickListener {
             val myIntent = Intent(mContext, EditAppointmentActivity::class.java)
             myIntent.putExtra("currentAppointmentData", apponintmentDetail)
                 .putExtra("isEditData", true)
             startActivity(myIntent)
-        }
-        //        지도 영역에 손을 대면 스크롤뷰 정지 - 텍스트뷰를 겹쳐두고 텍스트뷰 터치시 정지
-        binding.scrollHelpTxt.setOnTouchListener { view, motionEvent ->
-            binding.detailScrollView.requestDisallowInterceptTouchEvent(true)
-            return@setOnTouchListener false
         }
     }
 
@@ -143,7 +136,9 @@ class AppointmentDetailActivity : BaseActivity() {
         binding.detailDateTimeTxt.text = "${sdf.format(receivedApponintment.datetime)}"
         binding.detailLocationTxt.text = "${receivedApponintment.startPlace} -> ${receivedApponintment.place}"
         if (receivedApponintment.user.nickName == GlobalData.loginUser!!.nickName) {
-            binding.detailEditBtn.isEnabled = true
+            editAppointmentBtn.visibility = View.VISIBLE
+        } else {
+            editAppointmentBtn.visibility = View.GONE
         }
         startPosition =
             LatLng(receivedApponintment.startLatitude, receivedApponintment.startLongitude)

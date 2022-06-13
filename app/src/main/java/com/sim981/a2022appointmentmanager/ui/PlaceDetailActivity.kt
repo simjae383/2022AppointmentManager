@@ -50,6 +50,7 @@ class PlaceDetailActivity : BaseActivity() {
         detailTargetLatitude = intent.getDoubleExtra("myTargetLatitude", 0.0)
         detailTargetLongitude = intent.getDoubleExtra("myTargetLongitude", 0.0)
         isAppointmentOk = intent.getBooleanExtra("IsThisAppointmentOk", false)
+        Log.d("확인", isAppointmentOk.toString())
         titleTxt.text = detailName
         addAppointmentBtn.visibility = View.GONE
         naverRetrofit = NaverMapServerAPI.getRetrofit()
@@ -59,9 +60,9 @@ class PlaceDetailActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
-        if(isAppointmentOk){
-            binding.deletePlaceBtn.visibility = View.VISIBLE
-            binding.deletePlaceBtn.setOnClickListener {
+        if(!isAppointmentOk){
+            deletePlaceBtn.visibility = View.VISIBLE
+            deletePlaceBtn.setOnClickListener {
                 deleteThisPlace()
             }
         }
