@@ -50,7 +50,6 @@ class PlaceDetailActivity : BaseActivity() {
         detailTargetLatitude = intent.getDoubleExtra("myTargetLatitude", 0.0)
         detailTargetLongitude = intent.getDoubleExtra("myTargetLongitude", 0.0)
         isAppointmentOk = intent.getBooleanExtra("IsThisAppointmentOk", false)
-        titleTxt.text = detailName
         addAppointmentBtn.visibility = View.GONE
         naverRetrofit = NaverMapServerAPI.getRetrofit()
         naverApiList = naverRetrofit.create(NaverAPIList::class.java)
@@ -85,6 +84,7 @@ class PlaceDetailActivity : BaseActivity() {
 
             getCoordToAddress(detailStartLongitude, detailStartLatitude, true)
 
+//            도착 장소 마커 추가 및 그 중간 지점을 카메라의 좌표로 지정
             if(isAppointmentOk){
                 endMarker.position = LatLng(detailTargetLatitude,detailTargetLongitude)
                 endMarker.map = mNaverMap
@@ -101,12 +101,17 @@ class PlaceDetailActivity : BaseActivity() {
             it.moveCamera(cameraUpdate)
             mNaverMap!!.moveCamera(cameraUpdate)
         }
-
+        if(isAppointmentOk){
+            titleTxt.text = "확대해서 보기"
+        } else {
+            titleTxt.text = detailName
+        }
     }
 
     fun deleteThisPlace(){
         val alert = CustomAlertDialog(mContext)
         alert.myDialog()
+
 
         alert.binding.dialogTitleTxt.text = "장소 삭제"
         alert.binding.dialogBodyTxt.text = "정말 장소 목록에서 삭제하시겠습니까?"
