@@ -46,7 +46,7 @@ class PlaceDetailActivity : BaseActivity() {
         titleTxt.text = detailName
         addAppointmentBtn.visibility = View.GONE
         naverRetrofit = NaverMapServerAPI.getRetrofit()
-        naverApiList = retrofit.create(NaverAPIList::class.java)
+        naverApiList = naverRetrofit.create(NaverAPIList::class.java)
 
 
         setupEvents()
