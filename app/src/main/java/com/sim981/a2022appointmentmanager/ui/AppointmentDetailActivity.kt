@@ -24,6 +24,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 class AppointmentDetailActivity : BaseActivity() {
     lateinit var binding: ActivityAppointmentDetailBinding
@@ -39,9 +41,12 @@ class AppointmentDetailActivity : BaseActivity() {
 
     var mNaverMap: NaverMap? = null
 
+//    들어온 좌표정보
     var coord: LatLng? = null
     var startPosition: LatLng? = null
     var endPosition: LatLng? = null
+
+    var zoomValue = 0.0
 
     var mStartPlaceMarker = Marker()
     var mEndPlaceMarker = Marker()
@@ -90,8 +95,33 @@ class AppointmentDetailActivity : BaseActivity() {
         mapFragment.getMapAsync {
             mNaverMap = it
 
-            val cameraUpdate = CameraUpdate.scrollTo(coord!!)
+            var cameraUpdate = CameraUpdate.scrollTo(coord!!)
+            it.moveCamera(cameraUpdate)
+            //시작 지점, 끝지점의 비교 연산자 확인
+            var subLatitude = 0.0
+            var subLongitude = 0.0
+//
+//            if(startPosition!!.latitude > endPosition!!.latitude){
+//                subLatitude = startPosition!!.latitude - endPosition!!.latitude
+//            } else {
+//                subLatitude = endPosition!!.latitude - startPosition!!.latitude
+//            }
+//
+//            if(startPosition!!.longitude > endPosition!!.longitude){
+//                subLongitude = startPosition!!.longitude - endPosition!!.longitude
+//            } else {
+//                subLongitude = endPosition!!.longitude - startPosition!!.longitude
+//            }
+//
+//            zoomValue = (sqrt(subLatitude.pow(2) + subLongitude.pow(2))*100)/10
+//            Log.d("값", zoomValue.toString())
+//
+//            cameraUpdate = CameraUpdate.zoomBy(zoomValue)
+
             mNaverMap!!.moveCamera(cameraUpdate)
+
+            it.moveCamera(cameraUpdate)
+
             mStartPlaceMarker.position = startPosition!!
             mStartPlaceMarker.map = mNaverMap
 
@@ -100,7 +130,7 @@ class AppointmentDetailActivity : BaseActivity() {
             mEndPlaceMarker.icon =
                 OverlayImage.fromResource(com.naver.maps.map.R.drawable.navermap_default_marker_icon_red)
 
-            it.moveCamera(cameraUpdate)
+
         }
     }
 
@@ -137,9 +167,10 @@ class AppointmentDetailActivity : BaseActivity() {
         Log.d("끝 좌표", endPosition.toString())
         coord = LatLng(
             (startPosition!!.latitude + endPosition!!.latitude) / 2,
-            (startPosition!!.longitude + endPosition!!.longitude)/2
+            (startPosition!!.longitude + endPosition!!.longitude) / 2
         )
         Log.d("중간 좌표", coord.toString())
+        Log.d("값", zoomValue.toString())
         Log.d("좌표", "-")
     }
 
