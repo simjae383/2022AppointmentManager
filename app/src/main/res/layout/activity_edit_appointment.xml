@@ -12,7 +12,8 @@
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:scrollbarSize="0dp">
 
             <LinearLayout
@@ -150,17 +151,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
 
-                </FrameLayout>
 
-                <Button
-                    android:id="@+id/addBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="약속 등록하기"/>
+                </FrameLayout>
 
             </LinearLayout>
 
         </ScrollView>
+        <Button
+            android:id="@+id/addBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="약속 등록하기"/>
     </LinearLayout>
 </layout>

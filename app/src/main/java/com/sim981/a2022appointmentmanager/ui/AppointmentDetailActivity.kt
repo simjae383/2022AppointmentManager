@@ -46,8 +46,6 @@ class AppointmentDetailActivity : BaseActivity() {
     var startPosition: LatLng? = null
     var endPosition: LatLng? = null
 
-    var zoomValue = 0.0
-
     var mStartPlaceMarker = Marker()
     var mEndPlaceMarker = Marker()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,14 +54,13 @@ class AppointmentDetailActivity : BaseActivity() {
         receivedApponintment = intent.getSerializableExtra("appointmentPackage") as AppointmentData
         requestId = receivedApponintment.id
         addAppointmentBtn.visibility = View.GONE
+        firstDetailValues()
         setupEvents()
         setValues()
-
     }
 
     override fun onResume() {
         super.onResume()
-        firstDetailValues()
         getRequestAppointmentDetail()
     }
 
@@ -84,6 +81,11 @@ class AppointmentDetailActivity : BaseActivity() {
                 .putExtra("isEditData", true)
             startActivity(myIntent)
         }
+        //        지도 영역에 손을 대면 스크롤뷰 정지 - 텍스트뷰를 겹쳐두고 텍스트뷰 터치시 정지
+        binding.scrollHelpTxt.setOnTouchListener { view, motionEvent ->
+            binding.detailScrollView.requestDisallowInterceptTouchEvent(true)
+            return@setOnTouchListener false
+        }
     }
 
     override fun setValues() {
@@ -97,26 +99,6 @@ class AppointmentDetailActivity : BaseActivity() {
 
             var cameraUpdate = CameraUpdate.scrollTo(coord!!)
             it.moveCamera(cameraUpdate)
-            //시작 지점, 끝지점의 비교 연산자 확인
-            var subLatitude = 0.0
-            var subLongitude = 0.0
-//
-//            if(startPosition!!.latitude > endPosition!!.latitude){
-//                subLatitude = startPosition!!.latitude - endPosition!!.latitude
-//            } else {
-//                subLatitude = endPosition!!.latitude - startPosition!!.latitude
-//            }
-//
-//            if(startPosition!!.longitude > endPosition!!.longitude){
-//                subLongitude = startPosition!!.longitude - endPosition!!.longitude
-//            } else {
-//                subLongitude = endPosition!!.longitude - startPosition!!.longitude
-//            }
-//
-//            zoomValue = (sqrt(subLatitude.pow(2) + subLongitude.pow(2))*100)/10
-//            Log.d("값", zoomValue.toString())
-//
-//            cameraUpdate = CameraUpdate.zoomBy(zoomValue)
 
             mNaverMap!!.moveCamera(cameraUpdate)
 
@@ -129,8 +111,6 @@ class AppointmentDetailActivity : BaseActivity() {
             mEndPlaceMarker.map = mNaverMap
             mEndPlaceMarker.icon =
                 OverlayImage.fromResource(com.naver.maps.map.R.drawable.navermap_default_marker_icon_red)
-
-
         }
     }
 
@@ -140,11 +120,9 @@ class AppointmentDetailActivity : BaseActivity() {
             override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
             }
-
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
                 if (response.isSuccessful) {
                     apponintmentDetail = response.body()!!.data.appointment
-                    Log.d("수정 확인", apponintmentDetail.toString())
                     newDetailValues()
                 }
             }
@@ -162,16 +140,11 @@ class AppointmentDetailActivity : BaseActivity() {
         }
         startPosition =
             LatLng(receivedApponintment.startLatitude, receivedApponintment.startLongitude)
-        Log.d("시작 좌표", startPosition.toString())
         endPosition = LatLng(receivedApponintment.latitude, receivedApponintment.longitude)
-        Log.d("끝 좌표", endPosition.toString())
         coord = LatLng(
             (startPosition!!.latitude + endPosition!!.latitude) / 2,
             (startPosition!!.longitude + endPosition!!.longitude) / 2
         )
-        Log.d("중간 좌표", coord.toString())
-        Log.d("값", zoomValue.toString())
-        Log.d("좌표", "-")
     }
 
     //    약속 수정 완료 이후 새로 넣어줄 데이터
@@ -200,5 +173,7 @@ class AppointmentDetailActivity : BaseActivity() {
             (startPosition!!.latitude + endPosition!!.latitude) / 2,
             (startPosition!!.longitude + endPosition!!.longitude) / 2
         )
+        mEndPlaceMarker.position = endPosition!!
+        mEndPlaceMarker.map = mNaverMap
     }
 }
