@@ -29,7 +29,7 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="250dp"
                     android:layout_marginTop="10dp">
 
                     <fragment
@@ -66,17 +66,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="도착 장소"
+                    android:text="목표 장소"
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/detailTargetPlaceTxt"
+                    android:id="@+id/detailLocationTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/lightgray_rectangle_r6"
-                    android:padding="8dp"
-                    android:text="도착 장소 표시"
+                    android:text="시작 장소와 목표 장소 이름 표시"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 

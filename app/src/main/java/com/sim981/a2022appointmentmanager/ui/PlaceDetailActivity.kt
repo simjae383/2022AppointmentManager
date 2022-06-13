@@ -10,6 +10,7 @@ import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.api.NaverAPIList
 import com.sim981.a2022appointmentmanager.api.NaverMapServerAPI
@@ -26,11 +27,15 @@ class PlaceDetailActivity : BaseActivity() {
 
     var detailId = 0
     var detailName = ""
-    var detailLatitude = 0.0
-    var detailLongitude = 0.0
-    var isDeletableOk = false
+    var detailStartLatitude = 0.0
+    var detailStartLongitude = 0.0
+    var detailTargetLatitude = 0.0
+    var detailTargetLongitude = 0.0
+    var isAppointmentOk = false
 
     var mNaverMap: NaverMap? = null
+    var startMarker = Marker()
+    var endMarker = Marker()
 
     lateinit var naverRetrofit: Retrofit
     lateinit var naverApiList : NaverAPIList
@@ -40,21 +45,21 @@ class PlaceDetailActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_place_detail)
         detailId = intent.getIntExtra("myPlaceId", 0)
         detailName = intent.getStringExtra("myPlaceName").toString()
-        detailLatitude = intent.getDoubleExtra("myPlaceLatitude", 0.0)
-        detailLongitude = intent.getDoubleExtra("myPlaceLongitude", 0.0)
-        isDeletableOk = intent.getBooleanExtra("myPlaceIsDeletableOk", false)
+        detailStartLatitude = intent.getDoubleExtra("myStartLatitude", 0.0)
+        detailStartLongitude = intent.getDoubleExtra("myStartLongitude", 0.0)
+        detailTargetLatitude = intent.getDoubleExtra("myTargetLatitude", 0.0)
+        detailTargetLongitude = intent.getDoubleExtra("myTargetLongitude", 0.0)
+        isAppointmentOk = intent.getBooleanExtra("IsThisAppointmentOk", false)
         titleTxt.text = detailName
         addAppointmentBtn.visibility = View.GONE
         naverRetrofit = NaverMapServerAPI.getRetrofit()
         naverApiList = naverRetrofit.create(NaverAPIList::class.java)
-
-
         setupEvents()
         setValues()
     }
 
     override fun setupEvents() {
-        if(isDeletableOk){
+        if(isAppointmentOk){
             binding.deletePlaceBtn.visibility = View.VISIBLE
             binding.deletePlaceBtn.setOnClickListener {
                 deleteThisPlace()
@@ -71,15 +76,32 @@ class PlaceDetailActivity : BaseActivity() {
             }
         mapFragment.getMapAsync {
             mNaverMap = it
-            val coord = LatLng(detailLatitude, detailLongitude)
-            val cameraUpdate = CameraUpdate.scrollTo(coord)
-            mNaverMap!!.moveCamera(cameraUpdate)
 
-            val marker = Marker()
-            marker.position = coord
-            marker.map = mNaverMap
+            val coord = LatLng(detailStartLatitude, detailStartLongitude)
+
+            var cameraUpdate : CameraUpdate
+            startMarker.position = coord
+            startMarker.map = mNaverMap
+
+            getCoordToAddress(detailStartLongitude, detailStartLatitude, true)
+
+            if(isAppointmentOk){
+                endMarker.position = LatLng(detailTargetLatitude,detailTargetLongitude)
+                endMarker.map = mNaverMap
+                endMarker.icon =
+                    OverlayImage.fromResource(com.naver.maps.map.R.drawable.navermap_default_marker_icon_red)
+                cameraUpdate = CameraUpdate.scrollTo(LatLng((detailStartLatitude+ detailTargetLatitude)/2,
+                    (detailStartLongitude + detailTargetLongitude)/2))
+                binding.endAddressTxt.visibility = View.VISIBLE
+                getCoordToAddress(detailTargetLongitude, detailTargetLatitude, false)
+            } else {
+                cameraUpdate = CameraUpdate.scrollTo(coord)
+            }
+
+            it.moveCamera(cameraUpdate)
+            mNaverMap!!.moveCamera(cameraUpdate)
         }
-        getCoordToAddress()
+
     }
 
     fun deleteThisPlace(){
@@ -94,7 +116,6 @@ class PlaceDetailActivity : BaseActivity() {
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                 }
-
                 override fun onResponse(
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
@@ -119,8 +140,9 @@ class PlaceDetailActivity : BaseActivity() {
         }
     }
 
-    fun getCoordToAddress(){
-        naverApiList.getRequestMapAddress("${detailLongitude}, ${detailLatitude}",
+    fun getCoordToAddress(inputLongitude : Double, inputLatitude : Double, isStartPlaceOk : Boolean){
+        var address = ""
+        naverApiList.getRequestMapAddress("${inputLongitude}, ${inputLatitude}",
             "json", "legalcode,admcode,addr,roadaddr").enqueue(object : Callback<GeoResponse>{
             override fun onFailure(call: Call<GeoResponse>, t: Throwable) {
 
@@ -139,19 +161,22 @@ class PlaceDetailActivity : BaseActivity() {
                             roadaddr = result
                         }
                     }
-                    val address = if (roadaddr!!.land.number2 == "") {
+                    address = if (roadaddr!!.land.number2 == "") {
                         "${roadaddr!!.region.area1.name} ${roadaddr!!.region.area2.name} ${roadaddr!!.land.name} ${roadaddr.land.number1}"
                     } else {
                         "${roadaddr!!.region.area1.name} ${roadaddr!!.region.area2.name} ${roadaddr!!.land.name} ${roadaddr.land.number1}-${roadaddr.land.number2}"
                     }
-
-                    binding.placeAddressTxt.text = address
+                    if(isStartPlaceOk){
+                        binding.startAddressTxt.text = "시작 장소 : ${address}"
+                    } else {
+                        binding.endAddressTxt.text = "도착 장소 : ${address}"
+                    }
                 } else {
                     val errorBodyStr = response.errorBody()!!.string()
                     val jsonObj = JSONObject(errorBodyStr)
                     val message = jsonObj.getString("message")
 
-                    Log.d("오류", message)
+                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                 }
             }
             })

@@ -48,6 +48,7 @@ class AppointmentDetailActivity : BaseActivity() {
 
     var mStartPlaceMarker = Marker()
     var mEndPlaceMarker = Marker()
+    var isDetailOk = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_appointment_detail)
@@ -61,17 +62,25 @@ class AppointmentDetailActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        getRequestAppointmentDetail()
+        zoomOutMapBtn.visibility = View.VISIBLE
+        Log.d("확인용",isDetailOk.toString())
+        if(!isDetailOk){
+            Log.d("확인용","OK")
+            getRequestAppointmentDetail()
+        }
     }
 
     override fun setupEvents() {
-//        도착 장소 이름을 누르면 해당 장소의 정보 열람
-        binding.detailTargetPlaceTxt.setOnClickListener {
+//        지도 확대 기능
+        zoomOutMapBtn.setOnClickListener {
+            isDetailOk = true
             val myIntent = Intent(mContext, PlaceDetailActivity::class.java)
             myIntent.putExtra("myPlaceName", "도착 장소")
-                .putExtra("myPlaceLatitude", receivedApponintment.latitude)
-                .putExtra("myPlaceLongitude", receivedApponintment.longitude)
-                .putExtra("myPlaceIsDeletableOk", false)
+                .putExtra("myStartLatitude", startPosition!!.latitude)
+                .putExtra("myStartLongitude", startPosition!!.longitude)
+                .putExtra("myTargetLatitude", endPosition!!.latitude)
+                .putExtra("myTargetLongitude", endPosition!!.longitude)
+                .putExtra("IsThisAppointmentOk", true)
             startActivity(myIntent)
         }
 //        약속 수정 버튼
@@ -98,8 +107,6 @@ class AppointmentDetailActivity : BaseActivity() {
             mNaverMap = it
 
             var cameraUpdate = CameraUpdate.scrollTo(coord!!)
-            it.moveCamera(cameraUpdate)
-
             mNaverMap!!.moveCamera(cameraUpdate)
 
             it.moveCamera(cameraUpdate)
@@ -134,7 +141,7 @@ class AppointmentDetailActivity : BaseActivity() {
         titleTxt.text = receivedApponintment.title
         val sdf = SimpleDateFormat("M/d a h:mm")
         binding.detailDateTimeTxt.text = "${sdf.format(receivedApponintment.datetime)}"
-        binding.detailTargetPlaceTxt.text = receivedApponintment.place
+        binding.detailLocationTxt.text = "${receivedApponintment.startPlace} -> ${receivedApponintment.place}"
         if (receivedApponintment.user.nickName == GlobalData.loginUser!!.nickName) {
             binding.detailEditBtn.isEnabled = true
         }
@@ -152,7 +159,7 @@ class AppointmentDetailActivity : BaseActivity() {
         titleTxt.text = apponintmentDetail.title
         val sdf = SimpleDateFormat("M/d a h:mm")
         binding.detailDateTimeTxt.text = "${sdf.format(apponintmentDetail.datetime)}"
-        binding.detailTargetPlaceTxt.text = apponintmentDetail.place
+        binding.detailLocationTxt.text = "${apponintmentDetail.startPlace} -> ${apponintmentDetail.place}"
         binding.detailfriendsListLayout.removeAllViewsInLayout()
         for (friends in apponintmentDetail.invitedFriends) {
             val textView = TextView(mContext)

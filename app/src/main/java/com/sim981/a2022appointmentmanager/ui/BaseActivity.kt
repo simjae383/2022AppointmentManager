@@ -25,6 +25,7 @@ abstract class BaseActivity : AppCompatActivity() {
     lateinit var addAppointmentBtn : ImageView
     lateinit var requestFriendBtn : ImageView
     lateinit var myLocationBtn : ImageView
+    lateinit var zoomOutMapBtn : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,9 +58,11 @@ abstract class BaseActivity : AppCompatActivity() {
         addAppointmentBtn = defActionBar.customView.findViewById(R.id.addAppointmentBtn)
         requestFriendBtn = defActionBar.customView.findViewById(R.id.requestFriendBtn)
         myLocationBtn = defActionBar.customView.findViewById(R.id.myLocationBtn)
+        zoomOutMapBtn = defActionBar.customView.findViewById(R.id.zoomOutMapBtn)
         addFriendBtn.visibility = View.GONE
         addPlaceBtn.visibility = View.GONE
         requestFriendBtn.visibility = View.GONE
         myLocationBtn.visibility = View.GONE
+        zoomOutMapBtn.visibility = View.GONE
     }
 }
