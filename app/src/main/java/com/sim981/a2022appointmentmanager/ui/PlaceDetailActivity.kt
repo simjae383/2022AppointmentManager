@@ -50,7 +50,6 @@ class PlaceDetailActivity : BaseActivity() {
         detailTargetLatitude = intent.getDoubleExtra("myTargetLatitude", 0.0)
         detailTargetLongitude = intent.getDoubleExtra("myTargetLongitude", 0.0)
         isAppointmentOk = intent.getBooleanExtra("IsThisAppointmentOk", false)
-        Log.d("확인", isAppointmentOk.toString())
         titleTxt.text = detailName
         addAppointmentBtn.visibility = View.GONE
         naverRetrofit = NaverMapServerAPI.getRetrofit()
@@ -154,19 +153,26 @@ class PlaceDetailActivity : BaseActivity() {
                     Log.d("주소목록", response.body()!!.results.toString())
 
                     var roadaddr : ResultData? = null
+                    var addr : ResultData? = null
 
                     val results = response.body()!!.results
 
                     for (result in results) {
                         if (result.name == "roadaddr") {
                             roadaddr = result
+                        } else if (result.name == "addr"){
+                            addr = result
                         }
                     }
-                    address = if (roadaddr!!.land.number2 == "") {
-                        "${roadaddr!!.region.area1.name} ${roadaddr!!.region.area2.name} ${roadaddr!!.land.name} ${roadaddr.land.number1}"
-                    } else {
-                        "${roadaddr!!.region.area1.name} ${roadaddr!!.region.area2.name} ${roadaddr!!.land.name} ${roadaddr.land.number1}-${roadaddr.land.number2}"
+                    if (roadaddr == null){
+                        address = "${addr!!.region.area1.name} ${addr!!.region.area2.name} ${addr!!.region.area3.name} ${addr.region.area4.name} 일대"
                     }
+                    else if (roadaddr!!.land.number2 == "") {
+                        address = "${roadaddr!!.region.area1.name} ${roadaddr!!.region.area2.name} ${roadaddr!!.land.name} ${roadaddr.land.number1}"
+                    } else if (roadaddr!!.land.name.isNotBlank()){
+                        address = "${roadaddr!!.region.area1.name} ${roadaddr!!.region.area2.name} ${roadaddr!!.land.name} ${roadaddr.land.number1}-${roadaddr.land.number2}"
+                    }
+
                     if(isStartPlaceOk){
                         binding.startAddressTxt.text = "시작 장소 : ${address}"
                     } else {
