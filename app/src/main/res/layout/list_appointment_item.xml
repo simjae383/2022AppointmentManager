@@ -24,6 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -59,12 +60,13 @@
                 android:id="@+id/timeTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="약속 시간"/>
+                android:text="약속 시간" />
 
             <TextView
                 android:id="@+id/placeNameTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="5dp"
                 android:text="약속 장소 : "/>
 
@@ -72,6 +74,7 @@
                 android:id="@+id/memberCountTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="5dp"
                 android:text="참여 인원 : "/>
 

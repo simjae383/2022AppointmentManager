@@ -28,7 +28,7 @@ class AppointmentsFragment : BaseFragment() {
     lateinit var mAppointmentAdapter : AppointmentsRecyclerAdapter
     var mAppointmentsList = ArrayList<AppointmentData>()
 
-lateinit var addBtn : ImageView
+    lateinit var addBtn : ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,6 +63,8 @@ lateinit var addBtn : ImageView
         mAppointmentAdapter = AppointmentsRecyclerAdapter(mContext, mAppointmentsList)
         binding.AppointmentRecyclerView.adapter = mAppointmentAdapter
         binding.AppointmentRecyclerView.layoutManager = LinearLayoutManager(mContext)
+
+
     }
 
     fun getAppointmentListFromServer(){
