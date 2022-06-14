@@ -239,7 +239,6 @@ class EditAppointmentActivity : BaseActivity() {
                         override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                         }
-
                     })
             } else {
 //                수정 기능일 경우 실행할 수정 API

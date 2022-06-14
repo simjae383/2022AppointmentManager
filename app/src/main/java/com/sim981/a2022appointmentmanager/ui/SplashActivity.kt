@@ -26,8 +26,6 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         getKeyHash()
-        addAppointmentBtn.visibility = View.GONE
-
         setValues()
         setupEvents()
     }

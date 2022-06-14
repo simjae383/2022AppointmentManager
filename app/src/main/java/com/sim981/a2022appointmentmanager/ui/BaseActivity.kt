@@ -36,7 +36,6 @@ abstract class BaseActivity : AppCompatActivity() {
         supportActionBar?.let {
             setCustomActionBar()
         }
-
         retrofit = ServerAPI.getRetrofit(mContext)
         apiList = retrofit.create(APIList::class.java)
     }

@@ -73,9 +73,9 @@ class AppointmentsRecyclerAdapter(
                         for(datas in br.data.appointments){
                             val subTime = (datas.datetime.time - timeNow)/(24*60*60*1000)
                             if(subTime <= 2){
+//                                첫번째항목은 공백으로 두기
                                 if(mNearAppointmentList.isEmpty()){
-                                    mNearAppointmentList.add(AppointmentData())
-
+                                    mNearAppointmentList.add(AppointmentData()) //빈 AppointmentData 할당
                                 }
                                 mNearAppointmentList.add(datas)
                             }

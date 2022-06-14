@@ -32,7 +32,6 @@ class AddFriendsActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-
     }
     override fun setupEvents() {
         binding.searchBtn.setOnClickListener {
@@ -63,8 +62,6 @@ class AddFriendsActivity : BaseActivity() {
                 }
             })
         }
-
-
     }
 
     override fun setValues() {
