@@ -27,7 +27,17 @@ import java.text.SimpleDateFormat
 class AppointmentsRecyclerAdapter(
     val mContext : Context,
     val mList : List<AppointmentData>
-) : RecyclerView.Adapter<AppointmentsRecyclerAdapter.ItemViewHolder>(){
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+    val TYPE_HEADER = 0
+    val TYPE_ITEM = 1
+
+    inner class HeaderViewHolder(headerView : View) : RecyclerView.ViewHolder(headerView){
+        fun bindHeader(){
+
+        }
+    }
+
+
     inner class ItemViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 
         val titleTxt = itemView.findViewById<TextView>(R.id.appoinmentTitleTxt)
@@ -108,16 +118,37 @@ class AppointmentsRecyclerAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val row = LayoutInflater.from(mContext).inflate(R.layout.list_appointment_item, parent, false)
-        return ItemViewHolder(row)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType){
+            TYPE_HEADER -> {
+                HeaderViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_appointment_header, parent, false))
+            }
+            else -> {
+                ItemViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_appointment_item, parent, false))
+            }
+        }
     }
 
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(mList[position])
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder){
+            is HeaderViewHolder -> {
+                holder.bindHeader()
+            }
+            is ItemViewHolder -> {
+                holder.bind(mList[position-1])
+            }
+        }
     }
 
     override fun getItemCount(): Int {
-        return mList.size
+        return mList.size + 1
     }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (position){
+            0 -> TYPE_HEADER
+            else -> TYPE_ITEM
+        }
+    }
+
 }

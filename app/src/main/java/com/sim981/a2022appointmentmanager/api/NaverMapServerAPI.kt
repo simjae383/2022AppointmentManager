@@ -32,10 +32,8 @@ class NaverMapServerAPI {
                     .client(myClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
-
             }
             return naverRetrofit!!
         }
-
     }
 }

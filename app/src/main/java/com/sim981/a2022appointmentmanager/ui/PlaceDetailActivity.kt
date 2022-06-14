@@ -23,7 +23,7 @@ import org.json.JSONObject
 import retrofit2.*
 
 class PlaceDetailActivity : BaseActivity() {
-    lateinit var binding : ActivityPlaceDetailBinding
+    lateinit var binding: ActivityPlaceDetailBinding
 
     var detailId = 0
     var detailName = ""
@@ -38,7 +38,7 @@ class PlaceDetailActivity : BaseActivity() {
     var endMarker = Marker()
 
     lateinit var naverRetrofit: Retrofit
-    lateinit var naverApiList : NaverAPIList
+    lateinit var naverApiList: NaverAPIList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +58,7 @@ class PlaceDetailActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
-        if(!isAppointmentOk){
+        if (!isAppointmentOk) {
             deletePlaceBtn.visibility = View.VISIBLE
             deletePlaceBtn.setOnClickListener {
                 deleteThisPlace()
@@ -78,20 +78,24 @@ class PlaceDetailActivity : BaseActivity() {
 
             val coord = LatLng(detailStartLatitude, detailStartLongitude)
 
-            var cameraUpdate : CameraUpdate
+            var cameraUpdate: CameraUpdate
             startMarker.position = coord
             startMarker.map = mNaverMap
 
             getCoordToAddress(detailStartLongitude, detailStartLatitude, true)
 
 //            도착 장소 마커 추가 및 그 중간 지점을 카메라의 좌표로 지정
-            if(isAppointmentOk){
-                endMarker.position = LatLng(detailTargetLatitude,detailTargetLongitude)
+            if (isAppointmentOk) {
+                endMarker.position = LatLng(detailTargetLatitude, detailTargetLongitude)
                 endMarker.map = mNaverMap
                 endMarker.icon =
                     OverlayImage.fromResource(com.naver.maps.map.R.drawable.navermap_default_marker_icon_red)
-                cameraUpdate = CameraUpdate.scrollTo(LatLng((detailStartLatitude+ detailTargetLatitude)/2,
-                    (detailStartLongitude + detailTargetLongitude)/2))
+                cameraUpdate = CameraUpdate.scrollTo(
+                    LatLng(
+                        (detailStartLatitude + detailTargetLatitude) / 2,
+                        (detailStartLongitude + detailTargetLongitude) / 2
+                    )
+                )
                 binding.endAddressTxt.visibility = View.VISIBLE
                 getCoordToAddress(detailTargetLongitude, detailTargetLatitude, false)
             } else {
@@ -101,14 +105,14 @@ class PlaceDetailActivity : BaseActivity() {
             it.moveCamera(cameraUpdate)
             mNaverMap!!.moveCamera(cameraUpdate)
         }
-        if(isAppointmentOk){
+        if (isAppointmentOk) {
             titleTxt.text = "확대해서 보기"
         } else {
             titleTxt.text = detailName
         }
     }
 
-    fun deleteThisPlace(){
+    fun deleteThisPlace() {
         val alert = CustomAlertDialog(mContext)
         alert.myDialog()
 
@@ -121,11 +125,12 @@ class PlaceDetailActivity : BaseActivity() {
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                 }
+
                 override fun onResponse(
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
                 ) {
-                    if(response.isSuccessful){
+                    if (response.isSuccessful) {
                         val br = response.body()!!
                         Toast.makeText(mContext, br.message, Toast.LENGTH_SHORT).show()
                         finish()
@@ -145,10 +150,12 @@ class PlaceDetailActivity : BaseActivity() {
         }
     }
 
-    fun getCoordToAddress(inputLongitude : Double, inputLatitude : Double, isStartPlaceOk : Boolean){
+    fun getCoordToAddress(inputLongitude: Double, inputLatitude: Double, isStartPlaceOk: Boolean) {
         var address = ""
-        naverApiList.getRequestMapAddress("${inputLongitude}, ${inputLatitude}",
-            "json", "legalcode,admcode,addr,roadaddr").enqueue(object : Callback<GeoResponse>{
+        naverApiList.getRequestMapAddress(
+            "${inputLongitude}, ${inputLatitude}",
+            "json", "legalcode,admcode,addr,roadaddr"
+        ).enqueue(object : Callback<GeoResponse> {
             override fun onFailure(call: Call<GeoResponse>, t: Throwable) {
 
             }
@@ -157,28 +164,30 @@ class PlaceDetailActivity : BaseActivity() {
                 if (response.isSuccessful) {
                     Log.d("주소목록", response.body()!!.results.toString())
 
-                    var roadaddr : ResultData? = null
-                    var addr : ResultData? = null
+                    var roadaddr: ResultData? = null
+                    var addr: ResultData? = null
 
                     val results = response.body()!!.results
 
                     for (result in results) {
                         if (result.name == "roadaddr") {
                             roadaddr = result
-                        } else if (result.name == "addr"){
+                        } else if (result.name == "addr") {
                             addr = result
                         }
                     }
-                    if (roadaddr == null){
-                        address = "${addr!!.region.area1.name} ${addr!!.region.area2.name} ${addr!!.region.area3.name} ${addr.region.area4.name} 일대"
-                    }
-                    else if (roadaddr!!.land.number2 == "") {
-                        address = "${roadaddr!!.region.area1.name} ${roadaddr!!.region.area2.name} ${roadaddr!!.land.name} ${roadaddr.land.number1}"
-                    } else if (roadaddr!!.land.name.isNotBlank()){
-                        address = "${roadaddr!!.region.area1.name} ${roadaddr!!.region.area2.name} ${roadaddr!!.land.name} ${roadaddr.land.number1}-${roadaddr.land.number2}"
+                    if (roadaddr == null) {
+                        address =
+                            "${addr!!.region.area1.name} ${addr!!.region.area2.name} ${addr!!.region.area3.name} ${addr.region.area4.name} 일대"
+                    } else if (roadaddr!!.land.number2 == "") {
+                        address =
+                            "${roadaddr!!.region.area1.name} ${roadaddr!!.region.area2.name} ${roadaddr!!.land.name} ${roadaddr.land.number1}"
+                    } else if (roadaddr!!.land.name.isNotBlank()) {
+                        address =
+                            "${roadaddr!!.region.area1.name} ${roadaddr!!.region.area2.name} ${roadaddr!!.land.name} ${roadaddr.land.number1}-${roadaddr.land.number2}"
                     }
 
-                    if(isStartPlaceOk){
+                    if (isStartPlaceOk) {
                         binding.startAddressTxt.text = "시작 장소 : ${address}"
                     } else {
                         binding.endAddressTxt.text = "도착 장소 : ${address}"
@@ -191,6 +200,6 @@ class PlaceDetailActivity : BaseActivity() {
                     Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                 }
             }
-            })
+        })
     }
 }

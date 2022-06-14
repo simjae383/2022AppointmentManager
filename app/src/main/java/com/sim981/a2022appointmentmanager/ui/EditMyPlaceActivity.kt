@@ -20,14 +20,15 @@ import retrofit2.Response
 class EditMyPlaceActivity : BaseActivity() {
     lateinit var binding: ActivityEditMyPlaceBinding
 
+//    기본 선택 위도 경도
     var mSelectedLatitude = 37.5779235853308
     var mSelectedLongitude = 127.033553463647
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_my_place)
-        titleTxt.text = "장소 추가하기"
-        addAppointmentBtn.visibility = View.GONE
+        titleTxt.text = "장소 추가하기" //커스텀 액션바에 제목 넣기
+        addAppointmentBtn.visibility = View.GONE //다른 기능의 버튼 비활성화
         setupEvents()
         setValues()
     }
@@ -37,13 +38,14 @@ class EditMyPlaceActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+//        저장하기 버튼
         binding.placeSaveBtn.setOnClickListener {
             val inputName = binding.placeTitleEdt.text.toString()
             if (inputName.isBlank()) {
                 Toast.makeText(mContext, "장소명을 기입해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
+//          장소 이름과 위도 경도, 기본 장소 설정 여부를 체크
             apiList.postRequestAddMyPlace(inputName, mSelectedLatitude, mSelectedLongitude, false)
                 .enqueue(object : Callback<BasicResponse>{
                     override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
@@ -74,8 +76,8 @@ class EditMyPlaceActivity : BaseActivity() {
                 })
         }
     }
-
     override fun setValues() {
+//        네이버 지도 설정
         val fm = supportFragmentManager
         val mapFragment = fm.findFragmentById(R.id.placeEditmap) as MapFragment?
             ?: MapFragment.newInstance().also {
@@ -101,8 +103,5 @@ class EditMyPlaceActivity : BaseActivity() {
                 mSelectedLongitude = latLng.longitude
             }
         }
-
     }
-
-
 }
