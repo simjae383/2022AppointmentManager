@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/lightgray_rectangle_r6"
@@ -17,7 +18,6 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:text="곧 수행할 약속"/>
-
 
         <LinearLayout
             android:id="@+id/primaryLayoutBtn"
@@ -47,17 +47,11 @@
                 android:textStyle="bold"/>
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="더보기"
-            android:textSize="16sp"/>
-
         <Spinner
             android:id="@+id/primaryAppointmentSpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 </LinearLayout>

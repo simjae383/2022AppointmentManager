@@ -39,7 +39,7 @@ class MainActivity : BaseActivity() {
 //                        else -> "설정"
 //                    }
                     when (position) {
-                        0 -> { titleTxt.text = "약속 확인하기"
+                        0 -> { titleTxt.text = "약속 확인"
                             addAppointmentBtn.visibility = View.VISIBLE
                             addPlaceBtn.visibility = View.GONE
                             addFriendBtn.visibility = View.GONE

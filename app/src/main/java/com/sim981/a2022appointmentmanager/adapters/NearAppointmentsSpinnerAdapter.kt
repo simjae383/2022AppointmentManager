@@ -17,7 +17,7 @@ class NearAppointmentsSpinnerAdapter(
 ) : ArrayAdapter<AppointmentData>(mContext, resId, mList) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var row = convertView
-        if(row == null){
+        if (row == null) {
             row = LayoutInflater.from(mContext).inflate(resId, null)
         }
         row!!
@@ -29,7 +29,12 @@ class NearAppointmentsSpinnerAdapter(
 
         appointmentName.text = data.title
         val sdf = SimpleDateFormat("M/d a h:mm")
-        appointmentTime.text = "${sdf.format(data.datetime)}"
+        if(position == 0){
+            appointmentTime.text = ""
+            appointmentName.text = "그 외의 약속 확인하기"
+        } else {
+            appointmentTime.text = "${sdf.format(data.datetime)}"
+        }
 
         return row
     }

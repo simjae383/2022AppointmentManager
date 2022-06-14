@@ -49,6 +49,7 @@ class AppointmentsFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         addBtn.setImageResource(R.drawable.baseline_add_black_24dp)
+        mAppointmentAdapter.notifyDataSetChanged()
         getAppointmentListFromServer()
     }
 
@@ -63,8 +64,6 @@ class AppointmentsFragment : BaseFragment() {
         mAppointmentAdapter = AppointmentsRecyclerAdapter(mContext, mAppointmentsList)
         binding.AppointmentRecyclerView.adapter = mAppointmentAdapter
         binding.AppointmentRecyclerView.layoutManager = LinearLayoutManager(mContext)
-
-
     }
 
     fun getAppointmentListFromServer(){
@@ -82,6 +81,11 @@ class AppointmentsFragment : BaseFragment() {
                     mAppointmentsList.addAll(br.data.appointments)
                     mAppointmentsList.addAll(br.data.invitedAppointments)
 
+                    if(mAppointmentsList.isEmpty()){
+                        binding.emptyLayout.visibility = View.VISIBLE
+                    } else {
+                        binding.emptyLayout.visibility = View.GONE
+                    }
                     mAppointmentAdapter.notifyDataSetChanged()
                 } else {
                     val errorBodyStr = response.errorBody()!!.string()

@@ -2,6 +2,7 @@ package com.sim981.a2022appointmentmanager.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AppointmentsRecyclerAdapter(
     val mContext : Context,
@@ -40,14 +43,16 @@ class AppointmentsRecyclerAdapter(
         val primaryTimeTxt = itemView.findViewById<TextView>(R.id.primaryAppointmentTimeTxt)
         val primaryLayoutBtn = itemView.findViewById<LinearLayout>(R.id.primaryLayoutBtn)
         val primarySpinner = itemView.findViewById<Spinner>(R.id.primaryAppointmentSpinner)
+        val headerLayout = itemView.findViewById<LinearLayout>(R.id.headerLayout)
 
         fun bindHeader(){
             val apiList = ServerAPI.getRetrofit(mContext).create(APIList::class.java)
 
             primaryLayoutBtn.setOnClickListener {
-                Toast.makeText(mContext, "선택되었습니다.", Toast.LENGTH_SHORT).show()
+                val myIntent = Intent(mContext, AppointmentDetailActivity::class.java)
+                myIntent.putExtra("appointmentPackage", mNearAppointmentList[1])
+                mContext.startActivity(myIntent)
             }
-
             mNearAppointmentSpinnerAdapter = NearAppointmentsSpinnerAdapter(mContext, R.layout.list_appointment_item, mNearAppointmentList)
             primarySpinner.adapter = mNearAppointmentSpinnerAdapter
 
@@ -64,10 +69,44 @@ class AppointmentsRecyclerAdapter(
                         val br = response.body()!!
 
                         mNearAppointmentList.clear()
-                        mNearAppointmentList.addAll(br.data.appointments)
-                        mNearAppointmentList.addAll(br.data.invitedAppointments)
+                        var timeNow = Calendar.getInstance().timeInMillis
+                        for(datas in br.data.appointments){
+                            val subTime = (datas.datetime.time - timeNow)/(24*60*60*1000)
+                            if(subTime <= 2){
+                                if(mNearAppointmentList.isEmpty()){
+                                    mNearAppointmentList.add(AppointmentData())
 
+                                }
+                                mNearAppointmentList.add(datas)
+                            }
+                            Log.d("시간차", subTime.toString())
+                        }
+                        for (datas in br.data.invitedAppointments){
+                            val subTime = (datas.datetime.time - timeNow)/(24*60*60*1000)
+                            if(subTime <= 2){
+                                if(mNearAppointmentList.isEmpty()){
+                                    mNearAppointmentList.add(datas)
+                                }
+                                mNearAppointmentList.add(datas)
+                            }
+                            Log.d("시간차", subTime.toString())
+                        }
+                        mNearAppointmentList.sortWith(compareBy { it.datetime.time })
                         mNearAppointmentSpinnerAdapter.notifyDataSetChanged()
+                        if(mNearAppointmentList.isNotEmpty()){
+                            primaryTitleTxt.text = mNearAppointmentList[1].title
+                            val sdf = SimpleDateFormat("M/d a h:mm")
+                            primaryTimeTxt.text = "${sdf.format(mNearAppointmentList[1].datetime)}"
+                            headerLayout.visibility = View.VISIBLE
+                        } else {
+                            primaryTitleTxt.text = ""
+                            primaryTimeTxt.text = ""
+                            headerLayout.visibility = View.GONE
+                        }
+                        if(mNearAppointmentList.size == 2){
+                            primarySpinner.visibility = View.GONE
+                        }
+                        Log.d("헤더 상황", mNearAppointmentList.toString())
                     } else {
                         val errorBodyStr = response.errorBody()!!.string()
                         val jsonObj = JSONObject(errorBodyStr)
@@ -84,9 +123,11 @@ class AppointmentsRecyclerAdapter(
                 }
 
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position : Int, p3: Long) {
-//                    val myIntent = Intent(mContext, AppointmentDetailActivity::class.java)
-//                    myIntent.putExtra("appointmentPackage", mNearAppointmentList[position])
-//                    mContext.startActivity(myIntent)
+                    if(position != 0){
+                        val myIntent = Intent(mContext, AppointmentDetailActivity::class.java)
+                        myIntent.putExtra("appointmentPackage", mNearAppointmentList[position])
+                        mContext.startActivity(myIntent)
+                    }
                 }
             }
         }
