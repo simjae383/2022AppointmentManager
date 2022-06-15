@@ -20,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="저장해줄 이름 입력"
+            android:textColorHint="@color/skyBlue"
+            android:textColor="@color/darkSkyBlue"
             android:imeOptions="actionDone"
             android:inputType="text"
             android:maxLines="1" />

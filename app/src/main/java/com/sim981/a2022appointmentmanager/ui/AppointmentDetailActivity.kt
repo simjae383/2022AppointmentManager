@@ -158,7 +158,7 @@ class AppointmentDetailActivity : BaseActivity() {
         binding.detailfriendsListLayout.removeAllViewsInLayout()
         for (friends in apponintmentDetail.invitedFriends) {
             val textView = TextView(mContext)
-            textView.setBackgroundResource(R.drawable.lightgray_rectangle_r6)
+            textView.setBackgroundResource(R.drawable.lightskyblue_rectangle_r6)
 
             textView.setPadding(SizeUtil.dpToPx(mContext, 5f).toInt())
             textView.text = friends.nickName

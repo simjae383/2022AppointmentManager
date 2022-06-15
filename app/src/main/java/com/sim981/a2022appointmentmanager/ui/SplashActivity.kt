@@ -30,6 +30,7 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+//        로그인 토큰을 받아오기
         apiList.getRequestMyInfo(ContextUtil.getLoginToken(mContext))
             .enqueue(object : Callback<BasicResponse> {
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
@@ -55,7 +56,7 @@ class SplashActivity : BaseActivity() {
 
         myHandler.postDelayed({
             val myIntent: Intent
-
+//              로그인 토큰과 자동 로그인 여부가 맞을시 로그인 페이지를 건너뛰고 메인 화면으로 직행
             if (isTokenOk && ContextUtil.getAutoLogin(mContext)) {
                 myIntent = Intent(mContext, MainActivity::class.java)
             } else {

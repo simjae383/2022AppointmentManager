@@ -26,6 +26,7 @@ class PlacesFragment : BaseFragment() {
     lateinit var addBtn: ImageView
     lateinit var myLocationBtn: ImageView
 
+//    장소 목록을 저장하는 리스트와 어댑터
     lateinit var mPlacesRecyclerAdapter: PlacesRecyclerAdapter
     var mPlaceList = ArrayList<PlaceData>()
     override fun onCreateView(
@@ -54,10 +55,12 @@ class PlacesFragment : BaseFragment() {
     }
 
     override fun setupEvents() {
+//        장소 등록 화면으로 넘어가는 버튼
         addBtn.setOnClickListener {
             val myIntent = Intent(mContext, EditMyPlaceActivity::class.java)
             startActivity(myIntent)
         }
+//        현재 위치 화면으로 넘어가는 버튼
         myLocationBtn.setOnClickListener {
             val myIntent = Intent(mContext, MyLocationActivity::class.java)
             startActivity(myIntent)
@@ -69,7 +72,7 @@ class PlacesFragment : BaseFragment() {
         binding.myPlacesRecyclerView.adapter = mPlacesRecyclerAdapter
         binding.myPlacesRecyclerView.layoutManager = LinearLayoutManager(mContext)
     }
-
+//      장소 목록을 불러와 리스트에 저장하는 메소드
     fun getMyPlaceListFromServer() {
         apiList.getRequestMyPlace().enqueue(object : Callback<BasicResponse> {
             override fun onFailure(call: Call<BasicResponse>, t: Throwable) {

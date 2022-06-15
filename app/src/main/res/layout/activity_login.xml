@@ -10,9 +10,17 @@
         android:padding="20dp"
         tools:context=".ui.LoginActivity">
 
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/title_logo"
+            android:layout_gravity="center"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:text="아이디" />
 
         <EditText
@@ -20,6 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="이메일 양식으로 입력"
+            android:textColorHint="@color/skyBlue"
+            android:textColor="@color/darkSkyBlue"
             android:inputType="textEmailAddress" />
 
         <TextView
@@ -33,12 +43,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="비밀번호 입력"
+            android:textColorHint="@color/skyBlue"
+            android:textColor="@color/darkSkyBlue"
             android:inputType="textPassword" />
 
         <CheckBox
             android:id="@+id/autoLoginCb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/darkSkyBlue"
             android:text="자동로그인" />
 
         <Button

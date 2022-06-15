@@ -43,7 +43,7 @@ class PlacesRecyclerAdapter(
             viewPlaceMapImg.setOnClickListener {
 
             }
-
+//            장소 클릭시 장소 상세 정보 액티비티로 넘어감
             itemView.setOnClickListener {
                 val myIntent = Intent(mContext, PlaceDetailActivity::class.java)
                 myIntent.putExtra("myPlaceId", item.id).putExtra("myPlaceName", item.name)
@@ -51,7 +51,7 @@ class PlacesRecyclerAdapter(
                     .putExtra("myStartLongitude", item.longitude)
                 mContext.startActivity(myIntent)
             }
-
+//            롱 클릭시 해당 장소를 기본 장소로 지정
             itemView.setOnLongClickListener {
                 apiList.patchRequestDefaultPlace(item.id).enqueue(object : Callback<BasicResponse> {
                     override fun onFailure(call: Call<BasicResponse>, t: Throwable) {

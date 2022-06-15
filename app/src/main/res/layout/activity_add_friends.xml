@@ -21,6 +21,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="검색할 닉네임 2자 이상 입력"
+                android:textColorHint="@color/skyBlue"
+                android:textColor="@color/darkSkyBlue"
                 android:imeOptions="actionDone"
                 android:inputType="text"
                 android:maxLines="1" />

@@ -26,7 +26,7 @@ class MainActivity : BaseActivity() {
     override fun setValues() {
         mPagerAdapter = MainViewPagerAdapter(this)
         binding.mainViewPager.adapter = mPagerAdapter
-
+//        화면마다 바텀 내비게이션 바 연동 및 상단 커스텀 액션바 타이틀 및 버튼 연동
         binding.mainViewPager.registerOnPageChangeCallback(
             object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
@@ -78,9 +78,5 @@ class MainActivity : BaseActivity() {
             }
             return@setOnItemSelectedListener true
         }
-
-        var badge = binding.mainBottomNav.getOrCreateBadge(0)
-        badge.isVisible = true
-        badge.number = 99
     }
 }

@@ -397,7 +397,7 @@ class EditAppointmentActivity : BaseActivity() {
     //입력받은 친구를 참여자 목록에 추가하고 화면에 표시, 표시된 텍스트뷰 클릭시 해당 친구 삭제
     fun editFriendListItem(addFriend: UserData) {
         val textView = TextView(mContext)
-        textView.setBackgroundResource(R.drawable.lightgray_rectangle_r6)
+        textView.setBackgroundResource(R.drawable.lightskyblue_rectangle_r6)
 
         textView.setPadding(SizeUtil.dpToPx(mContext, 5f).toInt())
 

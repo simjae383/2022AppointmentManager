@@ -6,6 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface NaverAPIList {
+//    리버스 지오코딩
     @GET("map-reversegeocode/v2/gc")
     fun getRequestMapAddress(
         @Query("coords") coords: String,

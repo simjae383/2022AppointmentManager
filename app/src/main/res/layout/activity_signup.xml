@@ -25,6 +25,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColorHint="@color/skyBlue"
+                android:textColor="@color/darkSkyBlue"
                 android:hint="이메일 입력"
                 android:inputType="textEmailAddress" />
 
@@ -47,6 +49,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="비밀번호 8자 이상 입력"
+            android:textColorHint="@color/skyBlue"
+            android:textColor="@color/darkSkyBlue"
             android:inputType="textPassword" />
 
         <TextView
@@ -59,6 +63,8 @@
             android:id="@+id/pwDupEdt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColorHint="@color/skyBlue"
+            android:textColor="@color/darkSkyBlue"
             android:hint="비밀번호 재입력"
             android:inputType="textPassword" />
 
@@ -79,6 +85,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="닉네임 입력"
+                android:textColorHint="@color/skyBlue"
+                android:textColor="@color/darkSkyBlue"
                 android:imeOptions="actionDone"
                 android:inputType="text" />
 

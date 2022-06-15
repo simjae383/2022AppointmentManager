@@ -28,6 +28,7 @@ import retrofit2.Retrofit
 class PlaceDetailActivity : BaseActivity() {
     lateinit var binding: ActivityPlaceDetailBinding
 
+//    이전 화면의 리싸이클러뷰 아이템 선택시 받아온 해당 장소 데이터
     var detailId = 0
     var detailName = ""
     var detailStartLatitude = 0.0
@@ -36,6 +37,7 @@ class PlaceDetailActivity : BaseActivity() {
     var detailTargetLongitude = 0.0
     var isAppointmentOk = false
 
+//    네이버 맵과 마커 두개
     var mNaverMap: NaverMap? = null
     var startMarker = Marker()
     var endMarker = Marker()
@@ -46,6 +48,7 @@ class PlaceDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_place_detail)
+//        인텐트를 통해 장소 정보 받기
         detailId = intent.getIntExtra("myPlaceId", 0)
         detailName = intent.getStringExtra("myPlaceName").toString()
         detailStartLatitude = intent.getDoubleExtra("myStartLatitude", 0.0)
@@ -61,6 +64,7 @@ class PlaceDetailActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+//        시작 장소 정보 열람 혹은 약속 장소 정보 열람 여부 확임
         if (!isAppointmentOk) {
             deletePlaceBtn.visibility = View.VISIBLE
             deletePlaceBtn.setOnClickListener {
@@ -71,6 +75,7 @@ class PlaceDetailActivity : BaseActivity() {
     }
 
     override fun setValues() {
+//        네이버 지도 기능
         val fm = supportFragmentManager
         val mapFragment = fm.findFragmentById(R.id.detailMap) as MapFragment?
             ?: MapFragment.newInstance().also {
@@ -80,7 +85,7 @@ class PlaceDetailActivity : BaseActivity() {
             mNaverMap = it
 
             val coord = LatLng(detailStartLatitude, detailStartLongitude)
-
+//              시작 장소 마커
             var cameraUpdate: CameraUpdate
             startMarker.position = coord
             startMarker.map = mNaverMap
@@ -115,10 +120,10 @@ class PlaceDetailActivity : BaseActivity() {
         }
     }
 
+//    장소 삭제 기능(시작 장소 상세 보기 상태에서 사용 가능)
     fun deleteThisPlace() {
         val alert = CustomAlertDialog(mContext)
         alert.myDialog()
-
 
         alert.binding.dialogTitleTxt.text = "장소 삭제"
         alert.binding.dialogBodyTxt.text = "정말 장소 목록에서 삭제하시겠습니까?"
@@ -128,7 +133,6 @@ class PlaceDetailActivity : BaseActivity() {
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                 }
-
                 override fun onResponse(
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
@@ -153,6 +157,7 @@ class PlaceDetailActivity : BaseActivity() {
         }
     }
 
+//    시작 장소 혹은 약속 장소의 위치를 네이버 리버스 지오코딩을 통해 주소값으로 바꾸는 함수
     fun getCoordToAddress(inputLongitude: Double, inputLatitude: Double, isStartPlaceOk: Boolean) {
         var address = ""
         naverApiList.getRequestMapAddress(
@@ -172,6 +177,7 @@ class PlaceDetailActivity : BaseActivity() {
 
                     val results = response.body()!!.results
 
+//                    도로명 주소 혹은 지번 주소, 그 외에 세분화가 불가능한 주소에 따라 구별해서 알맞는 문자열로 변환해 TextView에 할당
                     for (result in results) {
                         if (result.name == "roadaddr") {
                             roadaddr = result

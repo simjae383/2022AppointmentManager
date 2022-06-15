@@ -28,9 +28,11 @@ class AppointmentsRecyclerAdapter(
     val mContext: Context,
     val mList: List<AppointmentData>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+//    헤더와 아이템 번호
     val TYPE_HEADER = 0
     val TYPE_ITEM = 1
 
+//    스피너에 최근 수행할 약속 데이터를 저장할 ArrayList와 스피너 어댑터
     lateinit var mNearAppointmentSpinnerAdapter: NearAppointmentsSpinnerAdapter
     var mNearAppointmentList = ArrayList<AppointmentData>()
 
@@ -44,11 +46,14 @@ class AppointmentsRecyclerAdapter(
         fun bindHeader() {
             val apiList = ServerAPI.getRetrofit(mContext).create(APIList::class.java)
 
+//            전면에 나타난 약속을 선택해 상세 정보로 넘어가는 기능
             primaryLayoutBtn.setOnClickListener {
                 val myIntent = Intent(mContext, AppointmentDetailActivity::class.java)
                 myIntent.putExtra("appointmentPackage", mNearAppointmentList[1])
                 mContext.startActivity(myIntent)
             }
+
+//            스피너에 어댑터 연결
             mNearAppointmentSpinnerAdapter = NearAppointmentsSpinnerAdapter(
                 mContext,
                 R.layout.list_appointment_item,
@@ -56,6 +61,7 @@ class AppointmentsRecyclerAdapter(
             )
             primarySpinner.adapter = mNearAppointmentSpinnerAdapter
 
+//            스피너에 최근 수행할 약속 목록 저장
             apiList.getRequestMyAppointment().enqueue(object : Callback<BasicResponse> {
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
@@ -91,11 +97,13 @@ class AppointmentsRecyclerAdapter(
                         }
                         mNearAppointmentList.sortWith(compareBy { it.datetime.time })
                         mNearAppointmentSpinnerAdapter.notifyDataSetChanged()
+//                        해당 리스트에 데이터가 없을 경우 헤더의 표시공간 비활성화
                         if (mNearAppointmentList.isNotEmpty()) {
                             primaryTitleTxt.text = mNearAppointmentList[1].title
                             val sdf = SimpleDateFormat("M/d a h:mm")
                             primaryTimeTxt.text = "${sdf.format(mNearAppointmentList[1].datetime)}"
                             headerLayout.visibility = View.VISIBLE
+
                         } else {
                             primaryTitleTxt.text = ""
                             primaryTimeTxt.text = ""
@@ -114,6 +122,7 @@ class AppointmentsRecyclerAdapter(
                 }
             })
 
+//            스피너의 아이템 선택시 해당 약속의 상세정보 열람
             primarySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(p0: AdapterView<*>?) {
 
@@ -161,11 +170,14 @@ class AppointmentsRecyclerAdapter(
             placeNameTxt.text = "약속 장소 : ${item.place}"
             memberCountTxt.text = "외 ${item.invitedFriends.size}명"
 
+//            약속 아이템 클릭시 해당 약속의 상세 정보로 넘어감
             itemView.setOnClickListener {
                 val myIntent = Intent(mContext, AppointmentDetailActivity::class.java)
                 myIntent.putExtra("appointmentPackage", item)
                 mContext.startActivity(myIntent)
             }
+
+//            롱 클릭시 약속 삭제 다이얼로그를 띄움
             itemView.setOnLongClickListener {
                 var resultMessage = ""
                 val alert = CustomAlertDialog(mContext)

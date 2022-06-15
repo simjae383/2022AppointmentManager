@@ -34,6 +34,7 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+//        아이디와 비밀번호 값을 가져와 로그인을 시도하는 버튼
         binding.loginBtn.setOnClickListener {
             val inputEmail = binding.emailEdt.text.toString()
             val inputPw = binding.passwordEdt.text.toString()
@@ -74,11 +75,12 @@ class LoginActivity : BaseActivity() {
                 }
             })
         }
+//        회원가입 페이지로 이동하는 버튼
         binding.signUpBtn.setOnClickListener {
             val myIntent = Intent(mContext, SignUpActivity::class.java)
             startActivity(myIntent)
         }
-
+//        카카오 로그인 기능을 활용하는 버튼
         binding.kakaoLoginBtn.setOnClickListener {
             kakaoLogin()
         }
@@ -87,7 +89,7 @@ class LoginActivity : BaseActivity() {
     override fun setValues() {
 
     }
-
+//    카카오 로그인 기능
     fun kakaoLogin() {
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {

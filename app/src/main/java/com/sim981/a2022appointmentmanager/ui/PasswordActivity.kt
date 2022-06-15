@@ -1,6 +1,7 @@
 package com.sim981.a2022appointmentmanager.ui
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
@@ -20,11 +21,13 @@ class PasswordActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_password)
+        addAppointmentBtn.visibility = View.GONE
         setValues()
         setupEvents()
     }
 
     override fun setupEvents() {
+//        타이핑마다 EditText의 입력된 비밀번호 유효성 검사
         binding.newPwEdt.addTextChangedListener {
             val newPw = binding.newPwEdt.text.toString()
             if (newPw.length >= 8) {
@@ -35,6 +38,7 @@ class PasswordActivity : BaseActivity() {
                 binding.changePwBtn.isEnabled = false
             }
         }
+//        패스워드 변경 버튼
         binding.changePwBtn.setOnClickListener {
             val currentPw = binding.currentPwEdt.text.toString()
             val newPw = binding.newPwEdt.text.toString()

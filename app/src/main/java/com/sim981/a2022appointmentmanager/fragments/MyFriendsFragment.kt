@@ -23,6 +23,8 @@ import retrofit2.Response
 class MyFriendsFragment : BaseFragment() {
 
     lateinit var binding: FragmentMyFriendsBinding
+
+//    친구 목록을 저장하는 리스트와 어댑터
     lateinit var mFriendsAdapter: FriendsListRecyclerAdapter
     var mFriendsList = ArrayList<UserData>()
 
@@ -56,10 +58,12 @@ class MyFriendsFragment : BaseFragment() {
 
 
     override fun setupEvents() {
+//        친구요청을 수락 거절하는 화면으로 넘어가는 버튼
         addBtn.setOnClickListener {
             val myIntent = Intent(mContext, RequestFriendsActivity::class.java)
             startActivity(myIntent)
         }
+//        친구 요청을 위한 화면으로 넘어가는 버튼
         requestBtn.setOnClickListener {
             val myIntent = Intent(mContext, AddFriendsActivity::class.java)
             startActivity(myIntent)
@@ -71,7 +75,7 @@ class MyFriendsFragment : BaseFragment() {
         binding.myFriendsRecyclerView.adapter = mFriendsAdapter
         binding.myFriendsRecyclerView.layoutManager = LinearLayoutManager(mContext)
     }
-
+//    친구 검색후 리스트에 저장하는 메소드
     fun getMyFriendsListFromServer() {
         apiList.getRequestMyFriendsList("my").enqueue(object : Callback<BasicResponse> {
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {

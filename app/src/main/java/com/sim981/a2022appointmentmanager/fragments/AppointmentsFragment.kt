@@ -24,6 +24,7 @@ import retrofit2.Response
 class AppointmentsFragment : BaseFragment() {
     lateinit var binding: FragmentAppointmentsBinding
 
+//    약속 목록을 저장하는 리스트와 어댑터
     lateinit var mAppointmentAdapter: AppointmentsRecyclerAdapter
     var mAppointmentsList = ArrayList<AppointmentData>()
 
@@ -54,6 +55,7 @@ class AppointmentsFragment : BaseFragment() {
     }
 
     override fun setupEvents() {
+//        추가 버튼을 클릭시 약속 등록 액티비티로 넘어감
         addBtn.setOnClickListener {
             val myIntent = Intent(mContext, EditAppointmentActivity::class.java)
             startActivity(myIntent)
@@ -66,6 +68,7 @@ class AppointmentsFragment : BaseFragment() {
         binding.AppointmentRecyclerView.layoutManager = LinearLayoutManager(mContext)
     }
 
+//    약속 리스트를 서버에서 가져와 리스트에 할당
     fun getAppointmentListFromServer() {
         apiList.getRequestMyAppointment().enqueue(object : Callback<BasicResponse> {
             override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
@@ -80,6 +83,7 @@ class AppointmentsFragment : BaseFragment() {
                     mAppointmentsList.addAll(br.data.appointments)
                     mAppointmentsList.addAll(br.data.invitedAppointments)
 
+//                    약속이 비어있을 경우 빈공간을 표시하는 레이아웃 활성화
                     if (mAppointmentsList.isEmpty()) {
                         binding.emptyLayout.visibility = View.VISIBLE
                     } else {

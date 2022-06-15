@@ -29,6 +29,7 @@ class NearAppointmentsSpinnerAdapter(
 
         appointmentName.text = data.title
         val sdf = SimpleDateFormat("M/d a h:mm")
+//        스피너의 첫번째는 공석
         if (position == 0) {
             appointmentTime.text = ""
             appointmentName.text = "그 외의 약속 확인하기"

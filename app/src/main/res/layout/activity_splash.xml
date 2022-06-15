@@ -11,11 +11,10 @@
         tools:context=".ui.SplashActivity">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/ice_lolly_loader" />
+            app:lottie_rawRes="@raw/light_blue_check_circle" />
 
     </LinearLayout>
 </layout>

@@ -46,7 +46,7 @@ class RequestFriendsActivity : BaseActivity() {
         binding.requestFriendsRecyclerView.adapter = mFriendsAdapter
         binding.requestFriendsRecyclerView.layoutManager = LinearLayoutManager(mContext)
     }
-
+//      다른 친구가 보낸 친구 요청을 열람하는 기능 - 어댑터에서 수락, 거절 버튼을 통해 기능
     fun getRequestedFriendsListFromServer(){
         apiList.getRequestMyFriendsList("requested").enqueue(object : Callback<BasicResponse>{
             override fun onFailure(call: Call<BasicResponse>, t: Throwable) {

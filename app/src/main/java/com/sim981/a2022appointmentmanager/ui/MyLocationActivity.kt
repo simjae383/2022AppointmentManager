@@ -33,11 +33,13 @@ class MyLocationActivity : BaseActivity() {
     lateinit var binding: ActivityMyLocationBinding
 
     lateinit var mFusedLocationClient: FusedLocationProviderClient
+//  현재 위치 좌표
     var latitude: Double = 0.0
     var longitude: Double = 0.0
 
     lateinit var naverRetrofit: Retrofit
     lateinit var naverApiList: NaverAPIList
+//    네이버 맵에 넘겨줄 좌표
     var coord = LatLng(37.5779235853308, 127.033553463647)
 
     var mNaverMap: NaverMap? = null
@@ -57,6 +59,7 @@ class MyLocationActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+//        현재 위치 확인 버튼, 권한 요청 확인
         binding.locationBtn.setOnClickListener {
             val pl = object : PermissionListener {
                 override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
@@ -88,6 +91,7 @@ class MyLocationActivity : BaseActivity() {
         }
     }
 
+//    현재 좌표를 찾는 기능
     @SuppressLint("MissingPermission")
     fun requestNewLocationData() {
         var mLocationRequest = LocationRequest()
@@ -115,6 +119,7 @@ class MyLocationActivity : BaseActivity() {
         }
     }
 
+//    현재 좌표를 기준으로 네이버 리버스 지오코딩을 하는 메소드
     fun getCoordToAddress() {
         var address = ""
 

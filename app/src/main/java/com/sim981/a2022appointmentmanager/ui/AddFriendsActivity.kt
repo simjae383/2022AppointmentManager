@@ -34,6 +34,7 @@ class AddFriendsActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+//        친구 검색 버튼
         binding.searchBtn.setOnClickListener {
             val inputNick = binding.searchEdt.text.toString()
 
