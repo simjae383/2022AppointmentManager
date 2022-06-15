@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.gun0912.tedpermission.PermissionListener
@@ -181,6 +182,7 @@ class SettingsFragment : BaseFragment() {
             alert.binding.dialogBodyTxt.text = "정말 탈퇴하시겠습니까?"
             alert.binding.dialogContentEdt.hint = "동의 라고 입력하십시오"
             alert.binding.dialogContentEdt.visibility = View.VISIBLE
+            alert.binding.dialogPositiveBtn.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red))
             alert.binding.dialogPositiveBtn.setOnClickListener {
                 apiList.deleteRequestUserSecession(alert.binding.dialogContentEdt.text.toString())
                     .enqueue(object : Callback<BasicResponse> {
