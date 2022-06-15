@@ -60,7 +60,6 @@ class RequestFriendsActivity : BaseActivity() {
                     mFriendsList.clear()
                     mFriendsList.addAll(br.data.friends)
                     mFriendsAdapter.notifyDataSetChanged()
-                    Log.d("친구 목록", br.data.friends.toString())
                 }
             }
         })

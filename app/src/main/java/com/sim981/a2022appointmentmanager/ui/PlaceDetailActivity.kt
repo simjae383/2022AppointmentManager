@@ -20,7 +20,10 @@ import com.sim981.a2022appointmentmanager.models.BasicResponse
 import com.sim981.a2022appointmentmanager.navermodels.GeoResponse
 import com.sim981.a2022appointmentmanager.navermodels.ResultData
 import org.json.JSONObject
-import retrofit2.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 
 class PlaceDetailActivity : BaseActivity() {
     lateinit var binding: ActivityPlaceDetailBinding

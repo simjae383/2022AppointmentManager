@@ -8,93 +8,104 @@ import retrofit2.http.*
 interface APIList {
     //    appointment
     @DELETE("/appointment")
-    fun deleteRequestDeleteAppointment(@Query("appointment_id")appointmentId : Int) : Call<BasicResponse>
+    fun deleteRequestDeleteAppointment(@Query("appointment_id") appointmentId: Int): Call<BasicResponse>
 
     @GET("/appointment")
-    fun getRequestMyAppointment() : Call<BasicResponse>
+    fun getRequestMyAppointment(): Call<BasicResponse>
 
     @FormUrlEncoded
     @POST("/appointment")
-    fun postRequestAddAppointment(@Field("title")title : String,
-    @Field("datetime") datetime : String, @Field("start_place") startPlace : String,
-    @Field("start_latitude")startLatitude : Double, @Field("start_longitude")startLongitude : Double,
-    @Field("place")place: String, @Field("latitude")latitude: Double, @Field("longitude")longitude: Double,
-    @Field("friend_list")friendList : String) : Call<BasicResponse>
+    fun postRequestAddAppointment(
+        @Field("title") title: String,
+        @Field("datetime") datetime: String,
+        @Field("start_place") startPlace: String,
+        @Field("start_latitude") startLatitude: Double,
+        @Field("start_longitude") startLongitude: Double,
+        @Field("place") place: String,
+        @Field("latitude") latitude: Double,
+        @Field("longitude") longitude: Double,
+        @Field("friend_list") friendList: String
+    ): Call<BasicResponse>
 
     @FormUrlEncoded
     @PUT("/appointment")
     fun putRequestEditAppointment(
-        @Field("appointment_id") appointmentId : Int, @Field("title")title : String,
-        @Field("datetime") datetime: String, @Field("start_place")startPlace: String,
-        @Field("start_latitude")startLatitude: Double, @Field("start_longitude")startLongitude: Double,
-        @Field("place")place: String, @Field("latitude")latitude: Double,
-        @Field("longitude")longitude: Double, @Field("friend_list") friendList: String
-    ) : Call<BasicResponse>
+        @Field("appointment_id") appointmentId: Int,
+        @Field("title") title: String,
+        @Field("datetime") datetime: String,
+        @Field("start_place") startPlace: String,
+        @Field("start_latitude") startLatitude: Double,
+        @Field("start_longitude") startLongitude: Double,
+        @Field("place") place: String,
+        @Field("latitude") latitude: Double,
+        @Field("longitude") longitude: Double,
+        @Field("friend_list") friendList: String
+    ): Call<BasicResponse>
 
     @GET("/appointment/{appointment_id}")
     fun getRequestAppointmentDetail(
         @Path("appointment_id") appointmentId: Int
-    ) : Call<BasicResponse>
+    ): Call<BasicResponse>
 
     //    search
     @GET("/search/user")
-    fun getRequestSearchUser(@Query("nickname") nickname: String) : Call<BasicResponse>
+    fun getRequestSearchUser(@Query("nickname") nickname: String): Call<BasicResponse>
 
     //    user
     @GET("/user")
-    fun getRequestMyInfo(@Header("X-Http-Token") token : String) : Call<BasicResponse>
+    fun getRequestMyInfo(@Header("X-Http-Token") token: String): Call<BasicResponse>
 
     @FormUrlEncoded
     @POST("/user")
-    fun postRequestLogin (
+    fun postRequestLogin(
         @Field("email") email: String,
-        @Field("password") password : String,
-    ) : Call<BasicResponse>
+        @Field("password") password: String,
+    ): Call<BasicResponse>
 
     @FormUrlEncoded
     @PUT("/user")
-    fun putRequestSignUp (
+    fun putRequestSignUp(
         @Field("email") email: String,
-        @Field("password") pw : String,
-        @Field("nick_name") nickName : String,
-    ) : Call<BasicResponse>
+        @Field("password") pw: String,
+        @Field("nick_name") nickName: String,
+    ): Call<BasicResponse>
 
     @FormUrlEncoded
     @PATCH("/user")
-    fun patchRequestUserEdit (
-        @Field("field") field : String,
+    fun patchRequestUserEdit(
+        @Field("field") field: String,
         @Field("value") value: String,
-    ) : Call<BasicResponse>
+    ): Call<BasicResponse>
 
     @FormUrlEncoded
     @PATCH("/user/password")
     fun patchRequestPwEdit(
-        @Field("current_password") currentPw : String,
-        @Field("new_password") newPw : String,
-    ) : Call<BasicResponse>
+        @Field("current_password") currentPw: String,
+        @Field("new_password") newPw: String,
+    ): Call<BasicResponse>
 
     @GET("/user/check")
-    fun getRequestUserCheck (
-        @Query("type") type : String,
-        @Query("value") value : String,
-    ) : Call<BasicResponse>
+    fun getRequestUserCheck(
+        @Query("type") type: String,
+        @Query("value") value: String,
+    ): Call<BasicResponse>
 
     @DELETE("/user")
-    fun deleteRequestUserSecession (
-        @Query("text") text : String,
-    ) : Call<BasicResponse>
+    fun deleteRequestUserSecession(
+        @Query("text") text: String,
+    ): Call<BasicResponse>
 
     @FormUrlEncoded
     @POST("/user/social")
     fun postRequestSocialLogin(
-        @Field("provider") provider : String,
-        @Field("uid") uid : String,
-        @Field("nick_name") nickname : String,
-    ) : Call<BasicResponse>
+        @Field("provider") provider: String,
+        @Field("uid") uid: String,
+        @Field("nick_name") nickname: String,
+    ): Call<BasicResponse>
 
     @Multipart
     @PUT("/user/image")
-    fun putRequestUserImage(@Part profileImg : MultipartBody.Part) : Call<BasicResponse>
+    fun putRequestUserImage(@Part profileImg: MultipartBody.Part): Call<BasicResponse>
 
     //    friend
     @GET("/user/friend")
@@ -102,33 +113,35 @@ interface APIList {
 
     @FormUrlEncoded
     @POST("/user/friend")
-    fun postRequestAddFriend(@Field("user_id")userId : Int) : Call<BasicResponse>
+    fun postRequestAddFriend(@Field("user_id") userId: Int): Call<BasicResponse>
 
     @FormUrlEncoded
     @PUT("/user/friend")
-    fun putRequestAnswerRequest(@Field("user_id")userId : Int,
-                                @Field("type")type: String) : Call<BasicResponse>
+    fun putRequestAnswerRequest(
+        @Field("user_id") userId: Int,
+        @Field("type") type: String
+    ): Call<BasicResponse>
 
     @DELETE("/user/friend")
-    fun deleteRequestDeleteFriend(@Query("user_id")userId : Int) : Call<BasicResponse>
+    fun deleteRequestDeleteFriend(@Query("user_id") userId: Int): Call<BasicResponse>
 
     //    /place
     @GET("/user/place")
-    fun getRequestMyPlace () : Call<BasicResponse>
+    fun getRequestMyPlace(): Call<BasicResponse>
 
     @FormUrlEncoded
     @PATCH("/user/place")
-    fun patchRequestDefaultPlace(@Field("place_id")placeId : Int) : Call<BasicResponse>
+    fun patchRequestDefaultPlace(@Field("place_id") placeId: Int): Call<BasicResponse>
 
     @DELETE("/user/place")
-    fun deleteRequestDeletePlace(@Query("place_id")placeId : Int) : Call<BasicResponse>
+    fun deleteRequestDeletePlace(@Query("place_id") placeId: Int): Call<BasicResponse>
 
     @FormUrlEncoded
     @POST("/user/place")
-    fun postRequestAddMyPlace (
-        @Field("name") name : String,
-        @Field("latitude") latitude : Double,
-        @Field("longitude") longitude : Double,
-        @Field("is_primary") isPrimary : Boolean,
-    ) : Call<BasicResponse>
+    fun postRequestAddMyPlace(
+        @Field("name") name: String,
+        @Field("latitude") latitude: Double,
+        @Field("longitude") longitude: Double,
+        @Field("is_primary") isPrimary: Boolean,
+    ): Call<BasicResponse>
 }

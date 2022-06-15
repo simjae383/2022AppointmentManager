@@ -9,9 +9,9 @@ import com.sim981.a2022appointmentmanager.adapters.MainViewPagerAdapter
 import com.sim981.a2022appointmentmanager.databinding.ActivityMainBinding
 
 class MainActivity : BaseActivity() {
-    lateinit var binding : ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
 
-    lateinit var mPagerAdapter : MainViewPagerAdapter
+    lateinit var mPagerAdapter: MainViewPagerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -32,14 +32,9 @@ class MainActivity : BaseActivity() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     binding.mainBottomNav.menu.getItem(position).isChecked = true
-//                    titleTxt.text = when (position) {
-//                        0 -> "약속 확인하기"
-//                        1 -> "친구 관리"
-//                        2 -> "장소 관리"
-//                        else -> "설정"
-//                    }
                     when (position) {
-                        0 -> { titleTxt.text = "약속 확인"
+                        0 -> {
+                            titleTxt.text = "약속 확인"
                             addAppointmentBtn.visibility = View.VISIBLE
                             addPlaceBtn.visibility = View.GONE
                             addFriendBtn.visibility = View.GONE
@@ -75,7 +70,7 @@ class MainActivity : BaseActivity() {
             }
         )
         binding.mainBottomNav.setOnItemSelectedListener {
-            when (it.itemId){
+            when (it.itemId) {
                 R.id.Appointments -> binding.mainViewPager.currentItem = 0
                 R.id.Friends -> binding.mainViewPager.currentItem = 1
                 R.id.Places -> binding.mainViewPager.currentItem = 2

@@ -1,6 +1,5 @@
 package com.sim981.a2022appointmentmanager.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -33,6 +32,7 @@ class AddFriendsActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
     }
+
     override fun setupEvents() {
         binding.searchBtn.setOnClickListener {
             val inputNick = binding.searchEdt.text.toString()
@@ -42,7 +42,7 @@ class AddFriendsActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
-            apiList.getRequestSearchUser(inputNick).enqueue(object : Callback<BasicResponse>{
+            apiList.getRequestSearchUser(inputNick).enqueue(object : Callback<BasicResponse> {
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                 }
@@ -51,7 +51,7 @@ class AddFriendsActivity : BaseActivity() {
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
                 ) {
-                    if(response.isSuccessful){
+                    if (response.isSuccessful) {
                         val br = response.body()!!
 
                         mFriendsList.clear()

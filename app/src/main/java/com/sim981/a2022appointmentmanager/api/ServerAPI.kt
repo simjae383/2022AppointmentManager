@@ -15,9 +15,9 @@ class ServerAPI {
         //        서버주소
         private val baseUrl = "https://keepthetime.xyz"
 
-        private var retrofit : Retrofit? = null
+        private var retrofit: Retrofit? = null
 
-        fun getRetrofit(context : Context) : Retrofit {
+        fun getRetrofit(context: Context): Retrofit {
 
             if (retrofit == null) {
 

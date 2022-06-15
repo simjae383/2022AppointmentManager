@@ -65,7 +65,9 @@ class FriendsListRecyclerAdapter(
                 "facebook" -> {
 //                    socialLoginImg.setImageResource(R.drawable.facebook_login_icon)
                 }
-                else -> {socialLoginImg.visibility = View.GONE}
+                else -> {
+                    socialLoginImg.visibility = View.GONE
+                }
             }
 //          친구 요청 수락/거절 이벤트
             val ocl = object : View.OnClickListener {
@@ -104,6 +106,7 @@ class FriendsListRecyclerAdapter(
                     override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                     }
+
                     override fun onResponse(
                         call: Call<BasicResponse>,
                         response: Response<BasicResponse>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -24,22 +25,22 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="약속 제목"/>
+                    android:text="약속 제목" />
 
                 <EditText
                     android:id="@+id/titleEdt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="제목 입력"
-                    android:inputType="text"
                     android:imeOptions="actionNext"
-                    android:maxLines="1"/>
+                    android:inputType="text"
+                    android:maxLines="1" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="약속 일시"/>
+                    android:text="약속 일시" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -54,8 +55,8 @@
                         android:background="@drawable/lightgray_rectangle_r6"
                         android:gravity="center"
                         android:padding="15dp"
-                        android:textSize="16sp"
-                        android:text="일자 선택"/>
+                        android:text="일자 선택"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/timeTxt"
@@ -65,8 +66,8 @@
                         android:background="@drawable/lightgray_rectangle_r6"
                         android:gravity="center"
                         android:padding="15dp"
-                        android:textSize="16sp"
-                        android:text="시간 선택"/>
+                        android:text="시간 선택"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -74,24 +75,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="일자, 시간 선택을 눌러서 약속 일시를 선택하세요."/>
+                    android:text="일자, 시간 선택을 눌러서 약속 일시를 선택하세요." />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="출발지 설정"/>
+                    android:text="출발지 설정" />
 
                 <Spinner
                     android:id="@+id/startPlaceSpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="참석할 친구들"
-                    android:layout_marginTop="15dp"/>
+                    android:layout_marginTop="15dp"
+                    android:text="참석할 친구들" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -103,13 +104,13 @@
                         android:id="@+id/invitedFriendSpinner"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <Button
                         android:id="@+id/invitedFriendBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="참여 추가"/>
+                        android:text="참여 추가" />
 
                 </LinearLayout>
 
@@ -118,22 +119,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="약속 장소"/>
+                    android:text="약속 장소" />
 
                 <EditText
                     android:id="@+id/placeNameEdt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="약속 장소를 입력하세요."
-                    android:inputType="text"
                     android:imeOptions="actionDone"
-                    android:maxLines="1"/>
+                    android:inputType="text"
+                    android:maxLines="1" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -141,15 +142,15 @@
 
                     <fragment
                         android:id="@+id/editMapView"
+                        android:name="com.naver.maps.map.MapFragment"
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
-                        android:layout_marginTop="10dp"
-                        android:name="com.naver.maps.map.MapFragment"/>
+                        android:layout_marginTop="10dp" />
 
                     <TextView
                         android:id="@+id/scrollHelpTxt"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent" />
 
 
                 </FrameLayout>
@@ -157,11 +158,12 @@
             </LinearLayout>
 
         </ScrollView>
+
         <Button
             android:id="@+id/addBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="약속 등록하기"/>
+            android:text="약속 등록하기" />
     </LinearLayout>
 </layout>

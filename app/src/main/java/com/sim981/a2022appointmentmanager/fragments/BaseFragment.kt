@@ -9,10 +9,10 @@ import com.sim981.a2022appointmentmanager.api.ServerAPI
 import retrofit2.Retrofit
 
 abstract class BaseFragment : Fragment() {
-    lateinit var mContext : Context
+    lateinit var mContext: Context
 
     lateinit var retrofit: Retrofit
-    lateinit var apiList : APIList
+    lateinit var apiList: APIList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

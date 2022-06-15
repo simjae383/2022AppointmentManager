@@ -3,7 +3,6 @@ package com.sim981.a2022appointmentmanager.ui
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.setPadding
@@ -24,8 +23,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
-import kotlin.math.pow
-import kotlin.math.sqrt
 
 class AppointmentDetailActivity : BaseActivity() {
     lateinit var binding: ActivityAppointmentDetailBinding
@@ -41,7 +38,7 @@ class AppointmentDetailActivity : BaseActivity() {
 
     var mNaverMap: NaverMap? = null
 
-//    들어온 좌표정보
+    //    들어온 좌표정보
     var coord: LatLng? = null
     var startPosition: LatLng? = null
     var endPosition: LatLng? = null
@@ -63,7 +60,7 @@ class AppointmentDetailActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         zoomOutMapBtn.visibility = View.VISIBLE
-        if(!isDetailOk){
+        if (!isDetailOk) {
             getRequestAppointmentDetail()
         }
     }
@@ -120,6 +117,7 @@ class AppointmentDetailActivity : BaseActivity() {
             override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
             }
+
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
                 if (response.isSuccessful) {
                     apponintmentDetail = response.body()!!.data.appointment
@@ -134,7 +132,8 @@ class AppointmentDetailActivity : BaseActivity() {
         titleTxt.text = receivedApponintment.title
         val sdf = SimpleDateFormat("M/d a h:mm")
         binding.detailDateTimeTxt.text = "${sdf.format(receivedApponintment.datetime)}"
-        binding.detailLocationTxt.text = "${receivedApponintment.startPlace} -> ${receivedApponintment.place}"
+        binding.detailLocationTxt.text =
+            "${receivedApponintment.startPlace} -> ${receivedApponintment.place}"
         if (receivedApponintment.user.nickName == GlobalData.loginUser!!.nickName) {
             editAppointmentBtn.visibility = View.VISIBLE
         } else {
@@ -154,7 +153,8 @@ class AppointmentDetailActivity : BaseActivity() {
         titleTxt.text = apponintmentDetail.title
         val sdf = SimpleDateFormat("M/d a h:mm")
         binding.detailDateTimeTxt.text = "${sdf.format(apponintmentDetail.datetime)}"
-        binding.detailLocationTxt.text = "${apponintmentDetail.startPlace} -> ${apponintmentDetail.place}"
+        binding.detailLocationTxt.text =
+            "${apponintmentDetail.startPlace} -> ${apponintmentDetail.place}"
         binding.detailfriendsListLayout.removeAllViewsInLayout()
         for (friends in apponintmentDetail.invitedFriends) {
             val textView = TextView(mContext)

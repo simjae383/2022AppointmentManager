@@ -1,53 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="20dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical"
-            android:padding="20dp"
-            android:gravity="center">
+            android:padding="20dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/settingMyProfileImg"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:src="@mipmap/ic_launcher"
-                app:civ_border_width="1dp"/>
+                app:civ_border_width="1dp" />
 
             <LinearLayout
                 android:id="@+id/changeMyNickLayout"
-                android:tag="nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:layout_marginTop="10dp">
+                android:orientation="horizontal"
+                android:tag="nickname">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/settingSocialLoginImg"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/ic_launcher" />
 
                 <TextView
                     android:id="@+id/settingNickNameTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="닉네임 자리"/>
+                    android:text="닉네임 자리" />
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/baseline_input_black_24dp"
-                    android:layout_marginStart="5dp"/>
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/baseline_input_black_24dp" />
 
             </LinearLayout>
 
@@ -56,131 +57,136 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lightGray"/>
+            android:background="@color/lightGray" />
 
         <LinearLayout
             android:id="@+id/readyTimeLayout"
-            android:tag="ready_minute"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:tag="ready_minute">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="나의 외출 준비 시간"/>
+                android:text="나의 외출 준비 시간" />
 
             <Space
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/readyTimeTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="30분"
-                android:textSize="18sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="10dp"
-                android:src="@drawable/baseline_check_black_24dp"/>
+                android:src="@drawable/baseline_check_black_24dp" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lightGray"/>
+            android:background="@color/lightGray" />
 
         <LinearLayout
             android:id="@+id/changePwLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="비밀번호 변경"/>
+                android:text="비밀번호 변경" />
 
             <Space
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/baseline_arrow_right_alt_black_24dp"/>
+                android:src="@drawable/baseline_arrow_right_alt_black_24dp" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lightGray"/>
+            android:background="@color/lightGray" />
 
         <LinearLayout
             android:id="@+id/logoutLayout"
-            android:tag="logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:tag="logout">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="로그아웃"/>
+                android:text="로그아웃" />
 
             <Space
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/baseline_logout_black_24dp"/>
+                android:src="@drawable/baseline_logout_black_24dp" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lightGray"/>
+            android:background="@color/lightGray" />
 
         <LinearLayout
             android:id="@+id/secessionLayout"
-            android:tag="secession"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:tag="secession">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="회원 탈퇴"
-                android:textColor="@color/red"/>
+                android:textColor="@color/red" />
 
             <Space
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/baseline_close_black_24dp"/>
+                android:src="@drawable/baseline_close_black_24dp" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lightGray"/>
+            android:background="@color/lightGray" />
 
     </LinearLayout>
 </layout>

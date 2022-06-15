@@ -11,14 +11,14 @@ import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.models.PlaceData
 
 class StartPlaceSpinnerAdapter(
-    val mContext : Context,
+    val mContext: Context,
     val resId: Int,
     val mList: List<PlaceData>
 ) : ArrayAdapter<PlaceData>(mContext, resId, mList) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var row = convertView
-        if(row == null){
+        if (row == null) {
             row = LayoutInflater.from(mContext).inflate(resId, null)
         }
         row!!

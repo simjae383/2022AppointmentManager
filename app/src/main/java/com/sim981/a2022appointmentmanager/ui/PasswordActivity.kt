@@ -15,7 +15,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class PasswordActivity : BaseActivity() {
-    lateinit var binding : ActivityPasswordBinding
+    lateinit var binding: ActivityPasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +25,9 @@ class PasswordActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
-        binding.newPwEdt.addTextChangedListener{
+        binding.newPwEdt.addTextChangedListener {
             val newPw = binding.newPwEdt.text.toString()
-            if(newPw.length >= 8){
+            if (newPw.length >= 8) {
                 binding.newPwCheckTxt.text = "정상적인 비밀번호 입니다."
                 binding.changePwBtn.isEnabled = true
             } else {
@@ -38,11 +38,11 @@ class PasswordActivity : BaseActivity() {
         binding.changePwBtn.setOnClickListener {
             val currentPw = binding.currentPwEdt.text.toString()
             val newPw = binding.newPwEdt.text.toString()
-            if(newPw.isBlank()){
+            if (newPw.isBlank()) {
                 Toast.makeText(mContext, "새 비밀번호를 입력하시오", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            apiList.patchRequestPwEdit(currentPw, newPw).enqueue(object : Callback<BasicResponse>{
+            apiList.patchRequestPwEdit(currentPw, newPw).enqueue(object : Callback<BasicResponse> {
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                 }
@@ -51,7 +51,7 @@ class PasswordActivity : BaseActivity() {
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
                 ) {
-                    if(response.isSuccessful){
+                    if (response.isSuccessful) {
                         val br = response.body()!!
 
 

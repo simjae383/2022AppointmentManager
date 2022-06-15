@@ -20,7 +20,7 @@ import retrofit2.Response
 class EditMyPlaceActivity : BaseActivity() {
     lateinit var binding: ActivityEditMyPlaceBinding
 
-//    기본 선택 위도 경도
+    //    기본 선택 위도 경도
     var mSelectedLatitude = 37.5779235853308
     var mSelectedLongitude = 127.033553463647
 
@@ -47,7 +47,7 @@ class EditMyPlaceActivity : BaseActivity() {
             }
 //          장소 이름과 위도 경도, 기본 장소 설정 여부를 체크
             apiList.postRequestAddMyPlace(inputName, mSelectedLatitude, mSelectedLongitude, false)
-                .enqueue(object : Callback<BasicResponse>{
+                .enqueue(object : Callback<BasicResponse> {
                     override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                     }
@@ -59,8 +59,7 @@ class EditMyPlaceActivity : BaseActivity() {
                         if (response.isSuccessful) {
                             Toast.makeText(mContext, "장소가 추가되었습니다.", Toast.LENGTH_SHORT).show()
                             finish()
-                        }
-                        else {
+                        } else {
                             val errorBodyStr = response.errorBody()!!.string()
                             val jsonObj = JSONObject(errorBodyStr)
                             val code = jsonObj.getInt("code")
@@ -68,7 +67,7 @@ class EditMyPlaceActivity : BaseActivity() {
 
                             if (code == 400) {
                                 Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
-                            }else {
+                            } else {
                                 Log.e("장소 추가 서버 에러 ", message)
                             }
                         }
@@ -76,6 +75,7 @@ class EditMyPlaceActivity : BaseActivity() {
                 })
         }
     }
+
     override fun setValues() {
 //        네이버 지도 설정
         val fm = supportFragmentManager

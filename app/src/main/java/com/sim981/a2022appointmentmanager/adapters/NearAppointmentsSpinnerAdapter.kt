@@ -11,9 +11,9 @@ import com.sim981.a2022appointmentmanager.models.AppointmentData
 import java.text.SimpleDateFormat
 
 class NearAppointmentsSpinnerAdapter(
-    val mContext : Context,
-    val resId : Int,
-    val mList : List<AppointmentData>
+    val mContext: Context,
+    val resId: Int,
+    val mList: List<AppointmentData>
 ) : ArrayAdapter<AppointmentData>(mContext, resId, mList) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var row = convertView
@@ -29,7 +29,7 @@ class NearAppointmentsSpinnerAdapter(
 
         appointmentName.text = data.title
         val sdf = SimpleDateFormat("M/d a h:mm")
-        if(position == 0){
+        if (position == 0) {
             appointmentTime.text = ""
             appointmentName.text = "그 외의 약속 확인하기"
         } else {

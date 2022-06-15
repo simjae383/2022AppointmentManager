@@ -2,12 +2,10 @@ package com.sim981.a2022appointmentmanager.adapters
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.os.persistableBundleOf
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sim981.a2022appointmentmanager.R
@@ -15,7 +13,6 @@ import com.sim981.a2022appointmentmanager.api.APIList
 import com.sim981.a2022appointmentmanager.api.ServerAPI
 import com.sim981.a2022appointmentmanager.dialogs.CustomAlertDialog
 import com.sim981.a2022appointmentmanager.fragments.AppointmentsFragment
-import com.sim981.a2022appointmentmanager.fragments.PlacesFragment
 import com.sim981.a2022appointmentmanager.models.AppointmentData
 import com.sim981.a2022appointmentmanager.models.BasicResponse
 import com.sim981.a2022appointmentmanager.ui.AppointmentDetailActivity
@@ -26,26 +23,25 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class AppointmentsRecyclerAdapter(
-    val mContext : Context,
-    val mList : List<AppointmentData>
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+    val mContext: Context,
+    val mList: List<AppointmentData>
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val TYPE_HEADER = 0
     val TYPE_ITEM = 1
 
-    lateinit var mNearAppointmentSpinnerAdapter : NearAppointmentsSpinnerAdapter
+    lateinit var mNearAppointmentSpinnerAdapter: NearAppointmentsSpinnerAdapter
     var mNearAppointmentList = ArrayList<AppointmentData>()
 
-    inner class HeaderViewHolder(headerView : View) : RecyclerView.ViewHolder(headerView){
+    inner class HeaderViewHolder(headerView: View) : RecyclerView.ViewHolder(headerView) {
         val primaryTitleTxt = itemView.findViewById<TextView>(R.id.primaryAppointmentTitleTxt)
         val primaryTimeTxt = itemView.findViewById<TextView>(R.id.primaryAppointmentTimeTxt)
         val primaryLayoutBtn = itemView.findViewById<LinearLayout>(R.id.primaryLayoutBtn)
         val primarySpinner = itemView.findViewById<Spinner>(R.id.primaryAppointmentSpinner)
         val headerLayout = itemView.findViewById<LinearLayout>(R.id.headerLayout)
 
-        fun bindHeader(){
+        fun bindHeader() {
             val apiList = ServerAPI.getRetrofit(mContext).create(APIList::class.java)
 
             primaryLayoutBtn.setOnClickListener {
@@ -53,10 +49,14 @@ class AppointmentsRecyclerAdapter(
                 myIntent.putExtra("appointmentPackage", mNearAppointmentList[1])
                 mContext.startActivity(myIntent)
             }
-            mNearAppointmentSpinnerAdapter = NearAppointmentsSpinnerAdapter(mContext, R.layout.list_appointment_item, mNearAppointmentList)
+            mNearAppointmentSpinnerAdapter = NearAppointmentsSpinnerAdapter(
+                mContext,
+                R.layout.list_appointment_item,
+                mNearAppointmentList
+            )
             primarySpinner.adapter = mNearAppointmentSpinnerAdapter
 
-            apiList.getRequestMyAppointment().enqueue(object : Callback<BasicResponse>{
+            apiList.getRequestMyAppointment().enqueue(object : Callback<BasicResponse> {
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                 }
@@ -65,35 +65,33 @@ class AppointmentsRecyclerAdapter(
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
                 ) {
-                    if(response.isSuccessful){
+                    if (response.isSuccessful) {
                         val br = response.body()!!
 
                         mNearAppointmentList.clear()
                         var timeNow = Calendar.getInstance().timeInMillis
-                        for(datas in br.data.appointments){
-                            val subTime = (datas.datetime.time - timeNow)/(24*60*60*1000)
-                            if(subTime <= 2){
+                        for (datas in br.data.appointments) {
+                            val subTime = (datas.datetime.time - timeNow) / (24 * 60 * 60 * 1000)
+                            if (subTime <= 2) {
 //                                첫번째항목은 공백으로 두기
-                                if(mNearAppointmentList.isEmpty()){
+                                if (mNearAppointmentList.isEmpty()) {
                                     mNearAppointmentList.add(AppointmentData()) //빈 AppointmentData 할당
                                 }
                                 mNearAppointmentList.add(datas)
                             }
-                            Log.d("시간차", subTime.toString())
                         }
-                        for (datas in br.data.invitedAppointments){
-                            val subTime = (datas.datetime.time - timeNow)/(24*60*60*1000)
-                            if(subTime <= 2){
-                                if(mNearAppointmentList.isEmpty()){
+                        for (datas in br.data.invitedAppointments) {
+                            val subTime = (datas.datetime.time - timeNow) / (24 * 60 * 60 * 1000)
+                            if (subTime <= 2) {
+                                if (mNearAppointmentList.isEmpty()) {
                                     mNearAppointmentList.add(datas)
                                 }
                                 mNearAppointmentList.add(datas)
                             }
-                            Log.d("시간차", subTime.toString())
                         }
                         mNearAppointmentList.sortWith(compareBy { it.datetime.time })
                         mNearAppointmentSpinnerAdapter.notifyDataSetChanged()
-                        if(mNearAppointmentList.isNotEmpty()){
+                        if (mNearAppointmentList.isNotEmpty()) {
                             primaryTitleTxt.text = mNearAppointmentList[1].title
                             val sdf = SimpleDateFormat("M/d a h:mm")
                             primaryTimeTxt.text = "${sdf.format(mNearAppointmentList[1].datetime)}"
@@ -103,10 +101,9 @@ class AppointmentsRecyclerAdapter(
                             primaryTimeTxt.text = ""
                             headerLayout.visibility = View.GONE
                         }
-                        if(mNearAppointmentList.size == 2){
+                        if (mNearAppointmentList.size == 2) {
                             primarySpinner.visibility = View.GONE
                         }
-                        Log.d("헤더 상황", mNearAppointmentList.toString())
                     } else {
                         val errorBodyStr = response.errorBody()!!.string()
                         val jsonObj = JSONObject(errorBodyStr)
@@ -117,13 +114,18 @@ class AppointmentsRecyclerAdapter(
                 }
             })
 
-            primarySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            primarySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(p0: AdapterView<*>?) {
 
                 }
 
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position : Int, p3: Long) {
-                    if(position != 0){
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    position: Int,
+                    p3: Long
+                ) {
+                    if (position != 0) {
                         val myIntent = Intent(mContext, AppointmentDetailActivity::class.java)
                         myIntent.putExtra("appointmentPackage", mNearAppointmentList[position])
                         mContext.startActivity(myIntent)
@@ -134,7 +136,7 @@ class AppointmentsRecyclerAdapter(
     }
 
 
-    inner class ItemViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
+    inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val titleTxt = itemView.findViewById<TextView>(R.id.appoinmentTitleTxt)
         val placeNameTxt = itemView.findViewById<TextView>(R.id.placeNameTxt)
@@ -144,7 +146,7 @@ class AppointmentsRecyclerAdapter(
         val invitedFriendImg = itemView.findViewById<ImageView>(R.id.invitedFriendImg)
         val invitedFriendTxt = itemView.findViewById<TextView>(R.id.invitedFriendTxt)
 
-        fun bind(item : AppointmentData){
+        fun bind(item: AppointmentData) {
             val apiList = ServerAPI.getRetrofit(mContext).create(APIList::class.java)
 
             invitedLayout.visibility = View.VISIBLE
@@ -172,41 +174,42 @@ class AppointmentsRecyclerAdapter(
                 alert.binding.dialogTitleTxt.text = "약속 삭제"
                 alert.binding.dialogBodyTxt.text = "정말 삭제하시겠습니까?"
                 alert.binding.dialogContentEdt.visibility = View.GONE
-                alert.binding.dialogPositiveBtn.setOnClickListener{
-                    apiList.deleteRequestDeleteAppointment(item.id).enqueue(object : Callback<BasicResponse>{
-                        override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
-
-                        }
-
-                        override fun onResponse(
-                            call: Call<BasicResponse>,
-                            response: Response<BasicResponse>
-                        ) {
-                            if(response.isSuccessful){
-                                val br = response.body()!!
-                                resultMessage = "약속을 삭제하였습니다."
-                                ((mContext as MainActivity)
-                                    .supportFragmentManager
-                                    .findFragmentByTag("f0") as AppointmentsFragment)
-                                    .getAppointmentListFromServer()
-                            } else {
-                                val errorBodyStr = response.errorBody()!!.string()
-                                val jsonObj = JSONObject(errorBodyStr)
-                                resultMessage = jsonObj.getString("message")
+                alert.binding.dialogPositiveBtn.setOnClickListener {
+                    apiList.deleteRequestDeleteAppointment(item.id)
+                        .enqueue(object : Callback<BasicResponse> {
+                            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                             }
-                            val alert2 = CustomAlertDialog(mContext)
 
-                            alert2.myDialog()
-                            alert2.binding.dialogTitleTxt.visibility = View.GONE
-                            alert2.binding.dialogBodyTxt.text = resultMessage
-                            alert2.binding.dialogContentEdt.visibility = View.GONE
-                            alert2.binding.dialogPositiveBtn.setOnClickListener {
-                                alert2.dialog.dismiss()
+                            override fun onResponse(
+                                call: Call<BasicResponse>,
+                                response: Response<BasicResponse>
+                            ) {
+                                if (response.isSuccessful) {
+                                    val br = response.body()!!
+                                    resultMessage = "약속을 삭제하였습니다."
+                                    ((mContext as MainActivity)
+                                        .supportFragmentManager
+                                        .findFragmentByTag("f0") as AppointmentsFragment)
+                                        .getAppointmentListFromServer()
+                                } else {
+                                    val errorBodyStr = response.errorBody()!!.string()
+                                    val jsonObj = JSONObject(errorBodyStr)
+                                    resultMessage = jsonObj.getString("message")
+
+                                }
+                                val alert2 = CustomAlertDialog(mContext)
+
+                                alert2.myDialog()
+                                alert2.binding.dialogTitleTxt.visibility = View.GONE
+                                alert2.binding.dialogBodyTxt.text = resultMessage
+                                alert2.binding.dialogContentEdt.visibility = View.GONE
+                                alert2.binding.dialogPositiveBtn.setOnClickListener {
+                                    alert2.dialog.dismiss()
+                                }
+                                alert2.binding.dialogNegativeBtn.visibility = View.GONE
                             }
-                            alert2.binding.dialogNegativeBtn.visibility = View.GONE
-                        }
-                    })
+                        })
                     alert.dialog.dismiss()
                 }
                 alert.binding.dialogNegativeBtn.setOnClickListener {
@@ -219,23 +222,29 @@ class AppointmentsRecyclerAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType){
+        return when (viewType) {
             TYPE_HEADER -> {
-                HeaderViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_appointment_header, parent, false))
+                HeaderViewHolder(
+                    LayoutInflater.from(mContext)
+                        .inflate(R.layout.list_appointment_header, parent, false)
+                )
             }
             else -> {
-                ItemViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_appointment_item, parent, false))
+                ItemViewHolder(
+                    LayoutInflater.from(mContext)
+                        .inflate(R.layout.list_appointment_item, parent, false)
+                )
             }
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder){
+        when (holder) {
             is HeaderViewHolder -> {
                 holder.bindHeader()
             }
             is ItemViewHolder -> {
-                holder.bind(mList[position-1])
+                holder.bind(mList[position - 1])
             }
         }
     }
@@ -245,7 +254,7 @@ class AppointmentsRecyclerAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (position){
+        return when (position) {
             0 -> TYPE_HEADER
             else -> TYPE_ITEM
         }

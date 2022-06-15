@@ -2,7 +2,6 @@ package com.sim981.a2022appointmentmanager.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,19 +22,20 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class AppointmentsFragment : BaseFragment() {
-    lateinit var binding : FragmentAppointmentsBinding
+    lateinit var binding: FragmentAppointmentsBinding
 
-    lateinit var mAppointmentAdapter : AppointmentsRecyclerAdapter
+    lateinit var mAppointmentAdapter: AppointmentsRecyclerAdapter
     var mAppointmentsList = ArrayList<AppointmentData>()
 
-    lateinit var addBtn : ImageView
+    lateinit var addBtn: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_appointments, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_appointments, container, false)
         return binding.root
     }
 
@@ -66,22 +66,21 @@ class AppointmentsFragment : BaseFragment() {
         binding.AppointmentRecyclerView.layoutManager = LinearLayoutManager(mContext)
     }
 
-    fun getAppointmentListFromServer(){
-        apiList.getRequestMyAppointment().enqueue(object : Callback<BasicResponse>{
+    fun getAppointmentListFromServer() {
+        apiList.getRequestMyAppointment().enqueue(object : Callback<BasicResponse> {
             override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
-                Log.d("확인", t.toString())
             }
 
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     val br = response.body()!!
 
                     mAppointmentsList.clear()
                     mAppointmentsList.addAll(br.data.appointments)
                     mAppointmentsList.addAll(br.data.invitedAppointments)
 
-                    if(mAppointmentsList.isEmpty()){
+                    if (mAppointmentsList.isEmpty()) {
                         binding.emptyLayout.visibility = View.VISIBLE
                     } else {
                         binding.emptyLayout.visibility = View.GONE

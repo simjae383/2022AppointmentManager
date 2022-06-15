@@ -14,13 +14,13 @@ import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
-import com.sim981.a2022appointmentmanager.ui.LoginActivity
-import com.sim981.a2022appointmentmanager.ui.PasswordActivity
 import com.sim981.a2022appointmentmanager.R
 import com.sim981.a2022appointmentmanager.databinding.FragmentSettingsBinding
 import com.sim981.a2022appointmentmanager.dialogs.CustomAlertDialog
 import com.sim981.a2022appointmentmanager.models.BasicResponse
+import com.sim981.a2022appointmentmanager.ui.LoginActivity
 import com.sim981.a2022appointmentmanager.ui.MainActivity
+import com.sim981.a2022appointmentmanager.ui.PasswordActivity
 import com.sim981.a2022appointmentmanager.utils.ContextUtil
 import com.sim981.a2022appointmentmanager.utils.GlobalData
 import com.sim981.a2022appointmentmanager.utils.URIPathHelper
@@ -34,7 +34,7 @@ import retrofit2.Response
 import java.io.File
 
 class SettingsFragment : BaseFragment() {
-    lateinit var binding : FragmentSettingsBinding
+    lateinit var binding: FragmentSettingsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,6 +58,7 @@ class SettingsFragment : BaseFragment() {
         (mContext as MainActivity).requestFriendBtn.visibility = View.GONE
         (mContext as MainActivity).myLocationBtn.visibility = View.GONE
     }
+
     override fun setupEvents() {
 //        프로필 이미지 변경 이벤트
         binding.settingMyProfileImg.setOnClickListener {
@@ -182,7 +183,7 @@ class SettingsFragment : BaseFragment() {
             alert.binding.dialogContentEdt.visibility = View.VISIBLE
             alert.binding.dialogPositiveBtn.setOnClickListener {
                 apiList.deleteRequestUserSecession(alert.binding.dialogContentEdt.text.toString())
-                    .enqueue(object : Callback<BasicResponse>{
+                    .enqueue(object : Callback<BasicResponse> {
                         override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                         }
@@ -191,7 +192,7 @@ class SettingsFragment : BaseFragment() {
                             call: Call<BasicResponse>,
                             response: Response<BasicResponse>
                         ) {
-                            if(response.isSuccessful){
+                            if (response.isSuccessful) {
                                 val br = response.body()!!
 
                                 Toast.makeText(mContext, br.message, Toast.LENGTH_SHORT).show()
@@ -199,7 +200,8 @@ class SettingsFragment : BaseFragment() {
                                 GlobalData.loginUser = null
 
                                 val myIntent = Intent(mContext, LoginActivity::class.java)
-                                myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                myIntent.flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(myIntent)
 
                                 alert.dialog.dismiss()
@@ -233,39 +235,45 @@ class SettingsFragment : BaseFragment() {
             else -> binding.settingSocialLoginImg.visibility = View.GONE
         }
     }
-//수정된 회원정보 갱신
-    fun setUserData(){
-        Glide.with(mContext).load(GlobalData.loginUser!!.profileImg).into(binding.settingMyProfileImg)
+
+    //수정된 회원정보 갱신
+    fun setUserData() {
+        Glide.with(mContext).load(GlobalData.loginUser!!.profileImg)
+            .into(binding.settingMyProfileImg)
         binding.settingNickNameTxt.text = GlobalData.loginUser!!.nickName
 
         binding.readyTimeTxt.text = "${GlobalData.loginUser!!.readyMinute}분"
     }
-//    갤러리에서 사진 가져오기
-    val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if(it.resultCode == Activity.RESULT_OK) {
-            val dataUri = it.data?.data
 
-            val file = File(URIPathHelper().getPath(mContext, dataUri!!))
+    //    갤러리에서 사진 가져오기
+    val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val dataUri = it.data?.data
 
-            val fileReqBody = RequestBody.create(MediaType.get("image/*"), file)
-            val body = MultipartBody.Part.createFormData("profile_image", "myFile.jpg", fileReqBody)
+                val file = File(URIPathHelper().getPath(mContext, dataUri!!))
 
-            apiList.putRequestUserImage(body).enqueue(object : Callback<BasicResponse>{
-                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+                val fileReqBody = RequestBody.create(MediaType.get("image/*"), file)
+                val body =
+                    MultipartBody.Part.createFormData("profile_image", "myFile.jpg", fileReqBody)
 
-                }
+                apiList.putRequestUserImage(body).enqueue(object : Callback<BasicResponse> {
+                    override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
-                override fun onResponse(
-                    call: Call<BasicResponse>,
-                    response: Response<BasicResponse>
-                ) {
-                    if(response.isSuccessful){
-                        GlobalData.loginUser = response.body()!!.data.user
-                        Glide.with(mContext).load(GlobalData.loginUser!!.profileImg).into(binding.settingMyProfileImg)
-                        Toast.makeText(mContext, "프로필 사진이 변경되었습니다", Toast.LENGTH_SHORT).show()
                     }
-                }
-            })
+
+                    override fun onResponse(
+                        call: Call<BasicResponse>,
+                        response: Response<BasicResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            GlobalData.loginUser = response.body()!!.data.user
+                            Glide.with(mContext).load(GlobalData.loginUser!!.profileImg)
+                                .into(binding.settingMyProfileImg)
+                            Toast.makeText(mContext, "프로필 사진이 변경되었습니다", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                })
+            }
         }
-    }
 }

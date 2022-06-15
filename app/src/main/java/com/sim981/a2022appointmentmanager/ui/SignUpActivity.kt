@@ -15,7 +15,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class SignUpActivity : BaseActivity() {
-    lateinit var binding : ActivitySignupBinding
+    lateinit var binding: ActivitySignupBinding
 
     var isEmailDupOk = false
     var isNickDupOk = false
@@ -63,10 +63,10 @@ class SignUpActivity : BaseActivity() {
         binding.nickEdt.addTextChangedListener {
             isNickDupOk = false
         }
-        binding.passwordEdt.addTextChangedListener{
+        binding.passwordEdt.addTextChangedListener {
             isPwDupOk = (it.toString() == binding.pwDupEdt.text.toString())
         }
-        binding.pwDupEdt.addTextChangedListener{
+        binding.pwDupEdt.addTextChangedListener {
             isPwDupOk = (it.toString() == binding.passwordEdt.text.toString())
         }
     }
@@ -74,54 +74,64 @@ class SignUpActivity : BaseActivity() {
     override fun setValues() {
 
     }
+
     //    모든 조건 통과시 회원 가입 API 실행
-    fun signUp(){
+    fun signUp() {
         val inputEmail = binding.emailEdt.text.toString()
         val inputPw = binding.passwordEdt.text.toString()
         val inputNick = binding.nickEdt.text.toString()
 
-        apiList.putRequestSignUp(inputEmail, inputPw, inputNick).enqueue(object : Callback<BasicResponse>{
-            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+        apiList.putRequestSignUp(inputEmail, inputPw, inputNick)
+            .enqueue(object : Callback<BasicResponse> {
+                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
-            }
+                }
 
-            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
-                if(response.isSuccessful){
-                    val br = response.body()!!
-                    Toast.makeText(mContext, "${br.data.user.nickName}님 가입을 환영합니다.", Toast.LENGTH_SHORT).show()
+                override fun onResponse(
+                    call: Call<BasicResponse>,
+                    response: Response<BasicResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val br = response.body()!!
+                        Toast.makeText(
+                            mContext,
+                            "${br.data.user.nickName}님 가입을 환영합니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                    val myIntent = Intent(mContext, LoginActivity::class.java)
-                    startActivity(myIntent)
-                    finish()
-                } else {
-                    val errorBodyStr = response.errorBody()!!.string()
-                    val jsonObj = JSONObject(errorBodyStr)
-                    val code = jsonObj.getInt("code")
-                    val message = jsonObj.getString("message")
+                        val myIntent = Intent(mContext, LoginActivity::class.java)
+                        startActivity(myIntent)
+                        finish()
+                    } else {
+                        val errorBodyStr = response.errorBody()!!.string()
+                        val jsonObj = JSONObject(errorBodyStr)
+                        val code = jsonObj.getInt("code")
+                        val message = jsonObj.getString("message")
 
-                    if (code == 400) {
-                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
-                    }
-                    else {
-                        Log.e("회원가입", "errorCode : ${code}, message : ${message}")
+                        if (code == 400) {
+                            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                        } else {
+                            Log.e("회원가입", "errorCode : ${code}, message : ${message}")
+                        }
                     }
                 }
-            }
-        })
+            })
 
     }
+
     //    각종 중복 체크용 함수
-    fun dupCheck(type: String, value : String){
-        apiList.getRequestUserCheck(type, value).enqueue(object : Callback<BasicResponse>{
+    fun dupCheck(type: String, value: String) {
+        apiList.getRequestUserCheck(type, value).enqueue(object : Callback<BasicResponse> {
             override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
             }
+
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     val br = response.body()!!
                     Toast.makeText(mContext, br.message, Toast.LENGTH_SHORT).show()
 
-                    when(type){
+                    when (type) {
                         "EMAIL" -> isEmailDupOk = true
                         "NICK_NAME" -> isNickDupOk = true
                     }

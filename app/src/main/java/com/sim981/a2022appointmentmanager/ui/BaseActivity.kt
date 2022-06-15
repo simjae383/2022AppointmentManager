@@ -14,20 +14,20 @@ import com.sim981.a2022appointmentmanager.api.ServerAPI
 import retrofit2.Retrofit
 
 abstract class BaseActivity : AppCompatActivity() {
-    lateinit var mContext : Context
+    lateinit var mContext: Context
 
     lateinit var retrofit: Retrofit
-    lateinit var apiList : APIList
+    lateinit var apiList: APIList
 
-    lateinit var titleTxt : TextView
-    lateinit var addFriendBtn : ImageView
-    lateinit var addPlaceBtn : ImageView
-    lateinit var addAppointmentBtn : ImageView
-    lateinit var requestFriendBtn : ImageView
-    lateinit var myLocationBtn : ImageView
-    lateinit var zoomOutMapBtn : ImageView
-    lateinit var deletePlaceBtn : ImageView
-    lateinit var editAppointmentBtn : ImageView
+    lateinit var titleTxt: TextView
+    lateinit var addFriendBtn: ImageView
+    lateinit var addPlaceBtn: ImageView
+    lateinit var addAppointmentBtn: ImageView
+    lateinit var requestFriendBtn: ImageView
+    lateinit var myLocationBtn: ImageView
+    lateinit var zoomOutMapBtn: ImageView
+    lateinit var deletePlaceBtn: ImageView
+    lateinit var editAppointmentBtn: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,14 +44,14 @@ abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun setValues()
 
-    fun setCustomActionBar () {
+    fun setCustomActionBar() {
         val defActionBar = supportActionBar!!
 
         defActionBar.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         defActionBar.setCustomView(R.layout.my_custom_action_bar)
 
         val toolbar = defActionBar.customView.parent as Toolbar
-        toolbar.setContentInsetsAbsolute(0,0)
+        toolbar.setContentInsetsAbsolute(0, 0)
 
         titleTxt = defActionBar.customView.findViewById(R.id.actionTitleTxt)
         addFriendBtn = defActionBar.customView.findViewById(R.id.addFriendBtn)

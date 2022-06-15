@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -16,36 +17,36 @@
                 android:id="@+id/appoinmentTitleTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="일정 제목"/>
+                android:text="일정 제목"
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:id="@+id/invitedLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/invitedFriendTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="친구 이름"/>
+                    android:text="친구 이름" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/invitedFriendImg"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="5dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/ic_launcher" />
 
                 <TextView
                     android:id="@+id/memberCountTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="외 n명"/>
+                    android:text="외 n명" />
             </LinearLayout>
 
         </LinearLayout>
@@ -53,7 +54,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <LinearLayout
             android:id="@+id/requestBtnLayout"
@@ -72,9 +73,9 @@
                 android:id="@+id/placeNameTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_marginTop="5dp"
-                android:text="약속 장소"/>
+                android:text="약속 장소"
+                android:visibility="gone" />
 
         </LinearLayout>
 

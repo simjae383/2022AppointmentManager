@@ -8,10 +8,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 class NaverMapServerAPI {
     companion object {
 
-        private var naverRetrofit : Retrofit? = null
+        private var naverRetrofit: Retrofit? = null
         private val baseUrl = "https://naveropenapi.apigw.ntruss.com/"
 
-        fun getRetrofit() : Retrofit {
+        fun getRetrofit(): Retrofit {
             val naverMapClientId = "aq1kgvo17i"
             val naverMapClientSecret = "GvVwIoObxc3YaxYjGhLstLjgLd44maU91YCtJfdR"
 

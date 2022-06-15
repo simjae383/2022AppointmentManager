@@ -9,17 +9,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.sim981.a2022appointmentmanager.R
-import com.sim981.a2022appointmentmanager.models.PlaceData
 import com.sim981.a2022appointmentmanager.models.UserData
 
 class MyFriendsSpinnerAdapter(
-    val mContext : Context,
+    val mContext: Context,
     val resId: Int,
     val mList: List<UserData>
 ) : ArrayAdapter<UserData>(mContext, resId, mList) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var row = convertView
-        if (row == null){
+        if (row == null) {
             row = LayoutInflater.from(mContext).inflate(resId, null)
         }
         row!!

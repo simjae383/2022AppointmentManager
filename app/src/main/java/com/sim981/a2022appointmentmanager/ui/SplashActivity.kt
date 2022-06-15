@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.kakao.sdk.common.util.Utility
 import com.sim981.a2022appointmentmanager.R
@@ -20,7 +19,7 @@ import retrofit2.Response
 class SplashActivity : BaseActivity() {
     var isTokenOk = false
 
-    lateinit var binding : ActivitySplashBinding
+    lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,20 +30,24 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
-        apiList.getRequestMyInfo(ContextUtil.getLoginToken(mContext)).enqueue(object : Callback<BasicResponse>{
-            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+        apiList.getRequestMyInfo(ContextUtil.getLoginToken(mContext))
+            .enqueue(object : Callback<BasicResponse> {
+                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
-            }
-
-            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
-                if (response.isSuccessful){
-                    val br = response.body()!!
-
-                    isTokenOk = true
-                    GlobalData.loginUser = br.data.user
                 }
-            }
-        })
+
+                override fun onResponse(
+                    call: Call<BasicResponse>,
+                    response: Response<BasicResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val br = response.body()!!
+
+                        isTokenOk = true
+                        GlobalData.loginUser = br.data.user
+                    }
+                }
+            })
     }
 
     override fun setValues() {
@@ -53,7 +56,7 @@ class SplashActivity : BaseActivity() {
         myHandler.postDelayed({
             val myIntent: Intent
 
-            if(isTokenOk && ContextUtil.getAutoLogin(mContext)){
+            if (isTokenOk && ContextUtil.getAutoLogin(mContext)) {
                 myIntent = Intent(mContext, MainActivity::class.java)
             } else {
                 myIntent = Intent(mContext, LoginActivity::class.java)

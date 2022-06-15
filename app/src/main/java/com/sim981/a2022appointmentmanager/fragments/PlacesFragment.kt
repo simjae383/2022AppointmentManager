@@ -2,7 +2,6 @@ package com.sim981.a2022appointmentmanager.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,12 +21,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class PlacesFragment : BaseFragment() {
-    lateinit var binding : FragmentPlacesBinding
+    lateinit var binding: FragmentPlacesBinding
 
-    lateinit var addBtn : ImageView
-    lateinit var myLocationBtn : ImageView
+    lateinit var addBtn: ImageView
+    lateinit var myLocationBtn: ImageView
 
-    lateinit var mPlacesRecyclerAdapter : PlacesRecyclerAdapter
+    lateinit var mPlacesRecyclerAdapter: PlacesRecyclerAdapter
     var mPlaceList = ArrayList<PlaceData>()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,12 +55,10 @@ class PlacesFragment : BaseFragment() {
 
     override fun setupEvents() {
         addBtn.setOnClickListener {
-            Log.d("버튼", "editmyplace")
             val myIntent = Intent(mContext, EditMyPlaceActivity::class.java)
             startActivity(myIntent)
         }
         myLocationBtn.setOnClickListener {
-            Log.d("버튼", "mylocation")
             val myIntent = Intent(mContext, MyLocationActivity::class.java)
             startActivity(myIntent)
         }
@@ -73,21 +70,20 @@ class PlacesFragment : BaseFragment() {
         binding.myPlacesRecyclerView.layoutManager = LinearLayoutManager(mContext)
     }
 
-    fun getMyPlaceListFromServer(){
+    fun getMyPlaceListFromServer() {
         apiList.getRequestMyPlace().enqueue(object : Callback<BasicResponse> {
             override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
             }
 
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     val br = response.body()!!
 
                     mPlaceList.clear()
                     mPlaceList.addAll(br.data.places)
 
                     mPlacesRecyclerAdapter.notifyDataSetChanged()
-                    Log.d("장소", mPlaceList.toString())
                 }
             }
         })

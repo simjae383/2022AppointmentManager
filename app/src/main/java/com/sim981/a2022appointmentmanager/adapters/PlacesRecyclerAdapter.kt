@@ -23,19 +23,19 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class PlacesRecyclerAdapter(
-    val mContext : Context,
-    val mList : List<PlaceData>
-) : RecyclerView.Adapter<PlacesRecyclerAdapter.ItemViewHolder>(){
-    inner class ItemViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
+    val mContext: Context,
+    val mList: List<PlaceData>
+) : RecyclerView.Adapter<PlacesRecyclerAdapter.ItemViewHolder>() {
+    inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val placeNameTxt = itemView.findViewById<TextView>(R.id.placeNameTxt)
         val isPrimaryTxt = itemView.findViewById<TextView>(R.id.placeIsPrimaryTxt)
         val viewPlaceMapImg = itemView.findViewById<ImageView>(R.id.viewPlaceMapImg)
 
-        fun bind (item : PlaceData) {
+        fun bind(item: PlaceData) {
             val apiList = ServerAPI.getRetrofit(mContext).create(APIList::class.java)
 
             placeNameTxt.text = item.name
-            if(!item.isPrimary) {
+            if (!item.isPrimary) {
                 isPrimaryTxt.visibility = View.GONE
             } else {
                 isPrimaryTxt.visibility = View.VISIBLE
@@ -44,15 +44,16 @@ class PlacesRecyclerAdapter(
 
             }
 
-            itemView.setOnClickListener { 
+            itemView.setOnClickListener {
                 val myIntent = Intent(mContext, PlaceDetailActivity::class.java)
                 myIntent.putExtra("myPlaceId", item.id).putExtra("myPlaceName", item.name)
-                    .putExtra("myStartLatitude", item.latitude).putExtra("myStartLongitude", item.longitude)
+                    .putExtra("myStartLatitude", item.latitude)
+                    .putExtra("myStartLongitude", item.longitude)
                 mContext.startActivity(myIntent)
-            }            
-            
+            }
+
             itemView.setOnLongClickListener {
-                apiList.patchRequestDefaultPlace(item.id).enqueue(object : Callback<BasicResponse>{
+                apiList.patchRequestDefaultPlace(item.id).enqueue(object : Callback<BasicResponse> {
                     override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                     }
@@ -61,7 +62,7 @@ class PlacesRecyclerAdapter(
                         call: Call<BasicResponse>,
                         response: Response<BasicResponse>
                     ) {
-                        if(response.isSuccessful){
+                        if (response.isSuccessful) {
                             val br = response.body()!!
                             Toast.makeText(mContext, br.message, Toast.LENGTH_SHORT).show()
                             ((mContext as MainActivity)

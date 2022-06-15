@@ -3,10 +3,8 @@ package com.sim981.a2022appointmentmanager.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.location.Location
-import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -91,7 +89,7 @@ class MyLocationActivity : BaseActivity() {
     }
 
     @SuppressLint("MissingPermission")
-    fun requestNewLocationData(){
+    fun requestNewLocationData() {
         var mLocationRequest = LocationRequest()
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         mLocationRequest.interval = 0
@@ -104,9 +102,10 @@ class MyLocationActivity : BaseActivity() {
             Looper.myLooper()!!
         )
     }
-    private val mLocationCallback = object : LocationCallback(){
+
+    private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            var mLastLocation : Location = locationResult.lastLocation
+            var mLastLocation: Location = locationResult.lastLocation
             latitude = mLastLocation.latitude
             longitude = mLastLocation.longitude
             coord = LatLng(latitude, longitude)
@@ -133,7 +132,7 @@ class MyLocationActivity : BaseActivity() {
                     var addr: ResultData? = null
 
                     val results = response.body()!!.results
-                    if (results.isEmpty()){
+                    if (results.isEmpty()) {
                         address = "출력할 수 없는 지역입니다."
                     } else {
                         for (result in results) {
@@ -159,7 +158,8 @@ class MyLocationActivity : BaseActivity() {
                     val marker = Marker()
                     marker.position = coord
                     marker.map = mNaverMap
-                    marker.icon = OverlayImage.fromResource(com.naver.maps.map.R.drawable.navermap_default_marker_icon_blue)
+                    marker.icon =
+                        OverlayImage.fromResource(com.naver.maps.map.R.drawable.navermap_default_marker_icon_blue)
                 } else {
                     val errorBodyStr = response.errorBody()!!.string()
                     val jsonObj = JSONObject(errorBodyStr)

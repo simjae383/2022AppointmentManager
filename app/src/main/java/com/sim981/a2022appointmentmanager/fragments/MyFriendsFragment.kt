@@ -2,7 +2,6 @@ package com.sim981.a2022appointmentmanager.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,12 +22,12 @@ import retrofit2.Response
 
 class MyFriendsFragment : BaseFragment() {
 
-    lateinit var binding : FragmentMyFriendsBinding
-    lateinit var mFriendsAdapter : FriendsListRecyclerAdapter
+    lateinit var binding: FragmentMyFriendsBinding
+    lateinit var mFriendsAdapter: FriendsListRecyclerAdapter
     var mFriendsList = ArrayList<UserData>()
 
-    lateinit var addBtn : ImageView
-    lateinit var requestBtn : ImageView
+    lateinit var addBtn: ImageView
+    lateinit var requestBtn: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -82,7 +81,6 @@ class MyFriendsFragment : BaseFragment() {
                     mFriendsList.clear()
                     mFriendsList.addAll(br.data.friends)
                     mFriendsAdapter.notifyDataSetChanged()
-                    Log.d("친구 목록", br.data.friends.toString())
                 }
             }
 

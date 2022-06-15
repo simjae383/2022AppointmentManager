@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.view.setPadding
@@ -29,7 +28,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
-import java.time.DayOfWeek
 import java.util.*
 
 class EditAppointmentActivity : BaseActivity() {
@@ -319,7 +317,8 @@ class EditAppointmentActivity : BaseActivity() {
             }
         }
     }
-// 기존 데이터를 설정 화면과 값에 할당
+
+    // 기존 데이터를 설정 화면과 값에 할당
     fun putEditData(mEditData: AppointmentData) {
         binding.titleEdt.setText(mEditData.title)
 
@@ -338,7 +337,8 @@ class EditAppointmentActivity : BaseActivity() {
         binding.placeNameEdt.setText(mEditData.place)
         mSelectedLatLng = LatLng(mEditData.latitude, mEditData.longitude)
     }
-//장소 목록을 불러오는 API
+
+    //장소 목록을 불러오는 API
     fun getMyPlaceListFromServer(isListCleanOk: Boolean) {
         apiList.getRequestMyPlace().enqueue(object : Callback<BasicResponse> {
             override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
@@ -372,7 +372,8 @@ class EditAppointmentActivity : BaseActivity() {
             }
         })
     }
-//친구 목록을 불러오는 API
+
+    //친구 목록을 불러오는 API
     fun getMyFriendsListFromServer() {
         apiList.getRequestMyFriendsList("my").enqueue(object : Callback<BasicResponse> {
             override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
@@ -392,7 +393,8 @@ class EditAppointmentActivity : BaseActivity() {
             }
         })
     }
-//입력받은 친구를 참여자 목록에 추가하고 화면에 표시, 표시된 텍스트뷰 클릭시 해당 친구 삭제
+
+    //입력받은 친구를 참여자 목록에 추가하고 화면에 표시, 표시된 텍스트뷰 클릭시 해당 친구 삭제
     fun editFriendListItem(addFriend: UserData) {
         val textView = TextView(mContext)
         textView.setBackgroundResource(R.drawable.lightgray_rectangle_r6)
