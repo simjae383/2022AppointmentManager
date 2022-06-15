@@ -149,7 +149,6 @@ class AppointmentsRecyclerAdapter(
 
             invitedLayout.visibility = View.VISIBLE
             placeNameTxt.visibility = View.VISIBLE
-            memberCountTxt.visibility = View.VISIBLE
 
             titleTxt.text = item.title
             invitedFriendTxt.text = item.user.nickName
@@ -158,7 +157,7 @@ class AppointmentsRecyclerAdapter(
             val sdf = SimpleDateFormat("M/d a h:mm")
             timeTxt.text = "${sdf.format(item.datetime)}"
             placeNameTxt.text = "약속 장소 : ${item.place}"
-            memberCountTxt.text = "참여 인원 : ${item.invitedFriends.size}명"
+            memberCountTxt.text = "외 ${item.invitedFriends.size}명"
 
             itemView.setOnClickListener {
                 val myIntent = Intent(mContext, AppointmentDetailActivity::class.java)

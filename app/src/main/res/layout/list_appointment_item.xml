@@ -23,9 +23,15 @@
                 android:id="@+id/invitedLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="5dp"
                 android:visibility="gone"
                 android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/invitedFriendTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="친구 이름"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/invitedFriendImg"
@@ -35,11 +41,11 @@
                     android:src="@mipmap/ic_launcher"/>
 
                 <TextView
-                    android:id="@+id/invitedFriendTxt"
+                    android:id="@+id/memberCountTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="친구 이름"/>
-
+                    android:layout_marginStart="5dp"
+                    android:text="외 n명"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -68,15 +74,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:layout_marginTop="5dp"
-                android:text="약속 장소 : "/>
-
-            <TextView
-                android:id="@+id/memberCountTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="5dp"
-                android:text="참여 인원 : "/>
+                android:text="약속 장소"/>
 
         </LinearLayout>
 
