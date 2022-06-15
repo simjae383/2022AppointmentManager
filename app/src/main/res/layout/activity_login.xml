@@ -30,6 +30,9 @@
             android:hint="이메일 양식으로 입력"
             android:textColorHint="@color/skyBlue"
             android:textColor="@color/darkSkyBlue"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/lightskyblue_rectangle_r6"
+            android:padding="10dp"
             android:inputType="textEmailAddress" />
 
         <TextView
@@ -45,6 +48,9 @@
             android:hint="비밀번호 입력"
             android:textColorHint="@color/skyBlue"
             android:textColor="@color/darkSkyBlue"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/lightskyblue_rectangle_r6"
+            android:padding="10dp"
             android:inputType="textPassword" />
 
         <CheckBox
@@ -52,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/darkSkyBlue"
+            android:buttonTint="@color/skyBlue"
             android:text="자동로그인" />
 
         <Button

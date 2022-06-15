@@ -28,6 +28,8 @@
             android:layout_height="wrap_content"
             android:textColorHint="@color/skyBlue"
             android:textColor="@color/darkSkyBlue"
+            android:background="@drawable/lightskyblue_rectangle_r6"
+            android:padding="10dp"
             android:layout_marginTop="10dp"
             android:imeOptions="actionDone"
             android:maxLines="1" />

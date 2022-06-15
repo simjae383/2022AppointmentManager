@@ -22,6 +22,9 @@
             android:hint="저장해줄 이름 입력"
             android:textColorHint="@color/skyBlue"
             android:textColor="@color/darkSkyBlue"
+            android:background="@drawable/lightskyblue_rectangle_r6"
+            android:layout_marginTop="5dp"
+            android:padding="10dp"
             android:imeOptions="actionDone"
             android:inputType="text"
             android:maxLines="1" />

@@ -34,6 +34,9 @@
                     android:hint="제목 입력"
                     android:textColorHint="@color/skyBlue"
                     android:textColor="@color/darkSkyBlue"
+                    android:background="@drawable/lightskyblue_rectangle_r6"
+                    android:layout_marginTop="5dp"
+                    android:padding="10dp"
                     android:imeOptions="actionNext"
                     android:inputType="text"
                     android:maxLines="1" />
@@ -47,6 +50,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -112,6 +116,7 @@
                         android:id="@+id/invitedFriendBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
                         android:text="참여 추가" />
 
                 </LinearLayout>
@@ -136,6 +141,9 @@
                     android:hint="약속 장소를 입력하세요."
                     android:textColorHint="@color/skyBlue"
                     android:textColor="@color/darkSkyBlue"
+                    android:background="@drawable/lightskyblue_rectangle_r6"
+                    android:padding="10dp"
+                    android:layout_marginTop="5dp"
                     android:imeOptions="actionDone"
                     android:inputType="text"
                     android:maxLines="1" />

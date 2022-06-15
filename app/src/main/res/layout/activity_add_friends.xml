@@ -13,6 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <EditText
@@ -23,6 +24,8 @@
                 android:hint="검색할 닉네임 2자 이상 입력"
                 android:textColorHint="@color/skyBlue"
                 android:textColor="@color/darkSkyBlue"
+                android:background="@drawable/lightskyblue_rectangle_r6"
+                android:padding="10dp"
                 android:imeOptions="actionDone"
                 android:inputType="text"
                 android:maxLines="1" />
@@ -31,6 +34,7 @@
                 android:id="@+id/searchBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:text="검색" />
 
         </LinearLayout>
