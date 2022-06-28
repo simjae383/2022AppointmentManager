@@ -24,6 +24,7 @@ class SignUpActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
+        titleTxt.text = "회원 가입"
         setValues()
         setupEvents()
     }

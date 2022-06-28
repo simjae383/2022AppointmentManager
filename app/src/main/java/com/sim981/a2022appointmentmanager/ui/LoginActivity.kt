@@ -21,7 +21,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class LoginActivity : BaseActivity() {
-    lateinit var binding: ActivityLoginBinding
+    lateinit var binding : ActivityLoginBinding
 
     var TAG = "LoginActivity"
 
@@ -29,17 +29,17 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         addAppointmentBtn.visibility = View.GONE
+        titleTxt.text = "AppointmentManager"
         setupEvents()
         setValues()
     }
 
     override fun setupEvents() {
-//        아이디와 비밀번호 값을 가져와 로그인을 시도하는 버튼
         binding.loginBtn.setOnClickListener {
             val inputEmail = binding.emailEdt.text.toString()
             val inputPw = binding.passwordEdt.text.toString()
 
-            apiList.postRequestLogin(inputEmail, inputPw).enqueue(object : Callback<BasicResponse> {
+            apiList.postRequestLogin(inputEmail,inputPw).enqueue(object : Callback<BasicResponse>{
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
                 }
@@ -48,18 +48,14 @@ class LoginActivity : BaseActivity() {
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
                 ) {
-                    if (response.isSuccessful) {
+                    if (response.isSuccessful){
                         val br = response.body()!!
 
                         ContextUtil.setLoginToken(mContext, br.data.token)
                         ContextUtil.setAutoLogin(mContext, binding.autoLoginCb.isChecked)
                         GlobalData.loginUser = br.data.user
 
-                        Toast.makeText(
-                            mContext,
-                            "${br.data.user.nickName}님 환영합니다.",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(mContext, "${br.data.user.nickName}님 환영합니다.", Toast.LENGTH_SHORT).show()
 
                         val myIntent = Intent(mContext, MainActivity::class.java)
                         startActivity(myIntent)
@@ -75,22 +71,21 @@ class LoginActivity : BaseActivity() {
                 }
             })
         }
-//        회원가입 페이지로 이동하는 버튼
         binding.signUpBtn.setOnClickListener {
             val myIntent = Intent(mContext, SignUpActivity::class.java)
             startActivity(myIntent)
         }
-//        카카오 로그인 기능을 활용하는 버튼
+
         binding.kakaoLoginBtn.setOnClickListener {
             kakaoLogin()
         }
     }
 
     override fun setValues() {
-
+        titleTxt.text = "AppointmentManager"
     }
-//    카카오 로그인 기능
-    fun kakaoLogin() {
+
+    fun kakaoLogin(){
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
                 Log.e(TAG, "카카오계정으로 로그인 실패", error)
@@ -123,54 +118,47 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    fun getKakaoUserInfo() {
+    fun getKakaoUserInfo(){
         UserApiClient.instance.me { user, error ->
             if (error != null) {
                 Log.e(TAG, "사용자 정보 요청 실패", error)
-            } else if (user != null) {
-                Log.i(
-                    TAG, "사용자 정보 요청 성공" +
-                            "\n회원번호: ${user.id}" +
-                            "\n닉네임: ${user.kakaoAccount?.profile?.nickname}"
-                )
+            }
+            else if (user != null) {
+                Log.i(TAG, "사용자 정보 요청 성공" +
+                        "\n회원번호: ${user.id}" +
+                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}")
                 Log.d("닉네임", user.kakaoAccount?.profile?.nickname.toString())
                 socialLogin("kakao", "${user.id}", "${user.kakaoAccount?.profile?.nickname}")
             }
         }
     }
 
-    fun socialLogin(provider: String, uid: String, nickname: String) {
+    fun socialLogin(provider : String, uid : String, nickname : String) {
         Log.d("닉네임2", uid)
         Log.d("닉네임2", nickname)
-        apiList.postRequestSocialLogin(provider, uid, nickname)
-            .enqueue(object : Callback<BasicResponse> {
-                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+        apiList.postRequestSocialLogin(provider, uid, nickname).enqueue(object : Callback<BasicResponse>{
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
+            }
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+                if(response.isSuccessful){
+                    val br = response.body()!!
+
+                    ContextUtil.setAutoLogin(mContext, binding.autoLoginCb.isChecked)
+                    ContextUtil.setLoginToken(mContext, br.data.token)
+                    GlobalData.loginUser = br.data.user
+
+                    Toast.makeText(
+                        mContext,
+                        "${GlobalData.loginUser!!.nickName}님 환영합니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    val myIntent = Intent(mContext, MainActivity::class.java)
+                    startActivity(myIntent)
+                    finish()
                 }
-
-                override fun onResponse(
-                    call: Call<BasicResponse>,
-                    response: Response<BasicResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        val br = response.body()!!
-
-                        ContextUtil.setAutoLogin(mContext, binding.autoLoginCb.isChecked)
-                        ContextUtil.setLoginToken(mContext, br.data.token)
-                        GlobalData.loginUser = br.data.user
-                        Log.d("로그", br.data.user.nickName.toString())
-
-                        Toast.makeText(
-                            mContext,
-                            "${GlobalData.loginUser!!.nickName}님 환영합니다.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        val myIntent = Intent(mContext, MainActivity::class.java)
-                        startActivity(myIntent)
-                        finish()
-                    }
-                }
-            })
+            }
+        })
     }
 }
